@@ -7,46 +7,260 @@
 <title>Hospital Management System</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#fff5f8;color:#333}
-button{cursor:pointer;border:none;border-radius:7px;padding:10px 14px;background:#e88aaa;color:white}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#fff5f8;
+color:#333;
+}
+
+button{
+cursor:pointer;
+border:none;
+border-radius:7px;
+padding:10px 14px;
+background:#e88aaa;
+color:white;
+}
+
 button:hover{opacity:.85}
-input,select{padding:10px;border:1px solid #ddd;border-radius:7px;width:100%;margin:5px 0}
-#login{display:flex;justify-content:center;align-items:center;height:100vh}
-.login-box{background:white;padding:35px;border-radius:15px;width:350px;box-shadow:0 5px 25px #ddd;text-align:center}
-.login-box h1{color:#d96f98;margin-bottom:10px}
-.login-box p{margin-bottom:15px;color:#777}
+
+input,select,textarea{
+padding:10px;
+border:1px solid #ddd;
+border-radius:7px;
+width:100%;
+margin:5px 0;
+}
+
+textarea{
+resize:vertical;
+min-height:80px;
+}
+
+#login{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.login-box{
+background:white;
+padding:35px;
+border-radius:15px;
+width:350px;
+box-shadow:0 5px 25px #ddd;
+text-align:center;
+}
+
+.login-box h1{
+color:#d96f98;
+margin-bottom:10px;
+}
+
+.login-box p{
+margin-bottom:15px;
+color:#777;
+}
+
 #app{display:none}
-.sidebar{width:230px;background:white;height:100vh;position:fixed;left:0;top:0;padding:25px;border-right:1px solid #eee}
-.sidebar h2{color:#d96f98;margin-bottom:30px}
-.sidebar button{width:100%;margin:8px 0;text-align:left;background:#fff0f5;color:#c45c83}
-.sidebar button.active{background:#d96f98;color:white}
-.main{margin-left:230px;padding:25px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+
+.sidebar{
+width:230px;
+background:white;
+height:100vh;
+position:fixed;
+left:0;
+top:0;
+padding:25px;
+border-right:1px solid #eee;
+}
+
+.sidebar h2{
+color:#d96f98;
+margin-bottom:30px;
+}
+
+.sidebar button{
+width:100%;
+margin:8px 0;
+text-align:left;
+background:#fff0f5;
+color:#c45c83;
+}
+
+.sidebar button.active{
+background:#d96f98;
+color:white;
+}
+
+.main{
+margin-left:230px;
+padding:25px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:25px;
+}
+
 .topbar h1{color:#d96f98}
-#search{max-width:300px;background:white}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin-bottom:25px}
-.card{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px #eee}
-.card h3{color:#d96f98;margin-bottom:10px}
-.card p{font-size:25px;font-weight:bold}
-.panel{background:white;padding:20px;border-radius:12px;margin-bottom:20px;overflow-x:auto}
-.panel h2{color:#d96f98;margin-bottom:15px}
-table{width:100%;border-collapse:collapse;min-width:600px}
-th,td{padding:12px;border-bottom:1px solid #eee;text-align:left}
-th{color:#c45c83;background:#fff5f8}
-.action{display:flex;gap:5px}
-.action button{padding:7px 10px}
-.del{background:#d9534f}
-.add{margin-bottom:15px}
+
+#search{
+max-width:300px;
+background:white;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:15px;
+margin-bottom:25px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px #eee;
+}
+
+.card h3{
+color:#d96f98;
+margin-bottom:10px;
+}
+
+.card p{
+font-size:25px;
+font-weight:bold;
+}
+
+.panel{
+background:white;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+overflow-x:auto;
+}
+
+.panel h2{
+color:#d96f98;
+margin-bottom:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:500px;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #eee;
+text-align:left;
+}
+
+th{
+color:#c45c83;
+background:#fff5f8;
+}
+
 .section{display:none}
+
 .section.active{display:block}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+
+.add{margin-bottom:15px}
+
 #logout{background:#555}
+
+/* FORM */
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+justify-content:center;
+align-items:center;
+z-index:999;
+padding:15px;
+}
+
+.modal-box{
+background:white;
+padding:25px;
+border-radius:15px;
+width:100%;
+max-width:500px;
+max-height:90vh;
+overflow-y:auto;
+}
+
+.modal-box h2{
+color:#d96f98;
+margin-bottom:15px;
+}
+
+.modal-box label{
+display:block;
+margin-top:10px;
+font-weight:bold;
+}
+
+.modal-buttons{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
+
+.cancel-btn{
+background:#777;
+}
+
+.detail-item{
+margin:12px 0;
+padding:12px;
+background:#fff5f8;
+border-radius:8px;
+}
+
+.detail-item strong{
+color:#c45c83;
+display:block;
+margin-bottom:5px;
+}
+
 @media(max-width:700px){
-.sidebar{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid #eee}
+.sidebar{
+width:100%;
+height:auto;
+position:relative;
+border-right:none;
+border-bottom:1px solid #eee;
+}
+
 .sidebar h2{margin-bottom:10px}
-.sidebar button{width:auto;display:inline-block}
-.main{margin-left:0;padding:15px}
+
+.sidebar button{
+width:auto;
+display:inline-block;
+}
+
+.main{
+margin-left:0;
+padding:15px;
+}
+
 .topbar{align-items:flex-start}
 }
 </style>
@@ -59,9 +273,14 @@ th{color:#c45c83;background:#fff5f8}
 <div class="login-box">
 <h1>Hospital Management System</h1>
 <p>Login to your account</p>
+
 <input id="username" placeholder="Username">
 <input id="password" type="password" placeholder="Password">
-<button onclick="login()" style="width:100%;margin-top:10px">Login</button>
+
+<button onclick="login()" style="width:100%;margin-top:10px">
+Login
+</button>
+
 <p id="loginError" style="color:red;margin-top:10px"></p>
 </div>
 </div>
@@ -71,6 +290,7 @@ th{color:#c45c83;background:#fff5f8}
 
 <div class="sidebar">
 <h2>Hospital Management System</h2>
+
 <button class="active" onclick="showSection('dashboard',this)">Dashboard</button>
 <button onclick="showSection('patients',this)">Patients</button>
 <button onclick="showSection('doctors',this)">Doctors</button>
@@ -80,6 +300,7 @@ th{color:#c45c83;background:#fff5f8}
 </div>
 
 <div class="main">
+
 <div class="topbar">
 <h1 id="pageTitle">Dashboard</h1>
 <input id="search" placeholder="Search..." oninput="renderAll()">
@@ -87,16 +308,35 @@ th{color:#c45c83;background:#fff5f8}
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="section active">
+
 <div class="cards">
-<div class="card"><h3>Patients</h3><p id="patientCount">0</p></div>
-<div class="card"><h3>Doctors</h3><p id="doctorCount">0</p></div>
-<div class="card"><h3>Appointments</h3><p id="appointmentCount">0</p></div>
-<div class="card"><h3>Billing Records</h3><p id="billingCount">0</p></div>
+<div class="card">
+<h3>Patients</h3>
+<p id="patientCount">0</p>
+</div>
+
+<div class="card">
+<h3>Doctors</h3>
+<p id="doctorCount">0</p>
+</div>
+
+<div class="card">
+<h3>Appointments</h3>
+<p id="appointmentCount">0</p>
+</div>
+
+<div class="card">
+<h3>Billing Records</h3>
+<p id="billingCount">0</p>
+</div>
 </div>
 
 <div class="panel">
 <h2>Hospital Overview</h2>
-<p>Welcome to the Hospital Management System. Manage patient records, doctors, appointments, and billing in one place.</p>
+<p>Welcome to the Hospital Management System.</p>
+<p style="margin-top:10px">
+Manage patients, doctors, appointments, and billing records in one place.
+</p>
 </div>
 </div>
 
@@ -139,7 +379,36 @@ th{color:#c45c83;background:#fff5f8}
 </div>
 </div>
 
+<!-- ADD FORM -->
+<div class="modal" id="recordModal">
+<div class="modal-box">
+<h2 id="formTitle">Add Record</h2>
+
+<form id="recordForm" onsubmit="saveNewRecord(event)">
+<div id="formFields"></div>
+
+<div class="modal-buttons">
+<button type="submit">Save</button>
+<button type="button" class="cancel-btn" onclick="closeForm()">Cancel</button>
+</div>
+</form>
+</div>
+</div>
+
+<!-- DETAILS -->
+<div class="modal" id="detailsModal">
+<div class="modal-box">
+<h2 id="detailsTitle">Details</h2>
+<div id="detailsContent"></div>
+
+<div class="modal-buttons">
+<button class="cancel-btn" onclick="closeDetails()">Close</button>
+</div>
+</div>
+</div>
+
 <script>
+
 const defaultData={
 patients:[],
 doctors:[],
@@ -149,21 +418,36 @@ billing:[]
 
 let data=JSON.parse(localStorage.getItem("hospitalData"))||defaultData;
 
+const fields={
+patients:["Full Name","Age","Gender","Contact No.","Address"],
+doctors:["Full Name","Specialization","Contact No.","Schedule"],
+appointments:["Patient Name","Doctor Name","Date","Time","Status"],
+billing:["Patient Name","Amount","Date","Status"]
+};
+
+let currentType="";
+
 function save(){
 localStorage.setItem("hospitalData",JSON.stringify(data));
 renderAll();
 }
 
+/* LOGIN */
+
 function login(){
 let u=document.getElementById("username").value.trim();
 let p=document.getElementById("password").value;
+
 if(u && p){
 localStorage.setItem("hospitalLogin",u);
+
 document.getElementById("login").style.display="none";
 document.getElementById("app").style.display="block";
+
 renderAll();
 }else{
-document.getElementById("loginError").textContent="Please enter username and password.";
+document.getElementById("loginError").textContent=
+"Please enter username and password.";
 }
 }
 
@@ -173,79 +457,203 @@ document.getElementById("app").style.display="none";
 document.getElementById("login").style.display="flex";
 }
 
+/* NAVIGATION */
+
 function showSection(id,btn){
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+
+document.querySelectorAll(".section")
+.forEach(s=>s.classList.remove("active"));
+
 document.getElementById(id).classList.add("active");
-document.querySelectorAll(".sidebar button").forEach(b=>b.classList.remove("active"));
+
+document.querySelectorAll(".sidebar button")
+.forEach(b=>b.classList.remove("active"));
+
 if(btn)btn.classList.add("active");
-document.getElementById("pageTitle").textContent=id.charAt(0).toUpperCase()+id.slice(1);
+
+document.getElementById("pageTitle").textContent=
+id.charAt(0).toUpperCase()+id.slice(1);
+
 renderAll();
 }
 
-const fields={
-patients:["Name","Age","Gender","Contact","Address"],
-doctors:["Name","Specialization","Contact","Schedule"],
-appointments:["Patient","Doctor","Date","Time","Status"],
-billing:["Patient","Amount","Date","Status"]
-};
+/* ADD FORM */
 
 function addRecord(type){
-let record={};
-for(let field of fields[type]){
-let value=prompt("Enter "+field+":");
-if(value===null)return;
-record[field]=value;
-}
-record.id=Date.now();
-data[type].push(record);
-save();
+
+currentType=type;
+
+document.getElementById("formTitle").textContent=
+"Add "+type.charAt(0).toUpperCase()+type.slice(1);
+
+let html="";
+
+fields[type].forEach(field=>{
+
+let inputType="text";
+
+if(field==="Date")inputType="date";
+if(field==="Time")inputType="time";
+if(field==="Age" || field==="Amount")inputType="number";
+
+if(field==="Gender"){
+html+=`
+<label>${field}</label>
+<select name="${field}" required>
+<option value="">Select Gender</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+`;
+}else if(field==="Status" && (type==="appointments" || type==="billing")){
+html+=`
+<label>${field}</label>
+<select name="${field}" required>
+<option value="">Select Status</option>
+<option>Pending</option>
+<option>Completed</option>
+<option>Cancelled</option>
+</select>
+`;
+}else if(field==="Address"){
+html+=`
+<label>${field}</label>
+<textarea name="${field}" placeholder="Enter ${field}" required></textarea>
+`;
+}else{
+html+=`
+<label>${field}</label>
+<input type="${inputType}" name="${field}" placeholder="Enter ${field}" required>
+`;
 }
 
-function editRecord(type,id){
-let record=data[type].find(r=>r.id===id);
-if(!record)return;
-for(let field of fields[type]){
-let value=prompt("Edit "+field+":",record[field]);
-if(value===null)return;
-record[field]=value;
-}
-save();
-}
-
-function deleteRecord(type,id){
-if(confirm("Delete this record?")){
-data[type]=data[type].filter(r=>r.id!==id);
-save();
-}
-}
-
-function makeTable(type){
-let query=document.getElementById("search").value.toLowerCase();
-let records=data[type].filter(r=>fields[type].some(f=>(r[f]||"").toLowerCase().includes(query)));
-if(!records.length)return "<p>No records found.</p>";
-
-let html="<table><thead><tr>";
-fields[type].forEach(f=>html+="<th>"+f+"</th>");
-html+="<th>Action</th></tr></thead><tbody>";
-
-records.forEach(r=>{
-html+="<tr>";
-fields[type].forEach(f=>html+="<td>"+escapeHTML(r[f]||"")+"</td>");
-html+="<td><div class='action'><button onclick='editRecord(\""+type+"\","+r.id+")'>Edit</button><button class='del' onclick='deleteRecord(\""+type+"\","+r.id+")'>Delete</button></div></td>";
-html+="</tr>";
 });
 
+document.getElementById("formFields").innerHTML=html;
+
+document.getElementById("recordModal").style.display="flex";
+}
+
+function closeForm(){
+document.getElementById("recordModal").style.display="none";
+document.getElementById("recordForm").reset();
+}
+
+function saveNewRecord(event){
+
+event.preventDefault();
+
+let record={};
+let formData=new FormData(event.target);
+
+fields[currentType].forEach(field=>{
+record[field]=formData.get(field).trim();
+});
+
+record.id=Date.now();
+
+data[currentType].push(record);
+
+save();
+closeForm();
+
+alert("Record saved successfully!");
+}
+
+/* DETAILS */
+
+function openDetails(type,id){
+
+let record=data[type].find(r=>r.id===id);
+if(!record)return;
+
+document.getElementById("detailsTitle").textContent=
+type==="patients"?"Patient Details":
+type==="doctors"?"Doctor Details":
+type==="appointments"?"Appointment Details":"Billing Details";
+
+let html="";
+
+fields[type].forEach(field=>{
+html+=`
+<div class="detail-item">
+<strong>${escapeHTML(field)}</strong>
+${escapeHTML(record[field]||"")}
+</div>
+`;
+});
+
+document.getElementById("detailsContent").innerHTML=html;
+document.getElementById("detailsModal").style.display="flex";
+}
+
+function closeDetails(){
+document.getElementById("detailsModal").style.display="none";
+}
+
+/* TABLE */
+
+function makeTable(type){
+
+let query=document.getElementById("search").value.toLowerCase();
+
+let records=data[type].filter(r=>
+fields[type].some(f=>(String(r[f]||"")).toLowerCase().includes(query))
+);
+
+let html="<table><thead><tr>";
+
+fields[type].forEach(f=>html+="<th>"+escapeHTML(f)+"</th>");
+
+html+="</tr></thead><tbody>";
+
+if(records.length===0){
+
+html+="<tr><td colspan='"+fields[type].length+"'>No records found.</td></tr>";
+
+}else{
+
+records.forEach(r=>{
+
+html+="<tr>";
+
+fields[type].forEach(f=>{
+html+="<td>"+escapeHTML(r[f]||"")+"</td>";
+});
+
+html+="</tr>";
+
+});
+
+}
+
 html+="</tbody></table>";
+
 return html;
 }
 
+/* HTML SAFETY */
+
 function escapeHTML(value){
+
 return String(value).replace(/[&<>"']/g,function(c){
-return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+
+return {
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[c];
+
 });
 }
 
+/* DISPLAY */
+
 function renderAll(){
+
 document.getElementById("patientsTable").innerHTML=makeTable("patients");
 document.getElementById("doctorsTable").innerHTML=makeTable("doctors");
 document.getElementById("appointmentsTable").innerHTML=makeTable("appointments");
@@ -257,14 +665,21 @@ document.getElementById("appointmentCount").textContent=data.appointments.length
 document.getElementById("billingCount").textContent=data.billing.length;
 }
 
+/* AUTO LOGIN */
+
 window.onload=function(){
+
 if(localStorage.getItem("hospitalLogin")){
 document.getElementById("login").style.display="none";
 document.getElementById("app").style.display="block";
 }
+
 renderAll();
+
 };
+
 </script>
 
 </body>
 </html>
+
