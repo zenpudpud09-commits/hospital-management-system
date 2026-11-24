@@ -10,9 +10,8 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#fff6f9;color:#333}
 .sidebar{
-position:fixed;width:230px;height:100vh;
-background:#fff;border-right:1px solid #f0dce5;
-padding:25px 15px
+position:fixed;width:230px;height:100vh;background:#fff;
+border-right:1px solid #f0dce5;padding:25px 15px
 }
 .brand{font-size:20px;font-weight:bold;color:#d94e86;margin-bottom:35px}
 .nav button{
@@ -29,7 +28,7 @@ background:white;padding:20px;border-radius:15px;
 box-shadow:0 2px 12px #f2dfe8;margin-bottom:20px
 }
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
-.stat{background:#fff;padding:22px;border-radius:15px}
+.stat{background:white;padding:22px;border-radius:15px;box-shadow:0 2px 12px #f2dfe8}
 .stat h2{color:#d94e86;margin-top:10px}
 button.action{
 background:#d94e86;color:white;border:none;padding:11px 16px;
@@ -51,7 +50,7 @@ th{background:#fff0f5;color:#b84b78}
 .section.active{display:block}
 .modal{
 display:none;position:fixed;inset:0;background:#0005;
-align-items:center;justify-content:center;padding:15px
+align-items:center;justify-content:center;padding:15px;z-index:1000
 }
 .modal-content{
 background:white;padding:25px;border-radius:15px;
@@ -96,6 +95,7 @@ width:100%;max-width:500px;max-height:90vh;overflow:auto
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="section active">
+
 <div class="stats">
 <div class="stat">Total Patients<h2 id="countPatients">0</h2></div>
 <div class="stat">Total Doctors<h2 id="countDoctors">0</h2></div>
@@ -106,7 +106,9 @@ width:100%;max-width:500px;max-height:90vh;overflow:auto
 <div class="card">
 <h3>Recent Appointments</h3>
 <table>
-<thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr></thead>
+<thead>
+<tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr>
+</thead>
 <tbody id="recentAppointments"></tbody>
 </table>
 </div>
@@ -118,7 +120,9 @@ width:100%;max-width:500px;max-height:90vh;overflow:auto
 <button class="action" onclick="openModal('patients')">Add Patient</button>
 <input class="search" placeholder="Search patients..." oninput="renderPatients(this.value)">
 <table>
-<thead><tr><th>Full Name</th><th>Age</th><th>Gender</th><th>Contact No.</th><th>Address</th></tr></thead>
+<thead>
+<tr><th>Full Name</th><th>Age</th><th>Gender</th><th>Contact No.</th><th>Address</th></tr>
+</thead>
 <tbody id="tablePatients"></tbody>
 </table>
 </div>
@@ -126,11 +130,14 @@ width:100%;max-width:500px;max-height:90vh;overflow:auto
 
 <!-- DOCTORS -->
 <div id="doctors" class="section">
+
 <div class="card">
 <button class="action" onclick="openModal('doctors')">Add Doctor</button>
 <input class="search" placeholder="Search doctors..." oninput="renderDoctors(this.value)">
 <table>
-<thead><tr><th>Doctor</th><th>Specialization</th><th>Contact</th><th>Schedule</th><th>Availability</th></tr></thead>
+<thead>
+<tr><th>Doctor</th><th>Specialization</th><th>Contact</th><th>Schedule</th><th>Availability</th></tr>
+</thead>
 <tbody id="tableDoctors"></tbody>
 </table>
 </div>
@@ -138,14 +145,17 @@ width:100%;max-width:500px;max-height:90vh;overflow:auto
 <div class="card">
 <h3>Registered Patients</h3>
 <p style="color:#888;margin-top:8px">
-Automatically updated when a patient is registered.
+Automatically connected to the Patients section.
 </p>
 <input class="search" placeholder="Search registered patients..." oninput="renderDoctorPatients(this.value)">
 <table>
-<thead><tr><th>Patient Name</th><th>Age</th><th>Gender</th><th>Contact No.</th><th>Address</th></tr></thead>
+<thead>
+<tr><th>Patient Name</th><th>Age</th><th>Gender</th><th>Contact No.</th><th>Address</th></tr>
+</thead>
 <tbody id="doctorPatientTable"></tbody>
 </table>
 </div>
+
 </div>
 
 <!-- APPOINTMENTS -->
@@ -154,7 +164,9 @@ Automatically updated when a patient is registered.
 <button class="action" onclick="openModal('appointments')">Add Appointment</button>
 <input class="search" placeholder="Search appointments..." oninput="renderAppointments(this.value)">
 <table>
-<thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+<thead>
+<tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr>
+</thead>
 <tbody id="tableAppointments"></tbody>
 </table>
 </div>
@@ -166,7 +178,9 @@ Automatically updated when a patient is registered.
 <button class="action" onclick="openModal('billing')">Add Billing</button>
 <input class="search" placeholder="Search billing..." oninput="renderBilling(this.value)">
 <table>
-<thead><tr><th>Patient</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+<thead>
+<tr><th>Patient</th><th>Amount</th><th>Date</th><th>Status</th></tr>
+</thead>
 <tbody id="tableBilling"></tbody>
 </table>
 </div>
@@ -178,18 +192,23 @@ Automatically updated when a patient is registered.
 <div class="modal" id="modal">
 <div class="modal-content">
 <h2 id="modalTitle">Add Record</h2>
+
 <form id="recordForm">
 <div id="formFields"></div>
+
+<!-- ONLY CANCEL AND SAVE -->
 <div class="modal-footer">
 <button type="button" class="secondary" onclick="closeModal()">Cancel</button>
-<button type="button" class="secondary" onclick="saveRecord(true)">Save & Add Next</button>
 <button type="submit" class="action">Save</button>
 </div>
+
 </form>
 </div>
 </div>
 
 <script>
+
+/* DATA STORAGE */
 let patients=JSON.parse(localStorage.getItem('hms_patients')||'[]');
 let doctors=JSON.parse(localStorage.getItem('hms_doctors')||'[]');
 let appointments=JSON.parse(localStorage.getItem('hms_appointments')||'[]');
@@ -197,36 +216,58 @@ let billing=JSON.parse(localStorage.getItem('hms_billing')||'[]');
 
 let currentType='';
 
+/* SAVE ALL DATA AND AUTOMATICALLY REFRESH */
 function persist(){
+
 localStorage.setItem('hms_patients',JSON.stringify(patients));
 localStorage.setItem('hms_doctors',JSON.stringify(doctors));
 localStorage.setItem('hms_appointments',JSON.stringify(appointments));
 localStorage.setItem('hms_billing',JSON.stringify(billing));
+
 renderAll();
 }
 
+/* NAVIGATION */
 function showSection(id,button){
+
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+
 document.getElementById(id).classList.add('active');
+
 document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+
 button.classList.add('active');
-document.getElementById('pageTitle').textContent=id.charAt(0).toUpperCase()+id.slice(1);
+
+document.getElementById('pageTitle').textContent=
+id.charAt(0).toUpperCase()+id.slice(1);
 }
 
+/* LOGOUT */
 function logout(){
+
 if(confirm('Log out of the demo system?')){
 localStorage.removeItem('hms_login');
 location.reload();
 }
 }
 
+/* SAFE DISPLAY */
 function escapeHTML(value){
+
 return String(value??'').replace(/[&<>"']/g,function(c){
-return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+return {
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#39;'
+}[c];
 });
 }
 
+/* REFRESH ALL SECTIONS */
 function renderAll(){
+
 renderPatients();
 renderDoctors();
 renderDoctorPatients();
@@ -235,126 +276,184 @@ renderBilling();
 renderDashboard();
 }
 
+/* PATIENT TABLE */
 function renderPatients(search=''){
+
 let q=search.toLowerCase();
-document.getElementById('tablePatients').innerHTML=patients
-.filter(p=>Object.values(p).join(' ').toLowerCase().includes(q))
-.map(p=>`<tr>
+
+document.getElementById('tablePatients').innerHTML=
+patients.filter(p=>Object.values(p).join(' ').toLowerCase().includes(q))
+.map(p=>`
+<tr>
 <td>${escapeHTML(p.name)}</td>
 <td>${escapeHTML(p.age)}</td>
 <td>${escapeHTML(p.gender)}</td>
 <td>${escapeHTML(p.contact)}</td>
 <td>${escapeHTML(p.address)}</td>
-</tr>`).join('');
+</tr>
+`).join('');
 }
 
+/* DOCTOR TABLE */
 function renderDoctors(search=''){
+
 let q=search.toLowerCase();
-document.getElementById('tableDoctors').innerHTML=doctors
-.filter(d=>Object.values(d).join(' ').toLowerCase().includes(q))
-.map(d=>`<tr>
+
+document.getElementById('tableDoctors').innerHTML=
+doctors.filter(d=>Object.values(d).join(' ').toLowerCase().includes(q))
+.map(d=>`
+<tr>
 <td>${escapeHTML(d.name)}</td>
 <td>${escapeHTML(d.specialization)}</td>
 <td>${escapeHTML(d.contact)}</td>
 <td>${escapeHTML(d.schedule)}</td>
 <td>${escapeHTML(d.availability)}</td>
-</tr>`).join('');
+</tr>
+`).join('');
 }
 
-/* AUTOMATIC PATIENT DISPLAY IN DOCTORS SECTION */
+/* AUTOMATIC PATIENT CONNECTION IN DOCTORS */
 function renderDoctorPatients(search=''){
+
 let q=search.toLowerCase();
-document.getElementById('doctorPatientTable').innerHTML=patients
-.filter(p=>Object.values(p).join(' ').toLowerCase().includes(q))
-.map(p=>`<tr>
+
+document.getElementById('doctorPatientTable').innerHTML=
+patients.filter(p=>Object.values(p).join(' ').toLowerCase().includes(q))
+.map(p=>`
+<tr>
 <td>${escapeHTML(p.name)}</td>
 <td>${escapeHTML(p.age)}</td>
 <td>${escapeHTML(p.gender)}</td>
 <td>${escapeHTML(p.contact)}</td>
 <td>${escapeHTML(p.address)}</td>
-</tr>`).join('');
+</tr>
+`).join('');
 }
 
+/* APPOINTMENT TABLE */
 function renderAppointments(search=''){
+
 let q=search.toLowerCase();
-document.getElementById('tableAppointments').innerHTML=appointments
-.filter(a=>Object.values(a).join(' ').toLowerCase().includes(q))
-.map(a=>`<tr>
+
+document.getElementById('tableAppointments').innerHTML=
+appointments.filter(a=>Object.values(a).join(' ').toLowerCase().includes(q))
+.map(a=>`
+<tr>
 <td>${escapeHTML(a.patient)}</td>
 <td>${escapeHTML(a.doctor)}</td>
 <td>${escapeHTML(a.date)}</td>
 <td>${escapeHTML(a.time)}</td>
 <td>${escapeHTML(a.status)}</td>
-</tr>`).join('');
+</tr>
+`).join('');
 }
 
+/* BILLING TABLE */
 function renderBilling(search=''){
+
 let q=search.toLowerCase();
-document.getElementById('tableBilling').innerHTML=billing
-.filter(b=>Object.values(b).join(' ').toLowerCase().includes(q))
-.map(b=>`<tr>
+
+document.getElementById('tableBilling').innerHTML=
+billing.filter(b=>Object.values(b).join(' ').toLowerCase().includes(q))
+.map(b=>`
+<tr>
 <td>${escapeHTML(b.patient)}</td>
 <td>₱${escapeHTML(b.amount)}</td>
 <td>${escapeHTML(b.date)}</td>
 <td>${escapeHTML(b.status)}</td>
-</tr>`).join('');
+</tr>
+`).join('');
 }
 
+/* DASHBOARD */
 function renderDashboard(){
+
 document.getElementById('countPatients').textContent=patients.length;
 document.getElementById('countDoctors').textContent=doctors.length;
 document.getElementById('countAppointments').textContent=appointments.length;
 document.getElementById('countBilling').textContent=billing.length;
 
-document.getElementById('recentAppointments').innerHTML=appointments.slice(-5).reverse()
-.map(a=>`<tr>
+document.getElementById('recentAppointments').innerHTML=
+appointments.slice(-5).reverse().map(a=>`
+<tr>
 <td>${escapeHTML(a.patient)}</td>
 <td>${escapeHTML(a.doctor)}</td>
 <td>${escapeHTML(a.date)}</td>
 <td>${escapeHTML(a.status)}</td>
-</tr>`).join('');
+</tr>
+`).join('');
 }
 
+/* OPEN MODAL */
 function openModal(type){
+
 currentType=type;
+
 document.getElementById('modal').style.display='flex';
+
 document.getElementById('recordForm').reset();
-document.getElementById('modalTitle').textContent='Add '+type.charAt(0).toUpperCase()+type.slice(1);
+
+document.getElementById('modalTitle').textContent=
+'Add '+type.charAt(0).toUpperCase()+type.slice(1);
+
 buildFields();
 }
 
+/* CLOSE MODAL */
 function closeModal(){
+
 document.getElementById('modal').style.display='none';
 }
 
+/* FORM FIELDS */
 function buildFields(){
+
 let fields='';
+
 if(currentType==='patients'){
+
 fields=`
 <input name="name" placeholder="Full Name" required>
 <input name="age" type="number" placeholder="Age" min="0" required>
+
 <select name="gender" required>
 <option value="">Select Gender</option>
-<option>Male</option><option>Female</option><option>Other</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
 </select>
+
 <input name="contact" placeholder="Contact No." required>
-<input name="address" placeholder="Address" required>`;
+<input name="address" placeholder="Address" required>
+`;
 }
 
 if(currentType==='doctors'){
+
 fields=`
 <input name="name" placeholder="Doctor Full Name" required>
+
 <select name="specialization" required>
 <option value="">Select Specialization</option>
-<option>Cardiology</option><option>Dermatology</option>
-<option>Neurology</option><option>Pediatrics</option>
-<option>Psychiatry</option><option>General Medicine</option>
-<option>Internal Medicine</option><option>Obstetrics and Gynecology</option>
-<option>Orthopedics</option><option>Ophthalmology</option>
-<option>Surgery</option><option>Radiology</option>
-<option>Anesthesiology</option><option>Dentistry</option><option>ENT</option>
+<option>Cardiology</option>
+<option>Dermatology</option>
+<option>Neurology</option>
+<option>Pediatrics</option>
+<option>Psychiatry</option>
+<option>General Medicine</option>
+<option>Internal Medicine</option>
+<option>Obstetrics and Gynecology</option>
+<option>Orthopedics</option>
+<option>Ophthalmology</option>
+<option>Surgery</option>
+<option>Radiology</option>
+<option>Anesthesiology</option>
+<option>Dentistry</option>
+<option>ENT</option>
 </select>
+
 <input name="contact" placeholder="Contact No." required>
+
 <select name="schedule" required>
 <option value="">Select Schedule</option>
 <option>Monday-Friday 8AM-5PM</option>
@@ -366,108 +465,150 @@ fields=`
 <option>Weekends</option>
 <option>On Call</option>
 </select>
+
 <select name="availability" required>
 <option value="">Availability</option>
-<option>Available</option><option>Not Available</option>
-</select>`;
+<option>Available</option>
+<option>Not Available</option>
+</select>
+`;
 }
 
 if(currentType==='appointments'){
+
 fields=`
 <select name="patient" required>
 <option value="">Select Patient</option>
-${patients.map(p=>`<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>`).join('')}
+${patients.map(p=>`
+<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>
+`).join('')}
 </select>
+
 <select name="doctor" required>
 <option value="">Select Available Doctor</option>
-${doctors.filter(d=>d.availability==='Available')
-.map(d=>`<option value="${escapeHTML(d.name+' - '+d.specialization)}">${escapeHTML(d.name+' - '+d.specialization)}</option>`).join('')}
+${doctors.filter(d=>d.availability==='Available').map(d=>`
+<option value="${escapeHTML(d.name+' - '+d.specialization)}">
+${escapeHTML(d.name+' - '+d.specialization)}
+</option>
+`).join('')}
 </select>
+
 <input name="date" type="date" required>
 <input name="time" type="time" required>
+
 <select name="status" required>
-<option>Pending</option><option>Completed</option><option>Cancelled</option>
-</select>`;
+<option>Pending</option>
+<option>Completed</option>
+<option>Cancelled</option>
+</select>
+`;
 }
 
 if(currentType==='billing'){
+
 fields=`
 <select name="patient" required>
 <option value="">Select Patient</option>
-${patients.map(p=>`<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>`).join('')}
+${patients.map(p=>`
+<option value="${escapeHTML(p.name)}">${escapeHTML(p.name)}</option>
+`).join('')}
 </select>
+
 <input name="amount" type="number" min="0" step="0.01" placeholder="Amount" required>
 <input name="date" type="date" required>
+
 <select name="status" required>
-<option>Unpaid</option><option>Paid</option>
-</select>`;
+<option>Unpaid</option>
+<option>Paid</option>
+</select>
+`;
 }
 
 document.getElementById('formFields').innerHTML=fields;
 }
 
-function saveRecord(addNext=false){
+/* SAVE RECORD */
+function saveRecord(){
+
 let form=document.getElementById('recordForm');
+
 if(!form.reportValidity())return;
 
 let data=Object.fromEntries(new FormData(form).entries());
 
+/* SAVE PATIENT */
 if(currentType==='patients'){
+
 if(patients.some(p=>p.name.toLowerCase()===data.name.trim().toLowerCase())){
 alert('This patient is already registered.');
 return;
 }
+
 data.name=data.name.trim();
+
 patients.push(data);
 }
 
+/* SAVE DOCTOR */
 if(currentType==='doctors'){
+
 if(doctors.some(d=>d.name.toLowerCase()===data.name.trim().toLowerCase())){
 alert('This doctor is already registered.');
 return;
 }
+
 data.name=data.name.trim();
+
 doctors.push(data);
 }
 
+/* SAVE APPOINTMENT */
 if(currentType==='appointments'){
 appointments.push(data);
 }
 
+/* SAVE BILLING */
 if(currentType==='billing'){
 billing.push(data);
 }
 
+/* AUTOMATIC SAVE */
 persist();
 
-if(addNext){
-form.reset();
-buildFields();
-}else{
+/* CLOSE FORM AUTOMATICALLY */
 closeModal();
-}
 
 alert('Record saved successfully!');
 }
 
+/* SAVE BUTTON */
 document.getElementById('recordForm').addEventListener('submit',function(e){
+
 e.preventDefault();
-saveRecord(false);
+
+saveRecord();
 });
 
+/* LOGIN */
 let login=localStorage.getItem('hms_login');
 
 if(!login){
+
 login=prompt('Enter your username to access the demo system:');
+
 if(!login){
 login='Administrator';
 }
+
 localStorage.setItem('hms_login',login);
 }
 
 document.getElementById('loginName').textContent='Logged in as '+login;
 
+/* INITIAL LOAD */
 renderAll();
+
 </script>
+
 </body>
 </html>
