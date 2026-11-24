@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>PinkCare Hospital Management</title>
+<title>Hospital Management System</title>
 <style>
 :root{
  --pink:#e878a7;--dark:#bd477b;--light:#fff0f6;
@@ -37,6 +37,7 @@ input,select{
 .sidebar{
  position:fixed;left:0;top:0;bottom:0;width:220px;
  background:#fff;padding:20px;box-shadow:2px 0 12px #edd5e0;
+ overflow-y:auto;
 }
 .sidebar h2{color:var(--dark)}
 .sidebar button{width:100%;text-align:left;margin:6px 0}
@@ -71,8 +72,8 @@ th{background:var(--light);color:var(--dark)}
 <body>
 
 <div id="auth" class="auth">
- <h1>PinkCare Hospital</h1>
- <small>Hospital Management System</small>
+ <h1>Hospital Management System</h1>
+ <small>Patient, Doctor, Appointment and Billing Management</small>
  <div id="loginForm">
   <input id="loginUser" placeholder="Username">
   <input id="loginPass" type="password" placeholder="Password">
@@ -92,7 +93,7 @@ th{background:var(--light);color:var(--dark)}
 
 <div id="app">
  <aside class="sidebar">
-  <h2>PinkCare ♡</h2>
+  <h2>Hospital Management System</h2>
   <button onclick="page('dashboard')">Dashboard</button>
   <button onclick="page('patients')">Patients</button>
   <button onclick="page('doctors')">Doctors</button>
