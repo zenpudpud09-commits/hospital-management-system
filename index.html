@@ -1,396 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Management System</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#fff5f8;color:#333}
+button{cursor:pointer;border:none;border-radius:7px;padding:10px 14px;background:#e88aaa;color:white}
+button:hover{opacity:.85}
+input,select{padding:10px;border:1px solid #ddd;border-radius:7px;width:100%;margin:5px 0}
+#login{display:flex;justify-content:center;align-items:center;height:100vh}
+.login-box{background:white;padding:35px;border-radius:15px;width:350px;box-shadow:0 5px 25px #ddd;text-align:center}
+.login-box h1{color:#d96f98;margin-bottom:10px}
+.login-box p{margin-bottom:15px;color:#777}
+#app{display:none}
+.sidebar{width:230px;background:white;height:100vh;position:fixed;left:0;top:0;padding:25px;border-right:1px solid #eee}
+.sidebar h2{color:#d96f98;margin-bottom:30px}
+.sidebar button{width:100%;margin:8px 0;text-align:left;background:#fff0f5;color:#c45c83}
+.sidebar button.active{background:#d96f98;color:white}
+.main{margin-left:230px;padding:25px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.topbar h1{color:#d96f98}
+#search{max-width:300px;background:white}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin-bottom:25px}
+.card{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px #eee}
+.card h3{color:#d96f98;margin-bottom:10px}
+.card p{font-size:25px;font-weight:bold}
+.panel{background:white;padding:20px;border-radius:12px;margin-bottom:20px;overflow-x:auto}
+.panel h2{color:#d96f98;margin-bottom:15px}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{padding:12px;border-bottom:1px solid #eee;text-align:left}
+th{color:#c45c83;background:#fff5f8}
+.action{display:flex;gap:5px}
+.action button{padding:7px 10px}
+.del{background:#d9534f}
+.add{margin-bottom:15px}
+.section{display:none}
+.section.active{display:block}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+#logout{background:#555}
+@media(max-width:700px){
+.sidebar{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid #eee}
+.sidebar h2{margin-bottom:10px}
+.sidebar button{width:auto;display:inline-block}
+.main{margin-left:0;padding:15px}
+.topbar{align-items:flex-start}
 }
 </style>
 </head>
 
 <body>
 
-<div class="login-page" id="loginPage">
+<!-- LOGIN -->
+<div id="login">
 <div class="login-box">
+<h1>Hospital Management System</h1>
+<p>Login to your account</p>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()" style="width:100%;margin-top:10px">Login</button>
+<p id="loginError" style="color:red;margin-top:10px"></p>
+</div>
+</div>
+
+<!-- SYSTEM -->
+<div id="app">
+
+<div class="sidebar">
 <h2>Hospital Management System</h2>
-<p>Welcome to your hospital management dashboard</p>
-
-<div id="loginForm">
-<input id="loginUser" placeholder="Username">
-<input id="loginPass" type="password" placeholder="Password">
-<button class="primary" style="width:100%" onclick="login()">Login</button>
-<button class="secondary" style="width:100%;margin-top:10px" onclick="toggleSignup()">Create Account</button>
+<button class="active" onclick="showSection('dashboard',this)">Dashboard</button>
+<button onclick="showSection('patients',this)">Patients</button>
+<button onclick="showSection('doctors',this)">Doctors</button>
+<button onclick="showSection('appointments',this)">Appointments</button>
+<button onclick="showSection('billing',this)">Billing</button>
+<button id="logout" onclick="logout()">Logout</button>
 </div>
 
-<div id="signupForm" style="display:none">
-<input id="newUser" placeholder="Create username">
-<input id="newPass" type="password" placeholder="Create password">
-<button class="primary" style="width:100%" onclick="signup()">Sign Up</button>
-<button class="secondary" style="width:100%;margin-top:10px" onclick="toggleSignup()">Back to Login</button>
-</div>
-
-<p class="notice">Demo system only. Do not enter real patient information or real passwords.</p>
-</div>
-</div>
-
-<div class="layout" id="layout">
-<aside class="sidebar">
-<h3>Hospital Management System</h3>
-<button onclick="showPage('dashboard')" class="active" id="nav-dashboard">Dashboard</button>
-<button onclick="showPage('patients')" id="nav-patients">Patients</button>
-<button onclick="showPage('doctors')" id="nav-doctors">Doctors</button>
-<button onclick="showPage('appointments')" id="nav-appointments">Appointments</button>
-<button onclick="showPage('billing')" id="nav-billing">Billing</button>
-<button onclick="logout()">Logout</button>
-</aside>
-
-<main class="main">
+<div class="main">
 <div class="topbar">
 <h1 id="pageTitle">Dashboard</h1>
-<input id="globalSearch" placeholder="Search..." oninput="render()">
+<input id="search" placeholder="Search..." oninput="renderAll()">
 </div>
 
-<div id="dashboardPage">
+<!-- DASHBOARD -->
+<div id="dashboard" class="section active">
 <div class="cards">
-<div class="card"><h3>Total Patients</h3><strong id="totalPatients">0</strong></div>
-<div class="card"><h3>Total Doctors</h3><strong id="totalDoctors">0</strong></div>
-<div class="card"><h3>Appointments</h3><strong id="totalAppointments">0</strong></div>
-<div class="card"><h3>Total Billing</h3><strong id="totalBilling">₱0</strong></div>
+<div class="card"><h3>Patients</h3><p id="patientCount">0</p></div>
+<div class="card"><h3>Doctors</h3><p id="doctorCount">0</p></div>
+<div class="card"><h3>Appointments</h3><p id="appointmentCount">0</p></div>
+<div class="card"><h3>Billing Records</h3><p id="billingCount">0</p></div>
 </div>
+
+<div class="panel">
+<h2>Hospital Overview</h2>
+<p>Welcome to the Hospital Management System. Manage patient records, doctors, appointments, and billing in one place.</p>
+</div>
+</div>
+
+<!-- PATIENTS -->
+<div id="patients" class="section">
 <div class="panel">
 <h2>Patient Records</h2>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Name</th><th>Contact</th><th>Action</th></tr></thead>
-<tbody id="dashboardPatients"></tbody>
-</table>
-</div>
+<button class="add" onclick="addRecord('patients')">+ Add Patient</button>
+<div id="patientsTable"></div>
 </div>
 </div>
 
-<div id="patientsPage" style="display:none">
+<!-- DOCTORS -->
+<div id="doctors" class="section">
 <div class="panel">
-<button class="primary" onclick="openPatient()">+ Add Patient</button>
-<div class="table-wrap" style="margin-top:15px">
-<table>
-<thead><tr><th>Name</th><th>Contact</th><th>Gender</th><th>Action</th></tr></thead>
-<tbody id="patientRows"></tbody>
-</table>
-</div>
+<h2>Doctor Records</h2>
+<button class="add" onclick="addRecord('doctors')">+ Add Doctor</button>
+<div id="doctorsTable"></div>
 </div>
 </div>
 
-<div id="detailView">
+<!-- APPOINTMENTS -->
+<div id="appointments" class="section">
 <div class="panel">
-<button class="secondary" onclick="showPage('patients')">← Back</button>
-<div id="patientDetails" style="margin-top:20px"></div>
+<h2>Appointment Records</h2>
+<button class="add" onclick="addRecord('appointments')">+ Add Appointment</button>
+<div id="appointmentsTable"></div>
 </div>
 </div>
 
-<div id="doctorsPage" style="display:none">
+<!-- BILLING -->
+<div id="billing" class="section">
 <div class="panel">
-<button class="primary" onclick="openDoctor()">+ Add Doctor</button>
-<div class="table-wrap" style="margin-top:15px">
-<table>
-<thead><tr><th>Name</th><th>Specialization</th><th>Contact</th><th>Action</th></tr></thead>
-<tbody id="doctorRows"></tbody>
-</table>
-</div>
+<h2>Billing Records</h2>
+<button class="add" onclick="addRecord('billing')">+ Add Billing</button>
+<div id="billingTable"></div>
 </div>
 </div>
 
-<div id="appointmentsPage" style="display:none">
-<div class="panel">
-<button class="primary" onclick="openAppointment()">+ Add Appointment</button>
-<div class="table-wrap" style="margin-top:15px">
-<table>
-<thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead>
-<tbody id="appointmentRows"></tbody>
-</table>
-</div>
-</div>
-</div>
-
-<div id="billingPage" style="display:none">
-<div class="panel">
-<button class="primary" onclick="openBill()">+ Add Bill</button>
-<div class="table-wrap" style="margin-top:15px">
-<table>
-<thead><tr><th>Patient</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
-<tbody id="billingRows"></tbody>
-</table>
-</div>
-</div>
-</div>
-</main>
-</div>
-
-<div class="modal" id="modal">
-<div class="modal-box">
-<h2 id="modalTitle"></h2>
-<div id="modalContent"></div>
-<div style="margin-top:10px">
-<button class="primary" onclick="saveModal()">Save</button>
-<button class="secondary" onclick="closeModal()">Cancel</button>
-</div>
 </div>
 </div>
 
 <script>
-let patients=JSON.parse(localStorage.getItem('hms_demo_patients')||'[]');
-let doctors=JSON.parse(localStorage.getItem('hms_demo_doctors')||'[]');
-let appointments=JSON.parse(localStorage.getItem('hms_demo_appointments')||'[]');
-let bills=JSON.parse(localStorage.getItem('hms_demo_billing')||'[]');
-let accounts=JSON.parse(localStorage.getItem('hms_demo_accounts')||'[]');
+const defaultData={
+patients:[],
+doctors:[],
+appointments:[],
+billing:[]
+};
 
-let currentPage='dashboard',editId=null,modalType=null,detailId=null;
+let data=JSON.parse(localStorage.getItem("hospitalData"))||defaultData;
 
-function persist(){
-localStorage.setItem('hms_demo_patients',JSON.stringify(patients));
-localStorage.setItem('hms_demo_doctors',JSON.stringify(doctors));
-localStorage.setItem('hms_demo_appointments',JSON.stringify(appointments));
-localStorage.setItem('hms_demo_billing',JSON.stringify(bills));
-localStorage.setItem('hms_demo_accounts',JSON.stringify(accounts));
-}
-
-function toggleSignup(){
-document.getElementById('loginForm').style.display=
-document.getElementById('loginForm').style.display==='none'?'block':'none';
-document.getElementById('signupForm').style.display=
-document.getElementById('signupForm').style.display==='none'?'block':'none';
-}
-
-function signup(){
-let u=document.getElementById('newUser').value.trim();
-let p=document.getElementById('newPass').value;
-if(!u||!p)return alert('Fill in all fields.');
-if(accounts.some(a=>a.user===u))return alert('Username already exists.');
-accounts.push({user:u,pass:p});
-persist();
-alert('Account created. Please login.');
-toggleSignup();
+function save(){
+localStorage.setItem("hospitalData",JSON.stringify(data));
+renderAll();
 }
 
 function login(){
-let u=document.getElementById('loginUser').value.trim();
-let p=document.getElementById('loginPass').value;
-let found=accounts.find(a=>a.user===u&&a.pass===p);
-if(!found)return alert('Invalid username or password.');
-localStorage.setItem('hms_demo_logged_in',u);
-document.getElementById('loginPage').style.display='none';
-document.getElementById('layout').style.display='flex';
-showPage('dashboard');
+let u=document.getElementById("username").value.trim();
+let p=document.getElementById("password").value;
+if(u && p){
+localStorage.setItem("hospitalLogin",u);
+document.getElementById("login").style.display="none";
+document.getElementById("app").style.display="block";
+renderAll();
+}else{
+document.getElementById("loginError").textContent="Please enter username and password.";
+}
 }
 
 function logout(){
-localStorage.removeItem('hms_demo_logged_in');
-document.getElementById('layout').style.display='none';
-document.getElementById('loginPage').style.display='flex';
+localStorage.removeItem("hospitalLogin");
+document.getElementById("app").style.display="none";
+document.getElementById("login").style.display="flex";
 }
 
-function showPage(page){
-currentPage=page;
-editId=null;
-detailId=null;
-document.getElementById('detailView').style.display='none';
+function showSection(id,btn){
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.querySelectorAll(".sidebar button").forEach(b=>b.classList.remove("active"));
+if(btn)btn.classList.add("active");
+document.getElementById("pageTitle").textContent=id.charAt(0).toUpperCase()+id.slice(1);
+renderAll();
+}
 
-['dashboard','patients','doctors','appointments','billing'].forEach(p=>{
-document.getElementById(p+'Page').style.display=p===page?'block':'none';
-let n=document.getElementById('nav-'+p);
-if(n)n.classList.toggle('active',p===page);
+const fields={
+patients:["Name","Age","Gender","Contact","Address"],
+doctors:["Name","Specialization","Contact","Schedule"],
+appointments:["Patient","Doctor","Date","Time","Status"],
+billing:["Patient","Amount","Date","Status"]
+};
+
+function addRecord(type){
+let record={};
+for(let field of fields[type]){
+let value=prompt("Enter "+field+":");
+if(value===null)return;
+record[field]=value;
+}
+record.id=Date.now();
+data[type].push(record);
+save();
+}
+
+function editRecord(type,id){
+let record=data[type].find(r=>r.id===id);
+if(!record)return;
+for(let field of fields[type]){
+let value=prompt("Edit "+field+":",record[field]);
+if(value===null)return;
+record[field]=value;
+}
+save();
+}
+
+function deleteRecord(type,id){
+if(confirm("Delete this record?")){
+data[type]=data[type].filter(r=>r.id!==id);
+save();
+}
+}
+
+function makeTable(type){
+let query=document.getElementById("search").value.toLowerCase();
+let records=data[type].filter(r=>fields[type].some(f=>(r[f]||"").toLowerCase().includes(query)));
+if(!records.length)return "<p>No records found.</p>";
+
+let html="<table><thead><tr>";
+fields[type].forEach(f=>html+="<th>"+f+"</th>");
+html+="<th>Action</th></tr></thead><tbody>";
+
+records.forEach(r=>{
+html+="<tr>";
+fields[type].forEach(f=>html+="<td>"+escapeHTML(r[f]||"")+"</td>");
+html+="<td><div class='action'><button onclick='editRecord(\""+type+"\","+r.id+")'>Edit</button><button class='del' onclick='deleteRecord(\""+type+"\","+r.id+")'>Delete</button></div></td>";
+html+="</tr>";
 });
-document.getElementById('pageTitle').textContent=page.charAt(0).toUpperCase()+page.slice(1);
-render();
+
+html+="</tbody></table>";
+return html;
 }
 
-function render(){
-let q=(document.getElementById('globalSearch')?.value||'').toLowerCase();
-
-document.getElementById('totalPatients').textContent=patients.length;
-document.getElementById('totalDoctors').textContent=doctors.length;
-document.getElementById('totalAppointments').textContent=appointments.length;
-document.getElementById('totalBilling').textContent='₱'+bills.reduce((s,b)=>s+Number(b.amount||0),0).toLocaleString();
-
-let filtered=patients.filter(p=>(p.name+' '+p.contact+' '+p.gender).toLowerCase().includes(q));
-
-document.getElementById('dashboardPatients').innerHTML=filtered.map(p=>`
-<tr><td>${esc(p.name)}</td><td>${esc(p.contact)}</td>
-<td><button class="secondary" onclick="openDetail('${p.id}')">Open</button></td></tr>`).join('');
-
-document.getElementById('patientRows').innerHTML=filtered.map(p=>`
-<tr><td>${esc(p.name)}</td><td>${esc(p.contact)}</td><td>${esc(p.gender)}</td>
-<td class="actions">
-<button class="secondary" onclick="openDetail('${p.id}')">Open</button>
-<button class="secondary" onclick="openPatient('${p.id}')">Edit</button>
-<button class="danger" onclick="deletePatient('${p.id}')">Delete</button>
-</td></tr>`).join('');
-
-let fd=doctors.filter(d=>(d.name+' '+d.specialization+' '+d.contact).toLowerCase().includes(q));
-document.getElementById('doctorRows').innerHTML=fd.map(d=>`
-<tr><td>${esc(d.name)}</td><td>${esc(d.specialization)}</td><td>${esc(d.contact)}</td>
-<td class="actions"><button class="secondary" onclick="openDoctor('${d.id}')">Edit</button>
-<button class="danger" onclick="deleteDoctor('${d.id}')">Delete</button></td></tr>`).join('');
-
-let fa=appointments.filter(a=>{
-let p=patients.find(x=>x.id===a.patient),d=doctors.find(x=>x.id===a.doctor);
-return ((p?.name||'')+' '+(d?.name||'')+' '+a.date+' '+a.time+' '+a.status).toLowerCase().includes(q);
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g,function(c){
+return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
 });
-document.getElementById('appointmentRows').innerHTML=fa.map(a=>`
-<tr><td>${esc(patients.find(x=>x.id===a.patient)?.name||'Unknown')}</td>
-<td>${esc(doctors.find(x=>x.id===a.doctor)?.name||'Unknown')}</td>
-<td>${esc(a.date)}</td><td>${esc(a.time)}</td><td>${esc(a.status)}</td>
-<td class="actions"><button class="secondary" onclick="openAppointment('${a.id}')">Edit</button>
-<button class="danger" onclick="deleteAppointment('${a.id}')">Delete</button></td></tr>`).join('');
-
-let fb=bills.filter(b=>(patients.find(x=>x.id===b.patient)?.name||'').toLowerCase().includes(q)||String(b.amount).includes(q)||b.status.toLowerCase().includes(q));
-document.getElementById('billingRows').innerHTML=fb.map(b=>`
-<tr><td>${esc(patients.find(x=>x.id===b.patient)?.name||'Unknown')}</td>
-<td>₱${Number(b.amount).toLocaleString()}</td><td>${esc(b.status)}</td>
-<td class="actions"><button class="secondary" onclick="openBill('${b.id}')">Edit</button>
-<button class="danger" onclick="deleteBill('${b.id}')">Delete</button></td></tr>`).join('');
 }
 
-function esc(s){
-return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function renderAll(){
+document.getElementById("patientsTable").innerHTML=makeTable("patients");
+document.getElementById("doctorsTable").innerHTML=makeTable("doctors");
+document.getElementById("appointmentsTable").innerHTML=makeTable("appointments");
+document.getElementById("billingTable").innerHTML=makeTable("billing");
+
+document.getElementById("patientCount").textContent=data.patients.length;
+document.getElementById("doctorCount").textContent=data.doctors.length;
+document.getElementById("appointmentCount").textContent=data.appointments.length;
+document.getElementById("billingCount").textContent=data.billing.length;
 }
 
-function openDetail(id){
-detailId=id;
-let p=patients.find(x=>x.id===id);
-if(!p)return;
-['dashboardPage','patientsPage','doctorsPage','appointmentsPage','billingPage'].forEach(x=>document.getElementById(x).style.display='none');
-document.getElementById('detailView').style.display='block';
-document.getElementById('pageTitle').textContent='Patient Details';
-
-let pa=appointments.filter(a=>a.patient===id);
-let pb=bills.filter(b=>b.patient===id);
-
-document.getElementById('patientDetails').innerHTML=`
-<h2>${esc(p.name)}</h2>
-<p><b>Gender:</b> ${esc(p.gender)}</p>
-<p><b>Contact:</b> ${esc(p.contact)}</p>
-<p><b>Address:</b> ${esc(p.address)}</p>
-<hr style="margin:15px 0">
-<button class="secondary" onclick="openPatient('${p.id}')">Edit Patient</button>
-
-<h3 style="margin:20px 0 10px">Appointments</h3>
-${pa.length?pa.map(a=>`<p>${esc(a.date)} | ${esc(a.time)} | ${esc(doctors.find(d=>d.id===a.doctor)?.name||'Unknown')} | ${esc(a.status)}</p>`).join(''):'No appointments'}
-
-<h3 style="margin:20px 0 10px">Billing</h3>
-${pb.length?pb.map(b=>`<p>₱${Number(b.amount).toLocaleString()} | ${esc(b.status)}</p>`).join(''):'No billing records'}
-`;
+window.onload=function(){
+if(localStorage.getItem("hospitalLogin")){
+document.getElementById("login").style.display="none";
+document.getElementById("app").style.display="block";
 }
-
-function openPatient(id){
-editId=id||null;modalType='patient';
-let p=patients.find(x=>x.id===id)||{name:'',gender:'',contact:'',address:''};
-document.getElementById('modalTitle').textContent=id?'Edit Patient':'Add Patient';
-document.getElementById('modalContent').innerHTML=`
-<label>Name</label><input id="fName" value="${esc(p.name)}">
-<label>Gender</label><select id="fGender">
-<option ${p.gender==='Male'?'selected':''}>Male</option>
-<option ${p.gender==='Female'?'selected':''}>Female</option>
-<option ${p.gender==='Other'?'selected':''}>Other</option>
-</select>
-<label>Contact</label><input id="fContact" value="${esc(p.contact)}">
-<label>Address</label><textarea id="fAddress">${esc(p.address)}</textarea>`;
-showModal();
-}
-
-function openDoctor(id){
-editId=id||null;modalType='doctor';
-let d=doctors.find(x=>x.id===id)||{name:'',specialization:'',contact:''};
-document.getElementById('modalTitle').textContent=id?'Edit Doctor':'Add Doctor';
-document.getElementById('modalContent').innerHTML=`
-<label>Name</label><input id="fName" value="${esc(d.name)}">
-<label>Specialization</label><input id="fSpec" value="${esc(d.specialization)}">
-<label>Contact</label><input id="fContact" value="${esc(d.contact)}">`;
-showModal();
-}
-
-function openAppointment(id){
-editId=id||null;modalType='appointment';
-let a=appointments.find(x=>x.id===id)||{patient:'',doctor:'',date:'',time:'',status:'Scheduled'};
-document.getElementById('modalTitle').textContent=id?'Edit Appointment':'Add Appointment';
-document.getElementById('modalContent').innerHTML=`
-<label>Patient</label><select id="fPatient">${patients.map(p=>`<option value="${p.id}" ${a.patient===p.id?'selected':''}>${esc(p.name)}</option>`).join('')}</select>
-<label>Doctor</label><select id="fDoctor">${doctors.map(d=>`<option value="${d.id}" ${a.doctor===d.id?'selected':''}>${esc(d.name)}</option>`).join('')}</select>
-<label>Date</label><input id="fDate" type="date" value="${esc(a.date)}">
-<label>Time</label><input id="fTime" type="time" value="${esc(a.time)}">
-<label>Status</label><select id="fStatus">
-${['Scheduled','Completed','Cancelled'].map(s=>`<option ${a.status===s?'selected':''}>${s}</option>`).join('')}</select>`;
-showModal();
-}
-
-function openBill(id){
-editId=id||null;modalType='bill';
-let b=bills.find(x=>x.id===id)||{patient:'',amount:'',status:'Unpaid'};
-document.getElementById('modalTitle').textContent=id?'Edit Bill':'Add Bill';
-document.getElementById('modalContent').innerHTML=`
-<label>Patient</label><select id="fPatient">${patients.map(p=>`<option value="${p.id}" ${b.patient===p.id?'selected':''}>${esc(p.name)}</option>`).join('')}</select>
-<label>Amount</label><input id="fAmount" type="number" min="0" value="${esc(b.amount)}">
-<label>Status</label><select id="fStatus">
-${['Unpaid','Paid'].map(s=>`<option ${b.status===s?'selected':''}>${s}</option>`).join('')}</select>`;
-showModal();
-}
-
-function showModal(){document.getElementById('modal').style.display='flex'}
-function closeModal(){document.getElementById('modal').style.display='none';editId=null;modalType=null}
-
-function saveModal(){
-if(modalType==='patient'){
-let obj={name:fName.value.trim(),gender:fGender.value,contact:fContact.value.trim(),address:fAddress.value.trim()};
-if(!obj.name)return alert('Enter patient name.');
-if(editId)patients[patients.findIndex(p=>p.id===editId)]={...patients.find(p=>p.id===editId),...obj};
-else patients.push({id:Date.now().toString(),...obj});
-}
-if(modalType==='doctor'){
-let obj={name:fName.value.trim(),specialization:fSpec.value.trim(),contact:fContact.value.trim()};
-if(!obj.name)return alert('Enter doctor name.');
-if(editId)doctors[doctors.findIndex(d=>d.id===editId)]={...doctors.find(d=>d.id===editId),...obj};
-else doctors.push({id:Date.now().toString(),...obj});
-}
-if(modalType==='appointment'){
-let obj={patient:fPatient.value,doctor:fDoctor.value,date:fDate.value,time:fTime.value,status:fStatus.value};
-if(!obj.patient||!obj.doctor)return alert('Please add patients and doctors first.');
-if(editId)appointments[appointments.findIndex(a=>a.id===editId)]={...appointments.find(a=>a.id===editId),...obj};
-else appointments.push({id:Date.now().toString(),...obj});
-}
-if(modalType==='bill'){
-let obj={patient:fPatient.value,amount:Number(fAmount.value),status:fStatus.value};
-if(!obj.patient)return alert('Please add a patient first.');
-if(obj.amount<0||!Number.isFinite(obj.amount))return alert('Enter a valid amount.');
-if(editId)bills[bills.findIndex(b=>b.id===editId)]={...bills.find(b=>b.id===editId),...obj};
-else bills.push({id:Date.now().toString(),...obj});
-}
-persist();closeModal();render();
-if(currentPage==='dashboard')showPage('dashboard');
-}
-
-function deletePatient(id){
-if(!confirm('Delete this patient?'))return;
-patients=patients.filter(p=>p.id!==id);
-appointments=appointments.filter(a=>a.patient!==id);
-bills=bills.filter(b=>b.patient!==id);
-persist();render();
-}
-
-function deleteDoctor(id){
-if(!confirm('Delete this doctor?'))return;
-doctors=doctors.filter(d=>d.id!==id);
-appointments=appointments.filter(a=>a.doctor!==id);
-persist();render();
-}
-
-function deleteAppointment(id){
-if(!confirm('Delete this appointment?'))return;
-appointments=appointments.filter(a=>a.id!==id);persist();render();
-}
-
-function deleteBill(id){
-if(!confirm('Delete this bill?'))return;
-bills=bills.filter(b=>b.id!==id);persist();render();
-}
-
-if(localStorage.getItem('hms_demo_logged_in')){
-document.getElementById('loginPage').style.display='none';
-document.getElementById('layout').style.display='flex';
-showPage('dashboard');
-}
+renderAll();
+};
 </script>
+
 </body>
 </html>
