@@ -1,0 +1,699 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Management System</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f6f8;color:#243447}
+header{background:#087f8c;color:white;padding:18px}
+header h1{margin:0;font-size:23px}
+nav{display:flex;flex-wrap:wrap;background:#075e68}
+nav button{background:none;border:0;color:white;padding:14px 17px;cursor:pointer}
+nav button:hover{background:#087f8c}
+main{padding:18px;max-width:1100px;margin:auto}
+.panel{background:white;padding:18px;border-radius:12px;margin-bottom:18px;box-shadow:0 2px 8px #0001}
+input,select{padding:10px;margin:5px 0;width:100%;border:1px solid #ccd5dd;border-radius:6px}
+button.action{background:#087f8c;color:white;border:0;padding:9px 14px;border-radius:6px;cursor:pointer;margin:3px}
+button.edit{background:#e6a23c;color:white;border:0;padding:9px 14px;border-radius:6px;cursor:pointer;margin:3px}
+button.delete{background:#d9534f;color:white;border:0;padding:9px 14px;border-radius:6px;cursor:pointer;margin:3px}
+button.open{background:#5279c7;color:white;border:0;padding:9px 14px;border-radius:6px;cursor:pointer;margin:3px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #e1e5e8;padding:10px;text-align:left}
+th{background:#eaf4f5}
+.table-wrap{overflow-x:auto}
+.hidden{display:none!important}
+h2{color:#087f8c}
+
+#loginScreen{
+min-height:100vh;display:flex;align-items:center;justify-content:center;
+padding:20px;background:linear-gradient(135deg,#075e68,#0c9ba7)
+}
+.loginCard{
+background:white;width:100%;max-width:400px;padding:28px;
+border-radius:18px;box-shadow:0 10px 30px #0003
+}
+.loginCard h1{text-align:center;color:#087f8c}
+.loginCard p{text-align:center;color:#667}
+.loginCard button{width:100%;padding:12px;margin-top:10px;border:0;border-radius:8px;background:#087f8c;color:white;cursor:pointer}
+.loginCard .secondary{background:#eaf4f5;color:#087f8c}
+#loginMessage{text-align:center;color:#d9534f}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<section id="loginScreen">
+<div class="loginCard">
+<h1>🏥 HMS</h1>
+<p>Hospital Management System</p>
+
+<div id="loginForm">
+<h3>Login</h3>
+<input id="loginUsername" placeholder="Username" autocomplete="username">
+<input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password">
+<label><input type="checkbox" onchange="togglePassword('loginPassword')"> Show password</label>
+<button onclick="login()">Login</button>
+<button class="secondary" onclick="showRegister()">Sign Up / Create Account</button>
+</div>
+
+<div id="registerForm" class="hidden">
+<h3>Create Account</h3>
+<input id="regUsername" placeholder="Create username" autocomplete="username">
+<input id="regPassword" type="password" placeholder="Create password" autocomplete="new-password">
+<input id="regConfirm" type="password" placeholder="Confirm password" autocomplete="new-password">
+<label><input type="checkbox" onchange="toggleRegPasswords()"> Show password</label>
+<button onclick="register()">Sign Up</button>
+<button class="secondary" onclick="showLogin()">Back to Login</button>
+</div>
+
+<p id="loginMessage"></p>
+</div>
+</section>
+
+<!-- MAIN SYSTEM -->
+<div id="system" class="hidden">
+
+<header>
+<h1>Hospital Management System</h1>
+</header>
+
+<nav>
+<button onclick="showSection('dashboard')">Dashboard</button>
+<button onclick="showSection('patients')">Patients</button>
+<button onclick="showSection('doctors')">Doctors</button>
+<button onclick="showSection('appointments')">Appointments</button>
+<button onclick="showSection('billing')">Billing</button>
+<button onclick="logout()">Logout</button>
+</nav>
+
+<main>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+<h2>Dashboard</h2>
+<div class="panel">
+<input id="dashboardSearch" placeholder="Search patient..." oninput="searchDashboard()">
+<div id="dashboardResults"></div>
+</div>
+
+<div class="panel hidden" id="patientDetails">
+<h3>Patient Details</h3>
+<div id="detailsContent"></div>
+<button class="edit" onclick="editOpenedPatient()">Edit</button>
+</div>
+</section>
+
+<!-- PATIENTS -->
+<section id="patients" class="hidden">
+<h2>Patients</h2>
+<div class="panel">
+<h3>Add / Edit Patient</h3>
+<input id="pName" placeholder="Patient Name">
+<input id="pAge" placeholder="Age" type="number">
+<input id="pGender" placeholder="Gender">
+<input id="pContact" placeholder="Contact Number">
+<input id="pAddress" placeholder="Address">
+<button class="action" onclick="savePatient()">Save Patient</button>
+<button class="action" onclick="clearPatientForm()">Clear</button>
+</div>
+
+<div class="panel table-wrap">
+<table>
+<thead><tr><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Actions</th></tr></thead>
+<tbody id="patientsTable"></tbody>
+</table>
+</div>
+</section>
+
+<!-- DOCTORS -->
+<section id="doctors" class="hidden">
+<h2>Doctors</h2>
+<div class="panel">
+<h3>Add / Edit Doctor</h3>
+<input id="dName" placeholder="Doctor Name">
+<input id="dSpec" placeholder="Specialization">
+<input id="dContact" placeholder="Contact Number">
+<button class="action" onclick="saveDoctor()">Save Doctor</button>
+<button class="action" onclick="clearDoctorForm()">Clear</button>
+</div>
+
+<div class="panel table-wrap">
+<table>
+<thead><tr><th>Name</th><th>Specialization</th><th>Contact</th><th>Actions</th></tr></thead>
+<tbody id="doctorsTable"></tbody>
+</table>
+</div>
+</section>
+
+<!-- APPOINTMENTS -->
+<section id="appointments" class="hidden">
+<h2>Appointments</h2>
+<div class="panel">
+<h3>Add / Edit Appointment</h3>
+<select id="aPatient"></select>
+<select id="aDoctor"></select>
+<input id="aDate" type="date">
+<input id="aTime" type="time">
+<select id="aStatus">
+<option>Scheduled</option>
+<option>Completed</option>
+<option>Cancelled</option>
+</select>
+<button class="action" onclick="saveAppointment()">Save Appointment</button>
+<button class="action" onclick="clearAppointmentForm()">Clear</button>
+</div>
+
+<div class="panel table-wrap">
+<table>
+<thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody id="appointmentsTable"></tbody>
+</table>
+</div>
+</section>
+
+<!-- BILLING -->
+<section id="billing" class="hidden">
+<h2>Billing</h2>
+<div class="panel">
+<h3>Add / Edit Billing</h3>
+<select id="bPatient"></select>
+<input id="bAmount" type="number" placeholder="Amount">
+<select id="bStatus">
+<option>Unpaid</option>
+<option>Paid</option>
+<option>Pending</option>
+</select>
+<button class="action" onclick="saveBilling()">Save Billing</button>
+<button class="action" onclick="clearBillingForm()">Clear</button>
+</div>
+
+<div class="panel table-wrap">
+<table>
+<thead><tr><th>Patient</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody id="billingTable"></tbody>
+</table>
+</div>
+</section>
+
+</main>
+</div>
+
+<script>
+
+/* ACCOUNT SYSTEM */
+
+function getAccounts(){
+return JSON.parse(localStorage.getItem('hms_demo_accounts')||'[]');
+}
+
+function showRegister(){
+document.getElementById('loginForm').classList.add('hidden');
+document.getElementById('registerForm').classList.remove('hidden');
+document.getElementById('loginMessage').textContent='';
+}
+
+function showLogin(){
+document.getElementById('registerForm').classList.add('hidden');
+document.getElementById('loginForm').classList.remove('hidden');
+document.getElementById('loginMessage').textContent='';
+document.getElementById('loginMessage').style.color='#d9534f';
+}
+
+function togglePassword(id){
+let el=document.getElementById(id);
+el.type=el.type==='password'?'text':'password';
+}
+
+function toggleRegPasswords(){
+togglePassword('regPassword');
+togglePassword('regConfirm');
+}
+
+function register(){
+let username=document.getElementById('regUsername').value.trim();
+let password=document.getElementById('regPassword').value;
+let confirmPassword=document.getElementById('regConfirm').value;
+let message=document.getElementById('loginMessage');
+
+if(!username||!password||!confirmPassword){
+message.style.color='#d9534f';
+message.textContent='Please fill in all fields.';
+return;
+}
+
+if(password.length<6){
+message.style.color='#d9534f';
+message.textContent='Password must be at least 6 characters.';
+return;
+}
+
+if(password!==confirmPassword){
+message.style.color='#d9534f';
+message.textContent='Passwords do not match.';
+return;
+}
+
+let accounts=getAccounts();
+
+if(accounts.some(a=>a.username.toLowerCase()===username.toLowerCase())){
+message.style.color='#d9534f';
+message.textContent='Username already exists.';
+return;
+}
+
+accounts.push({username,password});
+localStorage.setItem('hms_demo_accounts',JSON.stringify(accounts));
+
+message.style.color='green';
+message.textContent='Account created successfully!';
+
+document.getElementById('regUsername').value='';
+document.getElementById('regPassword').value='';
+document.getElementById('regConfirm').value='';
+
+setTimeout(showLogin,1000);
+}
+
+function login(){
+let username=document.getElementById('loginUsername').value.trim();
+let password=document.getElementById('loginPassword').value;
+let message=document.getElementById('loginMessage');
+
+let accounts=getAccounts();
+let found=accounts.find(a=>a.username===username&&a.password===password);
+
+if(!found){
+message.style.color='#d9534f';
+message.textContent='Incorrect username or password.';
+return;
+}
+
+localStorage.setItem('hms_demo_logged_in',username);
+enterSystem();
+}
+
+function enterSystem(){
+document.getElementById('loginScreen').classList.add('hidden');
+document.getElementById('system').classList.remove('hidden');
+showSection('dashboard');
+}
+
+function logout(){
+localStorage.removeItem('hms_demo_logged_in');
+document.getElementById('system').classList.add('hidden');
+document.getElementById('loginScreen').classList.remove('hidden');
+document.getElementById('loginUsername').value='';
+document.getElementById('loginPassword').value='';
+showLogin();
+}
+
+/* HMS DATA */
+
+let patients=JSON.parse(localStorage.getItem('hms_demo_patients')||'[]');
+let doctors=JSON.parse(localStorage.getItem('hms_demo_doctors')||'[]');
+let appointments=JSON.parse(localStorage.getItem('hms_demo_appointments')||'[]');
+let billing=JSON.parse(localStorage.getItem('hms_demo_billing')||'[]');
+
+let editingPatient=null;
+let editingDoctor=null;
+let editingAppointment=null;
+let editingBilling=null;
+let openedPatient=null;
+
+function persist(){
+localStorage.setItem('hms_demo_patients',JSON.stringify(patients));
+localStorage.setItem('hms_demo_doctors',JSON.stringify(doctors));
+localStorage.setItem('hms_demo_appointments',JSON.stringify(appointments));
+localStorage.setItem('hms_demo_billing',JSON.stringify(billing));
+}
+
+function showSection(id){
+document.querySelectorAll('#system main section').forEach(s=>s.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+renderAll();
+}
+
+function esc(str){
+return String(str??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function patientName(id){
+return patients.find(p=>p.id===id)?.name||'Unknown';
+}
+
+function doctorName(id){
+return doctors.find(d=>d.id===id)?.name||'Unknown';
+}
+
+function renderAll(){
+renderPatients();
+renderDoctors();
+renderAppointments();
+renderBilling();
+renderDropdowns();
+searchDashboard();
+if(openedPatient)displayPatientDetails(openedPatient);
+}
+
+function renderPatients(){
+document.getElementById('patientsTable').innerHTML=patients.map(p=>`
+<tr>
+<td>${esc(p.name)}</td>
+<td>${esc(p.age)}</td>
+<td>${esc(p.gender)}</td>
+<td>${esc(p.contact)}</td>
+<td>
+<button class="edit" onclick="editPatient('${p.id}')">Edit</button>
+<button class="delete" onclick="deletePatient('${p.id}')">Delete</button>
+</td>
+</tr>`).join('');
+}
+
+function renderDoctors(){
+document.getElementById('doctorsTable').innerHTML=doctors.map(d=>`
+<tr>
+<td>${esc(d.name)}</td>
+<td>${esc(d.specialization)}</td>
+<td>${esc(d.contact)}</td>
+<td>
+<button class="edit" onclick="editDoctor('${d.id}')">Edit</button>
+<button class="delete" onclick="deleteDoctor('${d.id}')">Delete</button>
+</td>
+</tr>`).join('');
+}
+
+function renderAppointments(){
+document.getElementById('appointmentsTable').innerHTML=appointments.map(a=>`
+<tr>
+<td>${esc(patientName(a.patientId))}</td>
+<td>${esc(doctorName(a.doctorId))}</td>
+<td>${esc(a.date)}</td>
+<td>${esc(a.time)}</td>
+<td>${esc(a.status)}</td>
+<td>
+<button class="edit" onclick="editAppointment('${a.id}')">Edit</button>
+<button class="delete" onclick="deleteAppointment('${a.id}')">Delete</button>
+</td>
+</tr>`).join('');
+}
+
+function renderBilling(){
+document.getElementById('billingTable').innerHTML=billing.map(b=>`
+<tr>
+<td>${esc(patientName(b.patientId))}</td>
+<td>${esc(b.amount)}</td>
+<td>${esc(b.status)}</td>
+<td>
+<button class="edit" onclick="editBilling('${b.id}')">Edit</button>
+<button class="delete" onclick="deleteBilling('${b.id}')">Delete</button>
+</td>
+</tr>`).join('');
+}
+
+function renderDropdowns(){
+let patientOptions='<option value="">Select Patient</option>'+
+patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+
+let doctorOptions='<option value="">Select Doctor</option>'+
+doctors.map(d=>`<option value="${d.id}">${esc(d.name)} - ${esc(d.specialization)}</option>`).join('');
+
+document.getElementById('aPatient').innerHTML=patientOptions;
+document.getElementById('bPatient').innerHTML=patientOptions;
+document.getElementById('aDoctor').innerHTML=doctorOptions;
+}
+
+function searchDashboard(){
+let el=document.getElementById('dashboardSearch');
+if(!el)return;
+let q=el.value.toLowerCase();
+let results=patients.filter(p=>p.name.toLowerCase().includes(q));
+
+document.getElementById('dashboardResults').innerHTML=results.map(p=>`
+<div class="panel">
+<strong>${esc(p.name)}</strong>
+<button class="open" onclick="openPatient('${p.id}')">Open</button>
+</div>`).join('');
+}
+
+function openPatient(id){
+openedPatient=id;
+document.getElementById('patientDetails').classList.remove('hidden');
+displayPatientDetails(id);
+}
+
+function displayPatientDetails(id){
+let p=patients.find(x=>x.id===id);
+if(!p)return;
+
+let aps=appointments.filter(a=>a.patientId===id);
+let bs=billing.filter(b=>b.patientId===id);
+
+document.getElementById('detailsContent').innerHTML=`
+<p><strong>Name:</strong> ${esc(p.name)}</p>
+<p><strong>Age:</strong> ${esc(p.age)}</p>
+<p><strong>Gender:</strong> ${esc(p.gender)}</p>
+<p><strong>Contact:</strong> ${esc(p.contact)}</p>
+<p><strong>Address:</strong> ${esc(p.address)}</p>
+
+<h4>Appointments</h4>
+${aps.length?`
+<table>
+<tr><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr>
+${aps.map(a=>`
+<tr>
+<td>${esc(doctorName(a.doctorId))}</td>
+<td>${esc(a.date)}</td>
+<td>${esc(a.time)}</td>
+<td>${esc(a.status)}</td>
+</tr>`).join('')}
+</table>`:'<p>No appointments found.</p>'}
+
+<h4>Billing</h4>
+${bs.length?`
+<table>
+<tr><th>Amount</th><th>Status</th></tr>
+${bs.map(b=>`
+<tr>
+<td>${esc(b.amount)}</td>
+<td>${esc(b.status)}</td>
+</tr>`).join('')}
+</table>`:'<p>No billing records found.</p>'}
+`;
+}
+
+function editOpenedPatient(){
+if(openedPatient)editPatient(openedPatient);
+}
+
+function savePatient(){
+let name=document.getElementById('pName').value.trim();
+if(!name){alert('Enter patient name.');return;}
+
+let data={
+name,
+age:document.getElementById('pAge').value,
+gender:document.getElementById('pGender').value,
+contact:document.getElementById('pContact').value,
+address:document.getElementById('pAddress').value
+};
+
+if(editingPatient){
+Object.assign(patients.find(p=>p.id===editingPatient),data);
+editingPatient=null;
+}else{
+patients.push({id:Date.now().toString(),...data});
+}
+
+persist();
+clearPatientForm();
+renderAll();
+showSection('doctors');
+}
+
+function editPatient(id){
+let p=patients.find(x=>x.id===id);
+if(!p)return;
+editingPatient=id;
+document.getElementById('pName').value=p.name;
+document.getElementById('pAge').value=p.age;
+document.getElementById('pGender').value=p.gender;
+document.getElementById('pContact').value=p.contact;
+document.getElementById('pAddress').value=p.address;
+showSection('patients');
+}
+
+function clearPatientForm(){
+editingPatient=null;
+['pName','pAge','pGender','pContact','pAddress'].forEach(id=>document.getElementById(id).value='');
+}
+
+function deletePatient(id){
+if(confirm('Delete this patient?')){
+patients=patients.filter(p=>p.id!==id);
+appointments=appointments.filter(a=>a.patientId!==id);
+billing=billing.filter(b=>b.patientId!==id);
+persist();
+renderAll();
+}
+}
+
+function saveDoctor(){
+let name=document.getElementById('dName').value.trim();
+if(!name){alert('Enter doctor name.');return;}
+
+let data={
+name,
+specialization:document.getElementById('dSpec').value,
+contact:document.getElementById('dContact').value
+};
+
+if(editingDoctor){
+Object.assign(doctors.find(d=>d.id===editingDoctor),data);
+editingDoctor=null;
+}else{
+doctors.push({id:Date.now().toString(),...data});
+}
+
+persist();
+clearDoctorForm();
+renderAll();
+showSection('appointments');
+}
+
+function editDoctor(id){
+let d=doctors.find(x=>x.id===id);
+if(!d)return;
+editingDoctor=id;
+document.getElementById('dName').value=d.name;
+document.getElementById('dSpec').value=d.specialization;
+document.getElementById('dContact').value=d.contact;
+showSection('doctors');
+}
+
+function clearDoctorForm(){
+editingDoctor=null;
+['dName','dSpec','dContact'].forEach(id=>document.getElementById(id).value='');
+}
+
+function deleteDoctor(id){
+if(confirm('Delete this doctor?')){
+doctors=doctors.filter(d=>d.id!==id);
+persist();
+renderAll();
+}
+}
+
+function saveAppointment(){
+let patientId=document.getElementById('aPatient').value;
+let doctorId=document.getElementById('aDoctor').value;
+if(!patientId||!doctorId){alert('Select a patient and doctor.');return;}
+
+let data={
+patientId,doctorId,
+date:document.getElementById('aDate').value,
+time:document.getElementById('aTime').value,
+status:document.getElementById('aStatus').value
+};
+
+if(editingAppointment){
+Object.assign(appointments.find(a=>a.id===editingAppointment),data);
+editingAppointment=null;
+}else{
+appointments.push({id:Date.now().toString(),...data});
+}
+
+persist();
+clearAppointmentForm();
+renderAll();
+showSection('billing');
+}
+
+function editAppointment(id){
+let a=appointments.find(x=>x.id===id);
+if(!a)return;
+editingAppointment=id;
+renderDropdowns();
+document.getElementById('aPatient').value=a.patientId;
+document.getElementById('aDoctor').value=a.doctorId;
+document.getElementById('aDate').value=a.date;
+document.getElementById('aTime').value=a.time;
+document.getElementById('aStatus').value=a.status;
+showSection('appointments');
+}
+
+function clearAppointmentForm(){
+editingAppointment=null;
+['aPatient','aDoctor','aDate','aTime'].forEach(id=>document.getElementById(id).value='');
+document.getElementById('aStatus').value='Scheduled';
+}
+
+function deleteAppointment(id){
+if(confirm('Delete this appointment?')){
+appointments=appointments.filter(a=>a.id!==id);
+persist();
+renderAll();
+}
+}
+
+function saveBilling(){
+let patientId=document.getElementById('bPatient').value;
+if(!patientId){alert('Select a patient.');return;}
+
+let data={
+patientId,
+amount:document.getElementById('bAmount').value,
+status:document.getElementById('bStatus').value
+};
+
+if(editingBilling){
+Object.assign(billing.find(b=>b.id===editingBilling),data);
+editingBilling=null;
+}else{
+billing.push({id:Date.now().toString(),...data});
+}
+
+persist();
+clearBillingForm();
+renderAll();
+showSection('dashboard');
+}
+
+function editBilling(id){
+let b=billing.find(x=>x.id===id);
+if(!b)return;
+editingBilling=id;
+renderDropdowns();
+document.getElementById('bPatient').value=b.patientId;
+document.getElementById('bAmount').value=b.amount;
+document.getElementById('bStatus').value=b.status;
+showSection('billing');
+}
+
+function clearBillingForm(){
+editingBilling=null;
+['bPatient','bAmount'].forEach(id=>document.getElementById(id).value='');
+document.getElementById('bStatus').value='Unpaid';
+}
+
+function deleteBilling(id){
+if(confirm('Delete this billing record?')){
+billing=billing.filter(b=>b.id!==id);
+persist();
+renderAll();
+}
+}
+
+/* START */
+renderAll();
+
+if(localStorage.getItem('hms_demo_logged_in')){
+enterSystem();
+}
+
+</script>
+</body>
+</html>
+ 
