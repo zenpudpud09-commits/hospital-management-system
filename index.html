@@ -7,297 +7,95 @@
 <title>Hospital Management System</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#f8f5f7;
-    color:#333;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f8f5f7;color:#333}
+button{cursor:pointer;border:none;border-radius:8px;padding:11px 16px;background:#d65b91;color:white}
+button:hover{background:#c44a80}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px;outline:none}
+input:focus,select:focus{border-color:#d65b91}
 
 .login-screen{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+    min-height:100vh;display:flex;align-items:center;
+    justify-content:center;padding:20px
 }
-
 .login-box{
-    width:100%;
-    max-width:400px;
-    background:white;
-    padding:35px;
-    border-radius:15px;
-    box-shadow:0 5px 25px rgba(0,0,0,.08);
+    width:100%;max-width:400px;background:white;padding:35px;
+    border-radius:15px;box-shadow:0 5px 25px rgba(0,0,0,.08)
 }
+.login-box h1{color:#d65b91;margin-bottom:10px}
+.login-box p{color:#888;margin-bottom:25px}
+.login-btn{width:100%;margin-top:15px}
 
-.login-box h1{
-    color:#d65b91;
-    margin-bottom:10px;
-}
-
-.login-box p{
-    color:#777;
-    margin-bottom:25px;
-}
-
-input,select,textarea{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border:1px solid #ddd;
-    border-radius:8px;
-    outline:none;
-}
-
-input:focus,select:focus,textarea:focus{
-    border-color:#df78a7;
-}
-
-button{
-    border:none;
-    padding:11px 16px;
-    border-radius:8px;
-    cursor:pointer;
-    background:#d65b91;
-    color:white;
-}
-
-button:hover{
-    background:#c44a80;
-}
-
-.login-btn{
-    width:100%;
-    margin-top:15px;
-}
-
-.app{
-    display:none;
-    min-height:100vh;
-}
-
+.app{display:none;min-height:100vh}
 .sidebar{
-    width:240px;
-    background:white;
-    padding:25px 18px;
-    position:fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    box-shadow:2px 0 10px rgba(0,0,0,.05);
+    width:240px;background:white;padding:25px 18px;
+    position:fixed;top:0;left:0;bottom:0;
+    box-shadow:2px 0 10px rgba(0,0,0,.05)
 }
-
-.sidebar h2{
-    color:#d65b91;
-    margin-bottom:30px;
-    font-size:22px;
-}
-
+.sidebar h2{color:#d65b91;margin-bottom:30px;font-size:22px}
 .nav-btn{
-    display:block;
-    width:100%;
-    background:transparent;
-    color:#555;
-    text-align:left;
-    margin:8px 0;
-    padding:14px;
+    display:block;width:100%;background:transparent;color:#555;
+    text-align:left;margin:8px 0;padding:14px
 }
-
-.nav-btn:hover,.nav-btn.active{
-    background:#fce5ef;
-    color:#c44a80;
-}
-
+.nav-btn:hover,.nav-btn.active{background:#fce5ef;color:#c44a80}
 .logout-btn{
-    position:absolute;
-    bottom:25px;
-    left:18px;
-    width:calc(100% - 36px);
-    background:#f4f4f4;
-    color:#333;
+    position:absolute;bottom:25px;left:18px;
+    width:calc(100% - 36px);background:#f4f4f4;color:#333
 }
 
-.main{
-    margin-left:240px;
-    padding:30px;
-}
-
+.main{margin-left:240px;padding:30px}
 .header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
-    margin-bottom:25px;
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:15px;margin-bottom:25px
 }
-
-.header h1{
-    color:#333;
-}
-
-.header p{
-    color:#888;
-    margin-top:5px;
-}
-
+.header p{color:#888;margin-top:5px}
 .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-    gap:20px;
-    margin-bottom:30px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:20px;margin-bottom:30px
 }
-
 .card{
-    background:white;
-    padding:25px;
-    border-radius:14px;
-    box-shadow:0 3px 12px rgba(0,0,0,.04);
+    background:white;padding:25px;border-radius:14px;
+    box-shadow:0 3px 12px rgba(0,0,0,.04)
 }
-
-.card h3{
-    color:#888;
-    font-size:14px;
-    margin-bottom:15px;
-}
-
-.card h2{
-    color:#d65b91;
-    font-size:30px;
-}
-
+.card h3{color:#888;font-size:14px;margin-bottom:15px}
+.card h2{color:#d65b91;font-size:30px}
 .content{
-    background:white;
-    border-radius:14px;
-    padding:25px;
-    box-shadow:0 3px 12px rgba(0,0,0,.04);
+    background:white;border-radius:14px;padding:25px;
+    box-shadow:0 3px 12px rgba(0,0,0,.04)
 }
-
 .content-top{
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:15px;
-    margin-bottom:20px;
+    display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:15px;margin-bottom:20px
 }
-
-.content-top input{
-    max-width:300px;
-    margin:0;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:600px;
-}
-
-th,td{
-    padding:15px;
-    border-bottom:1px solid #eee;
-    text-align:left;
-}
-
-th{
-    color:#d65b91;
-    background:#fff6fa;
-}
-
-.table-wrap{
-    overflow-x:auto;
-}
-
-.empty{
-    text-align:center;
-    padding:30px;
-    color:#888;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
+.content-top input{max-width:300px;margin:0}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{padding:15px;border-bottom:1px solid #eee;text-align:left}
+th{color:#d65b91;background:#fff6fa}
+.table-wrap{overflow-x:auto}
+.empty{text-align:center;padding:30px;color:#888}
+.page{display:none}
+.page.active{display:block}
 
 .modal{
-    position:fixed;
-    inset:0;
-    background:rgba(30,30,30,.65);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    z-index:1000;
+    position:fixed;inset:0;background:rgba(30,30,30,.65);
+    display:none;justify-content:center;align-items:center;
+    padding:20px;z-index:1000
 }
-
 .modal-box{
-    background:white;
-    width:100%;
-    max-width:500px;
-    max-height:90vh;
-    overflow-y:auto;
-    padding:30px;
-    border-radius:15px;
+    background:white;width:100%;max-width:500px;
+    max-height:90vh;overflow-y:auto;padding:30px;border-radius:15px
 }
-
-.modal-box h2{
-    margin-bottom:8px;
-}
-
-.modal-box p{
-    color:#888;
-    margin-bottom:20px;
-}
-
-.modal-box label{
-    display:block;
-    font-size:14px;
-    margin-top:12px;
-    color:#444;
-}
-
-.modal-box input,.modal-box select,.modal-box textarea{
-    margin-top:6px;
-}
-
-.form-buttons{
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top:20px;
-}
-
-.cancel-btn{
-    background:#eee;
-    color:#333;
-}
+.modal-box h2{margin-bottom:8px}
+.modal-box p{color:#888;margin-bottom:20px}
+.modal-box label{display:block;font-size:14px;margin-top:12px;color:#444}
+.modal-box input,.modal-box select{margin-top:6px}
+.form-buttons{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.cancel-btn{background:#eee;color:#333}
 
 @media(max-width:850px){
-    .sidebar{
-        width:100%;
-        position:relative;
-        bottom:auto;
-    }
-
-    .logout-btn{
-        position:relative;
-        bottom:auto;
-        left:auto;
-        width:100%;
-        margin-top:20px;
-    }
-
-    .main{
-        margin-left:0;
-        padding:20px;
-    }
+    .sidebar{width:100%;position:relative;bottom:auto}
+    .logout-btn{position:relative;bottom:auto;left:auto;width:100%;margin-top:20px}
+    .main{margin-left:0;padding:20px}
 }
 </style>
 </head>
@@ -335,6 +133,7 @@ th{
 
     <main class="main">
 
+        <!-- DASHBOARD -->
         <section class="page active" id="dashboard">
             <div class="header">
                 <div>
@@ -366,6 +165,7 @@ th{
             </div>
         </section>
 
+        <!-- PATIENTS -->
         <section class="page" id="patients">
             <div class="header">
                 <div>
@@ -397,6 +197,7 @@ th{
             </div>
         </section>
 
+        <!-- DOCTORS -->
         <section class="page" id="doctors">
             <div class="header">
                 <div>
@@ -419,6 +220,7 @@ th{
                                 <th>Specialization</th>
                                 <th>Contact No.</th>
                                 <th>Schedule</th>
+                                <th>Availability</th>
                             </tr>
                         </thead>
                         <tbody id="doctorTable"></tbody>
@@ -427,6 +229,7 @@ th{
             </div>
         </section>
 
+        <!-- APPOINTMENTS -->
         <section class="page" id="appointments">
             <div class="header">
                 <div>
@@ -458,6 +261,7 @@ th{
             </div>
         </section>
 
+        <!-- BILLING -->
         <section class="page" id="billing">
             <div class="header">
                 <div>
@@ -491,6 +295,7 @@ th{
     </main>
 </div>
 
+<!-- FORM MODAL -->
 <div class="modal" id="recordModal">
     <div class="modal-box">
         <h2 id="formTitle">Add Record</h2>
@@ -508,18 +313,21 @@ th{
 </div>
 
 <script>
-let currentType = "";
 
-let patients = JSON.parse(localStorage.getItem("patients") || "[]");
-let doctors = JSON.parse(localStorage.getItem("doctors") || "[]");
-let appointments = JSON.parse(localStorage.getItem("appointments") || "[]");
-let billing = JSON.parse(localStorage.getItem("billing") || "[]");
+// DATA STORAGE
+let currentType="";
 
+let patients=JSON.parse(localStorage.getItem("patients")||"[]");
+let doctors=JSON.parse(localStorage.getItem("doctors")||"[]");
+let appointments=JSON.parse(localStorage.getItem("appointments")||"[]");
+let billing=JSON.parse(localStorage.getItem("billing")||"[]");
+
+// LOGIN
 function login(){
-    const user = document.getElementById("username").value.trim();
-    const pass = document.getElementById("password").value.trim();
+    const user=document.getElementById("username").value.trim();
+    const pass=document.getElementById("password").value.trim();
 
-    if(!user || !pass){
+    if(!user||!pass){
         alert("Please enter your username and password.");
         return;
     }
@@ -536,6 +344,7 @@ function logout(){
     document.getElementById("loginScreen").style.display="flex";
 }
 
+// NAVIGATION
 function showPage(page,button){
     document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
     document.getElementById(page).classList.add("active");
@@ -544,7 +353,8 @@ function showPage(page,button){
     button.classList.add("active");
 }
 
-const fields = {
+// FORM FIELDS
+const fields={
     patients:[
         {name:"Full Name",type:"text"},
         {name:"Age",type:"number"},
@@ -552,12 +362,57 @@ const fields = {
         {name:"Contact No.",type:"tel"},
         {name:"Address",type:"text"}
     ],
+
     doctors:[
         {name:"Full Name",type:"text"},
-        {name:"Specialization",type:"text"},
+
+        {
+            name:"Specialization",
+            type:"select",
+            options:[
+                "Cardiology",
+                "Dermatology",
+                "Neurology",
+                "Pediatrics",
+                "Psychiatry",
+                "General Medicine",
+                "Internal Medicine",
+                "Obstetrics and Gynecology",
+                "Orthopedics",
+                "Ophthalmology",
+                "Surgery",
+                "Radiology",
+                "Anesthesiology",
+                "Dentistry",
+                "ENT (Ear, Nose and Throat)"
+            ]
+        },
+
         {name:"Contact No.",type:"tel"},
-        {name:"Schedule",type:"text"}
+
+        {
+            name:"Schedule",
+            type:"select",
+            options:[
+                "Monday - 8:00 AM to 5:00 PM",
+                "Tuesday - 8:00 AM to 5:00 PM",
+                "Wednesday - 8:00 AM to 5:00 PM",
+                "Thursday - 8:00 AM to 5:00 PM",
+                "Friday - 8:00 AM to 5:00 PM",
+                "Saturday - 8:00 AM to 12:00 PM",
+                "Monday to Friday - 8:00 AM to 5:00 PM",
+                "Monday to Saturday - 8:00 AM to 5:00 PM",
+                "On Call"
+            ]
+        },
+
+        {
+            name:"Availability",
+            type:"select",
+            options:["Available","Not Available"]
+        }
     ],
+
     appointments:[
         {name:"Patient Name",type:"select",source:"patients"},
         {name:"Doctor Name",type:"select",source:"doctors"},
@@ -565,6 +420,7 @@ const fields = {
         {name:"Time",type:"time"},
         {name:"Status",type:"select",options:["Scheduled","Completed","Cancelled"]}
     ],
+
     billing:[
         {name:"Patient Name",type:"select",source:"patients"},
         {name:"Amount",type:"number"},
@@ -573,6 +429,7 @@ const fields = {
     ]
 };
 
+// ADD RECORD
 function addRecord(type){
     currentType=type;
 
@@ -582,27 +439,29 @@ function addRecord(type){
         html+=`<label>${field.name}</label>`;
 
         if(field.source){
-            let sourceData=window[field.source] || [];
+            let sourceData=window[field.source]||[];
 
             html+=`<select name="${field.name}" required>
                 <option value="">Select ${field.name}</option>`;
 
             sourceData.forEach(item=>{
-                html+=`<option value="${item["Full Name"]}">${item["Full Name"]}</option>`;
+                html+=`<option value="${escapeHTML(item["Full Name"])}">${escapeHTML(item["Full Name"])}</option>`;
             });
 
             html+="</select>";
         }
+
         else if(field.type==="select"){
             html+=`<select name="${field.name}" required>
                 <option value="">Select ${field.name}</option>`;
 
             field.options.forEach(option=>{
-                html+=`<option value="${option}">${option}</option>`;
+                html+=`<option value="${escapeHTML(option)}">${escapeHTML(option)}</option>`;
             });
 
             html+="</select>";
         }
+
         else{
             html+=`<input type="${field.type}" name="${field.name}" required>`;
         }
@@ -610,17 +469,25 @@ function addRecord(type){
 
     document.getElementById("formFields").innerHTML=html;
 
-    document.getElementById("formTitle").textContent=
-        "Add "+type.charAt(0).toUpperCase()+type.slice(1, -1);
+    let title={
+        patients:"Add Patient",
+        doctors:"Add Doctor",
+        appointments:"Add Appointment",
+        billing:"Add Billing"
+    };
+
+    document.getElementById("formTitle").textContent=title[type];
 
     document.getElementById("recordModal").style.display="flex";
 }
 
+// CLOSE FORM
 function closeModal(){
     document.getElementById("recordModal").style.display="none";
     document.getElementById("recordForm").reset();
 }
 
+// SAVE RECORD
 function saveNewRecord(event){
     event.preventDefault();
 
@@ -639,6 +506,20 @@ function saveNewRecord(event){
     renderTables();
 }
 
+// SAFE TEXT
+function escapeHTML(value){
+    return String(value).replace(/[&<>"']/g,function(c){
+        return {
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#39;"
+        }[c];
+    });
+}
+
+// TABLE RENDERING
 function makeRows(data,search,keys){
     const filtered=data.filter(item=>
         keys.some(key=>
@@ -657,34 +538,36 @@ function makeRows(data,search,keys){
     `).join("");
 }
 
-function escapeHTML(value){
-    return String(value).replace(/[&<>"']/g,function(c){
-        return {
-            "&":"&amp;",
-            "<":"&lt;",
-            ">":"&gt;",
-            '"':"&quot;",
-            "'":"&#39;"
-        }[c];
-    });
-}
-
+// UPDATE TABLES AND DASHBOARD
 function renderTables(){
+
     document.getElementById("patientTable").innerHTML=
-        makeRows(patients,document.getElementById("patientSearch")?.value||"",
-        ["Full Name","Age","Gender","Contact No.","Address"]);
+        makeRows(
+            patients,
+            document.getElementById("patientSearch")?.value||"",
+            ["Full Name","Age","Gender","Contact No.","Address"]
+        );
 
     document.getElementById("doctorTable").innerHTML=
-        makeRows(doctors,document.getElementById("doctorSearch")?.value||"",
-        ["Full Name","Specialization","Contact No.","Schedule"]);
+        makeRows(
+            doctors,
+            document.getElementById("doctorSearch")?.value||"",
+            ["Full Name","Specialization","Contact No.","Schedule","Availability"]
+        );
 
     document.getElementById("appointmentTable").innerHTML=
-        makeRows(appointments,document.getElementById("appointmentSearch")?.value||"",
-        ["Patient Name","Doctor Name","Date","Time","Status"]);
+        makeRows(
+            appointments,
+            document.getElementById("appointmentSearch")?.value||"",
+            ["Patient Name","Doctor Name","Date","Time","Status"]
+        );
 
     document.getElementById("billingTable").innerHTML=
-        makeRows(billing,document.getElementById("billingSearch")?.value||"",
-        ["Patient Name","Amount","Date","Status"]);
+        makeRows(
+            billing,
+            document.getElementById("billingSearch")?.value||"",
+            ["Patient Name","Amount","Date","Status"]
+        );
 
     document.getElementById("patientCount").textContent=patients.length;
     document.getElementById("doctorCount").textContent=doctors.length;
@@ -692,11 +575,14 @@ function renderTables(){
     document.getElementById("billingCount").textContent=billing.length;
 }
 
+// INITIAL LOAD
 window.addEventListener("load",function(){
+
     if(localStorage.getItem("loggedInUser")){
         document.getElementById("loginScreen").style.display="none";
         document.getElementById("app").style.display="block";
     }
+
     renderTables();
 });
 
