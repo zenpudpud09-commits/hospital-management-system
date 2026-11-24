@@ -3,424 +3,184 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Hospital Management System</title>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-:root{
- --pink:#e879a9;
- --pink-dark:#c94f83;
- --pink-light:#fff0f6;
- --bg:#f7f7fb;
- --white:#fff;
- --text:#292d40;
- --muted:#85899a;
- --border:#eeeaf1;
-}
+:root{--pink:#e879a9;--dark:#c94f83;--light:#fff0f6;--bg:#f7f7fb;--white:#fff;--text:#292d40;--muted:#85899a}
 body{background:var(--bg);color:var(--text)}
-.layout{display:flex;min-height:100vh}
-
-/* SIDEBAR */
-.sidebar{
- width:245px;background:#fff;padding:25px 18px;
- border-right:1px solid var(--border);position:fixed;
- top:0;bottom:0;left:0;z-index:10;
-}
+.sidebar{width:245px;background:#fff;padding:25px 18px;position:fixed;inset:0 auto 0 0;border-right:1px solid #eee;z-index:5}
 .brand{display:flex;align-items:center;gap:12px;margin-bottom:35px}
-.brand-icon{
- width:45px;height:45px;border-radius:14px;
- background:var(--pink-light);color:var(--pink-dark);
- display:flex;align-items:center;justify-content:center;
- font-size:25px;font-weight:bold;
-}
-.brand h2{font-size:17px}
-.brand small{color:var(--muted);font-size:11px}
+.brand-icon{width:45px;height:45px;border-radius:14px;background:var(--light);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:bold}
+.brand h2{font-size:16px}.brand small{font-size:11px;color:var(--muted)}
 .nav-label{font-size:11px;color:var(--muted);margin:20px 10px 10px}
-.nav button{
- width:100%;display:flex;align-items:center;gap:13px;
- padding:14px 13px;margin-bottom:6px;border:0;
- border-radius:10px;background:transparent;color:#73778a;
- font-size:14px;text-align:left;cursor:pointer;
-}
-.nav button.active{background:var(--pink-light);color:var(--pink-dark);font-weight:bold}
+.nav button{width:100%;display:flex;align-items:center;gap:13px;padding:14px;border:0;border-radius:10px;background:transparent;color:#73778a;text-align:left;cursor:pointer;margin-bottom:5px}
+.nav button.active{background:var(--light);color:var(--dark);font-weight:bold}
 .nav button:hover{background:#fff0f6}
 .nav-icon{width:23px;text-align:center;font-size:17px}
-.sidebar-bottom{
- position:absolute;bottom:25px;left:18px;right:18px;
- background:var(--pink-light);padding:15px;border-radius:13px;
-}
+.sidebar-bottom{position:absolute;bottom:25px;left:18px;right:18px;background:var(--light);padding:15px;border-radius:13px}
 .sidebar-bottom p{font-size:12px;color:#8b5270;margin-top:6px}
-
-/* MAIN */
 .main{margin-left:245px;width:calc(100% - 245px);padding:30px}
-.topbar{
- display:flex;justify-content:space-between;align-items:center;
- margin-bottom:28px;gap:15px;
-}
-.welcome h1{font-size:25px;margin-bottom:6px}
-.welcome p{color:var(--muted);font-size:14px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:15px}
+.welcome h1{font-size:25px;margin-bottom:6px}.welcome p{color:var(--muted);font-size:14px}
 .profile{display:flex;align-items:center;gap:12px}
-.avatar{
- width:43px;height:43px;background:var(--pink-light);
- color:var(--pink-dark);border-radius:50%;
- display:flex;align-items:center;justify-content:center;font-weight:bold;
-}
+.avatar{width:43px;height:43px;background:var(--light);color:var(--dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold}
 .profile small{display:block;color:var(--muted);margin-top:4px}
-
-/* CARDS */
-.cards{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
- gap:18px;margin-bottom:28px;
-}
-.stat{
- background:white;padding:23px;border-radius:17px;
- border:1px solid var(--border);
-}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-bottom:28px}
+.stat{background:white;padding:23px;border-radius:17px;border:1px solid #eee}
 .stat-top{display:flex;justify-content:space-between;align-items:center}
-.stat-icon{
- width:43px;height:43px;border-radius:13px;
- display:flex;align-items:center;justify-content:center;font-size:20px;
-}
-.p1{background:#fff0f6;color:#d45e91}
-.p2{background:#eef4ff;color:#6488d8}
-.p3{background:#edfff5;color:#5ab78c}
-.p4{background:#fff6e9;color:#d59a45}
-.stat h2{font-size:29px;margin:17px 0 7px}
-.stat p{color:var(--muted);font-size:13px}
-
-/* CONTENT */
-.section{display:none}
-.section.active{display:block}
-.panel{
- background:white;border:1px solid var(--border);
- border-radius:17px;padding:23px;
-}
-.panel-head{
- display:flex;align-items:center;justify-content:space-between;
- gap:15px;margin-bottom:22px;flex-wrap:wrap;
-}
-.panel-head h2{font-size:19px}
-.panel-head p{font-size:13px;color:var(--muted);margin-top:5px}
+.stat-icon{width:43px;height:43px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.p1{background:#fff0f6;color:#d45e91}.p2{background:#eef4ff;color:#6488d8}.p3{background:#edfff5;color:#5ab78c}.p4{background:#fff6e9;color:#d59a45}
+.stat h2{font-size:29px;margin:17px 0 7px}.stat p{color:var(--muted);font-size:13px}
+.section{display:none}.section.active{display:block}
+.panel{background:white;border:1px solid #eee;border-radius:17px;padding:23px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px;flex-wrap:wrap}
+.panel-head h2{font-size:19px}.panel-head p{font-size:13px;color:var(--muted);margin-top:5px}
 .controls{display:flex;gap:10px;flex-wrap:wrap}
-.search{
- border:1px solid var(--border);background:#fafafd;
- padding:11px 13px;border-radius:9px;outline:none;
- min-width:210px;font-size:13px;
-}
+.search{border:1px solid #eee;background:#fafafd;padding:11px 13px;border-radius:9px;outline:none;min-width:210px;font-size:13px}
 .search:focus{border-color:var(--pink)}
-.add-btn{
- border:none;background:var(--pink-dark);color:white;
- border-radius:9px;padding:11px 17px;cursor:pointer;
- font-weight:bold;font-size:13px;
-}
+.add-btn{border:none;background:var(--dark);color:white;border-radius:9px;padding:11px 17px;cursor:pointer;font-weight:bold;font-size:13px}
 .add-btn:hover{background:#b63e71}
 table{width:100%;border-collapse:collapse;min-width:700px}
 .table-wrap{overflow-x:auto}
-th{
- text-align:left;padding:14px;background:#faf8fb;
- color:#85899a;font-size:12px;font-weight:bold;
-}
+th{text-align:left;padding:14px;background:#faf8fb;color:#85899a;font-size:12px}
 td{padding:15px 14px;border-bottom:1px solid #f0edf2;font-size:13px}
 tbody tr:hover{background:#fffafd}
 .name-cell{font-weight:bold}
-.badge{
- display:inline-block;padding:6px 10px;border-radius:20px;
- font-size:11px;font-weight:bold;
-}
-.available,.paid,.completed{
- background:#e9f9ef;color:#309262;
-}
-.unavailable,.unpaid{
- background:#fff0f0;color:#c45a5a;
-}
-.pending{
- background:#fff5e4;color:#bc8937;
-}
+.badge{display:inline-block;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:bold}
+.available,.paid,.completed{background:#e9f9ef;color:#309262}
+.unavailable,.unpaid,.cancelled{background:#fff0f0;color:#c45a5a}
+.pending{background:#fff5e4;color:#bc8937}
 .empty{text-align:center;color:var(--muted);padding:35px}
-
-/* MODAL */
-.overlay{
- display:none;position:fixed;inset:0;background:rgba(30,25,40,.45);
- z-index:50;align-items:center;justify-content:center;padding:15px;
-}
+.overlay{display:none;position:fixed;inset:0;background:rgba(30,25,40,.45);z-index:50;align-items:center;justify-content:center;padding:15px}
 .overlay.show{display:flex}
-.modal{
- width:100%;max-width:520px;background:white;border-radius:18px;
- padding:25px;max-height:90vh;overflow-y:auto;
- box-shadow:0 20px 60px rgba(0,0,0,.15);
-}
-.modal-head{
- display:flex;justify-content:space-between;align-items:center;
- margin-bottom:20px;
-}
+.modal{width:100%;max-width:520px;background:white;border-radius:18px;padding:25px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
 .modal-head h2{font-size:20px}
-.close{
- border:none;background:#f5f3f7;border-radius:9px;
- width:35px;height:35px;cursor:pointer;font-size:18px;
-}
-.field{margin-bottom:15px}
-.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:bold}
-.field input,.field select,.field textarea{
- width:100%;padding:12px;border:1px solid #e7e2eb;
- border-radius:9px;background:#fafafd;outline:none;font-size:13px;
-}
-.field input:focus,.field select:focus,.field textarea:focus{
- border-color:var(--pink);
-}
+.close{border:none;background:#f5f3f7;border-radius:9px;width:35px;height:35px;cursor:pointer;font-size:18px}
+.field{margin-bottom:15px}.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:bold}
+.field input,.field select{width:100%;padding:12px;border:1px solid #e7e2eb;border-radius:9px;background:#fafafd;outline:none;font-size:13px}
+.field input:focus,.field select:focus{border-color:var(--pink)}
 .modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
-.cancel{
- background:#f1f1f5;border:none;padding:12px 17px;
- border-radius:9px;cursor:pointer;
-}
-.save{
- background:var(--pink-dark);color:white;border:none;
- padding:12px 18px;border-radius:9px;cursor:pointer;font-weight:bold;
-}
-#loginScreen{
- display:flex;align-items:center;justify-content:center;
- min-height:100vh;background:linear-gradient(135deg,#fff0f6,#f6f7ff);
- padding:20px;
-}
-.login-box{
- background:white;padding:35px;border-radius:20px;
- width:100%;max-width:400px;box-shadow:0 15px 40px #d7c8d455;
-}
+.cancel{background:#f1f1f5;border:none;padding:12px 17px;border-radius:9px;cursor:pointer}
+.save{background:var(--dark);color:white;border:none;padding:12px 18px;border-radius:9px;cursor:pointer;font-weight:bold}
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#fff0f6,#f6f7ff);padding:20px}
+.login-box{background:white;padding:35px;border-radius:20px;width:100%;max-width:400px;box-shadow:0 15px 40px #d7c8d455}
 .login-box h1{text-align:center;margin:20px 0 8px;font-size:23px}
 .login-box p{text-align:center;color:var(--muted);font-size:13px;margin-bottom:25px}
 .login-box .add-btn{width:100%;padding:14px}
 .hidden{display:none!important}
-.toast{
- position:fixed;bottom:25px;right:25px;background:#292d40;
- color:white;padding:14px 20px;border-radius:10px;
- z-index:100;font-size:13px;display:none;
-}
-
-@media(max-width:1050px){
- .cards{grid-template-columns:repeat(2,1fr)}
-}
+.toast{position:fixed;bottom:25px;right:25px;background:#292d40;color:white;padding:14px 20px;border-radius:10px;z-index:100;font-size:13px;display:none}
+@media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:750px){
- .sidebar{width:75px;padding:20px 10px}
- .brand h2,.brand small,.nav button span:not(.nav-icon),
- .nav-label,.sidebar-bottom{display:none}
- .brand{justify-content:center}
- .nav button{justify-content:center;padding:14px 5px}
- .main{margin-left:75px;width:calc(100% - 75px);padding:18px}
- .topbar{align-items:flex-start}
- .welcome h1{font-size:20px}
- .profile div:last-child{display:none}
- .cards{grid-template-columns:1fr 1fr;gap:10px}
- .stat{padding:15px}
- .stat h2{font-size:23px}
- .panel{padding:15px}
+.sidebar{width:75px;padding:20px 10px}
+.brand h2,.brand small,.nav button span:not(.nav-icon),.nav-label,.sidebar-bottom{display:none}
+.brand{justify-content:center}.nav button{justify-content:center;padding:14px 5px}
+.main{margin-left:75px;width:calc(100% - 75px);padding:18px}
+.welcome h1{font-size:20px}.profile div:last-child{display:none}
+.cards{grid-template-columns:1fr 1fr;gap:10px}.stat{padding:15px}.stat h2{font-size:23px}.panel{padding:15px}
 }
-@media(max-width:480px){
- .cards{grid-template-columns:1fr 1fr}
- .search{min-width:150px;width:100%}
- .controls{width:100%}
- .add-btn{width:100%}
-}
+@media(max-width:480px){.cards{grid-template-columns:1fr 1fr}.search{min-width:150px;width:100%}.controls{width:100%}.add-btn{width:100%}}
 </style>
 </head>
-
 <body>
 
 <!-- LOGIN -->
 <div id="loginScreen">
- <div class="login-box">
-  <div class="brand" style="justify-content:center">
-   <div class="brand-icon">✚</div>
-   <div><h2>Hospital Management</h2><small>Management System</small></div>
-  </div>
-  <h1>Welcome Back</h1>
-  <p>Sign in to access the hospital dashboard</p>
-  <form id="loginForm">
-   <div class="field">
-    <label>Username</label>
-    <input id="username" placeholder="Enter username" required>
-   </div>
-   <div class="field">
-    <label>Password</label>
-    <input id="password" type="password" placeholder="Enter password" required>
-   </div>
-   <button class="add-btn" type="submit">Sign In</button>
-  </form>
- </div>
+<div class="login-box">
+<div class="brand" style="justify-content:center">
+<div class="brand-icon">✚</div>
+<div><h2>Hospital Management</h2><small>Management System</small></div>
+</div>
+<h1>Welcome Back</h1>
+<p>Sign in to access the hospital dashboard</p>
+<form id="loginForm">
+<div class="field"><label>Username</label><input id="username" placeholder="Enter username" required></div>
+<div class="field"><label>Password</label><input id="password" type="password" placeholder="Enter password" required></div>
+<button class="add-btn" type="submit">Sign In</button>
+</form>
+</div>
 </div>
 
 <!-- SYSTEM -->
-<div class="layout hidden" id="system">
-
+<div class="hidden" id="system">
 <aside class="sidebar">
- <div class="brand">
-  <div class="brand-icon">✚</div>
-  <div><h2>Hospital Management</h2><small>Management System</small></div>
- </div>
-
- <div class="nav-label">MAIN MENU</div>
- <nav class="nav">
-  <button class="active" data-section="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
-  <button data-section="patients"><span class="nav-icon">♙</span><span>Patients</span></button>
-  <button data-section="doctors"><span class="nav-icon">⚕</span><span>Doctors</span></button>
-  <button data-section="appointments"><span class="nav-icon">▣</span><span>Appointments</span></button>
-  <button data-section="billing"><span class="nav-icon">₱</span><span>Billing</span></button>
- </nav>
-
- <div class="nav-label">ACCOUNT</div>
- <nav class="nav">
-  <button id="logoutBtn"><span class="nav-icon">↪</span><span>Logout</span></button>
- </nav>
-
- <div class="sidebar-bottom">
-  <strong>Hospital Management</strong>
-  <p>Patient and hospital record management.</p>
- </div>
+<div class="brand">
+<div class="brand-icon">✚</div>
+<div><h2>Hospital Management</h2><small>Management System</small></div>
+</div>
+<div class="nav-label">MAIN MENU</div>
+<nav class="nav">
+<button class="active" data-section="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+<button data-section="patients"><span class="nav-icon">♙</span><span>Patients</span></button>
+<button data-section="doctors"><span class="nav-icon">⚕</span><span>Doctors</span></button>
+<button data-section="appointments"><span class="nav-icon">▣</span><span>Appointments</span></button>
+<button data-section="billing"><span class="nav-icon">₱</span><span>Billing</span></button>
+</nav>
+<div class="nav-label">ACCOUNT</div>
+<nav class="nav"><button id="logoutBtn"><span class="nav-icon">↪</span><span>Logout</span></button></nav>
+<div class="sidebar-bottom"><strong>Hospital Management</strong><p>Patient and hospital record management.</p></div>
 </aside>
 
 <main class="main">
-
 <header class="topbar">
- <div class="welcome">
-  <h1 id="pageTitle">Dashboard</h1>
-  <p id="pageSubtitle">Overview of hospital records and activities.</p>
- </div>
- <div class="profile">
-  <div class="avatar" id="avatar">A</div>
-  <div><strong id="loggedName">Administrator</strong><small>Administrator</small></div>
- </div>
+<div class="welcome"><h1 id="pageTitle">Dashboard</h1><p id="pageSubtitle">Overview of hospital records and activities.</p></div>
+<div class="profile"><div class="avatar" id="avatar">A</div><div><strong id="loggedName">Administrator</strong><small>Administrator</small></div></div>
 </header>
 
-<!-- DASHBOARD -->
 <section class="section active" id="dashboard">
- <div class="cards">
-  <div class="stat">
-   <div class="stat-top"><span>Patients</span><div class="stat-icon p1">♙</div></div>
-   <h2 id="countPatients">0</h2><p>Registered patients</p>
-  </div>
-  <div class="stat">
-   <div class="stat-top"><span>Doctors</span><div class="stat-icon p2">⚕</div></div>
-   <h2 id="countDoctors">0</h2><p>Registered doctors</p>
-  </div>
-  <div class="stat">
-   <div class="stat-top"><span>Appointments</span><div class="stat-icon p3">▣</div></div>
-   <h2 id="countAppointments">0</h2><p>Recorded appointments</p>
-  </div>
-  <div class="stat">
-   <div class="stat-top"><span>Billing</span><div class="stat-icon p4">₱</div></div>
-   <h2 id="countBilling">0</h2><p>Billing records</p>
-  </div>
- </div>
-
- <div class="panel">
-  <div class="panel-head">
-   <div><h2>Recent Appointments</h2><p>Latest recorded appointments</p></div>
-   <button class="add-btn" onclick="showSection('appointments')">View Appointments</button>
-  </div>
-  <div class="table-wrap">
-   <table>
-    <thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
-    <tbody id="dashboardAppointments"></tbody>
-   </table>
-  </div>
- </div>
+<div class="cards">
+<div class="stat"><div class="stat-top"><span>Patients</span><div class="stat-icon p1">♙</div></div><h2 id="countPatients">0</h2><p>Registered patients</p></div>
+<div class="stat"><div class="stat-top"><span>Doctors</span><div class="stat-icon p2">⚕</div></div><h2 id="countDoctors">0</h2><p>Registered doctors</p></div>
+<div class="stat"><div class="stat-top"><span>Appointments</span><div class="stat-icon p3">▣</div></div><h2 id="countAppointments">0</h2><p>Recorded appointments</p></div>
+<div class="stat"><div class="stat-top"><span>Billing</span><div class="stat-icon p4">₱</div></div><h2 id="countBilling">0</h2><p>Billing records</p></div>
+</div>
+<div class="panel">
+<div class="panel-head"><div><h2>Recent Appointments</h2><p>Latest recorded appointments</p></div><button class="add-btn" onclick="showSection('appointments')">View Appointments</button></div>
+<div class="table-wrap"><table><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody id="dashboardAppointments"></tbody></table></div>
+</div>
 </section>
 
-<!-- PATIENTS -->
 <section class="section" id="patients">
- <div class="panel">
-  <div class="panel-head">
-   <div><h2>Patient Records</h2><p>Manage registered patient information</p></div>
-   <div class="controls">
-    <input class="search" id="searchPatients" placeholder="Search patients...">
-    <button class="add-btn" onclick="openModal('patients')">Add Patient</button>
-   </div>
-  </div>
-  <div class="table-wrap">
-   <table>
-    <thead><tr><th>Full Name</th><th>Age</th><th>Gender</th><th>Contact No.</th><th>Address</th></tr></thead>
-    <tbody id="tablePatients"></tbody>
-   </table>
-  </div>
- </div>
+<div class="panel">
+<div class="panel-head"><div><h2>Patient Records</h2><p>Manage registered patient information</p></div><div class="controls"><input class="search" id="searchPatients" placeholder="Search patients..."><button class="add-btn" onclick="openModal('patients')">Add Patient</button></div></div>
+<div class="table-wrap"><table><thead><tr><th>Full Name</th><th>Age</th><th>Gender</th><th>Contact No.</th><th>Address</th></tr></thead><tbody id="tablePatients"></tbody></table></div>
+</div>
 </section>
 
-<!-- DOCTORS -->
 <section class="section" id="doctors">
- <div class="panel">
-  <div class="panel-head">
-   <div><h2>Doctor Records</h2><p>Manage doctors, specialization, schedule, and availability</p></div>
-   <div class="controls">
-    <input class="search" id="searchDoctors" placeholder="Search doctors...">
-    <button class="add-btn" onclick="openModal('doctors')">Add Doctor</button>
-   </div>
-  </div>
-  <div class="table-wrap">
-   <table>
-    <thead><tr><th>Full Name</th><th>Specialization</th><th>Contact No.</th><th>Schedule</th><th>Availability</th></tr></thead>
-    <tbody id="tableDoctors"></tbody>
-   </table>
-  </div>
- </div>
+<div class="panel">
+<div class="panel-head"><div><h2>Doctor Records</h2><p>Manage doctors, specialization, schedule, and availability</p></div><div class="controls"><input class="search" id="searchDoctors" placeholder="Search doctors..."><button class="add-btn" onclick="openModal('doctors')">Add Doctor</button></div></div>
+<div class="table-wrap"><table><thead><tr><th>Full Name</th><th>Specialization</th><th>Contact No.</th><th>Schedule</th><th>Availability</th></tr></thead><tbody id="tableDoctors"></tbody></table></div>
+</div>
 </section>
 
-<!-- APPOINTMENTS -->
 <section class="section" id="appointments">
- <div class="panel">
-  <div class="panel-head">
-   <div><h2>Appointment Records</h2><p>Manage scheduled patient appointments</p></div>
-   <div class="controls">
-    <input class="search" id="searchAppointments" placeholder="Search appointments...">
-    <button class="add-btn" onclick="openModal('appointments')">Add Appointment</button>
-   </div>
-  </div>
-  <div class="table-wrap">
-   <table>
-    <thead><tr><th>Patient Name</th><th>Doctor Name</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
-    <tbody id="tableAppointments"></tbody>
-   </table>
-  </div>
- </div>
+<div class="panel">
+<div class="panel-head"><div><h2>Appointment Records</h2><p>Manage scheduled patient appointments</p></div><div class="controls"><input class="search" id="searchAppointments" placeholder="Search appointments..."><button class="add-btn" onclick="openModal('appointments')">Add Appointment</button></div></div>
+<div class="table-wrap"><table><thead><tr><th>Patient Name</th><th>Doctor Name</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody id="tableAppointments"></tbody></table></div>
+</div>
 </section>
 
-<!-- BILLING -->
 <section class="section" id="billing">
- <div class="panel">
-  <div class="panel-head">
-   <div><h2>Billing Records</h2><p>Manage patient billing and payments</p></div>
-   <div class="controls">
-    <input class="search" id="searchBilling" placeholder="Search billing...">
-    <button class="add-btn" onclick="openModal('billing')">Add Billing</button>
-   </div>
-  </div>
-  <div class="table-wrap">
-   <table>
-    <thead><tr><th>Patient Name</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
-    <tbody id="tableBilling"></tbody>
-   </table>
-  </div>
- </div>
+<div class="panel">
+<div class="panel-head"><div><h2>Billing Records</h2><p>Manage patient billing and payments</p></div><div class="controls"><input class="search" id="searchBilling" placeholder="Search billing..."><button class="add-btn" onclick="openModal('billing')">Add Billing</button></div></div>
+<div class="table-wrap"><table><thead><tr><th>Patient Name</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead><tbody id="tableBilling"></tbody></table></div>
+</div>
 </section>
-
 </main>
 </div>
 
 <!-- MODAL -->
 <div class="overlay" id="overlay">
- <div class="modal">
-  <div class="modal-head">
-   <h2 id="modalTitle">Add Record</h2>
-   <button class="close" onclick="closeModal()">×</button>
-  </div>
-  <form id="recordForm">
-   <div id="formFields"></div>
-   <div class="modal-footer">
-    <button type="button" class="cancel" onclick="closeModal()">Cancel</button>
-    <button type="submit" class="save">Save Record</button>
-   </div>
-  </form>
- </div>
+<div class="modal">
+<div class="modal-head"><h2 id="modalTitle">Add Record</h2><button class="close" onclick="closeModal()">×</button></div>
+<form id="recordForm">
+<div id="formFields"></div>
+<div class="modal-footer"><button type="button" class="cancel" onclick="closeModal()">Cancel</button><button type="submit" class="save">Save Record</button></div>
+</form>
 </div>
-
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -445,292 +205,290 @@ const schedules=[
 ];
 
 const fields={
- patients:[
-  {name:"Full Name",type:"text",required:true},
-  {name:"Age",type:"number",required:true},
-  {name:"Gender",type:"select",options:["Male","Female","Other"],required:true},
-  {name:"Contact No.",type:"tel",required:true},
-  {name:"Address",type:"text",required:true}
- ],
- doctors:[
-  {name:"Full Name",type:"text",required:true},
-  {name:"Specialization",type:"select",options:specialties,required:true},
-  {name:"Contact No.",type:"tel",required:true},
-  {name:"Schedule",type:"select",options:schedules,required:true},
-  {name:"Availability",type:"select",options:["Available","Not Available"],required:true}
- ],
- appointments:[
-  {name:"Patient Name",type:"patient",required:true},
-  {name:"Doctor Name",type:"doctor",required:true},
-  {name:"Date",type:"date",required:true},
-  {name:"Time",type:"time",required:true},
-  {name:"Status",type:"select",options:["Pending","Completed","Cancelled"],required:true}
- ],
- billing:[
-  {name:"Patient Name",type:"patient",required:true},
-  {name:"Amount",type:"number",required:true},
-  {name:"Date",type:"date",required:true},
-  {name:"Status",type:"select",options:["Paid","Unpaid"],required:true}
- ]
+patients:[
+{name:"Full Name",type:"text"},
+{name:"Age",type:"number"},
+{name:"Gender",type:"select",options:["Male","Female","Other"]},
+{name:"Contact No.",type:"tel"},
+{name:"Address",type:"text"}
+],
+doctors:[
+{name:"Full Name",type:"text"},
+{name:"Specialization",type:"select",options:specialties},
+{name:"Contact No.",type:"tel"},
+{name:"Schedule",type:"select",options:schedules},
+{name:"Availability",type:"select",options:["Available","Not Available"]}
+],
+appointments:[
+{name:"Patient Name",type:"patient"},
+{name:"Doctor Name",type:"doctor"},
+{name:"Date",type:"date"},
+{name:"Time",type:"time"},
+{name:"Status",type:"select",options:["Pending","Completed","Cancelled"]}
+],
+billing:[
+{name:"Patient Name",type:"patient"},
+{name:"Amount",type:"number"},
+{name:"Date",type:"date"},
+{name:"Status",type:"select",options:["Paid","Unpaid"]}
+]
 };
 
+function load(key){
+try{return JSON.parse(localStorage.getItem("hms_"+key)||"[]")}
+catch{return []}
+}
+
 let data={
- patients:JSON.parse(localStorage.getItem("hms_patients")||"[]"),
- doctors:JSON.parse(localStorage.getItem("hms_doctors")||"[]"),
- appointments:JSON.parse(localStorage.getItem("hms_appointments")||"[]"),
- billing:JSON.parse(localStorage.getItem("hms_billing")||"[]")
+patients:load("patients"),
+doctors:load("doctors"),
+appointments:load("appointments"),
+billing:load("billing")
 };
 
 let currentType="";
 
-function saveData(){
- for(let key in data){
-  localStorage.setItem("hms_"+key,JSON.stringify(data[key]));
- }
- renderAll();
+function escapeHTML(v){
+return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,char=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",
- '"':"&quot;","'":"&#39;"
- }[char]));
+/* AUTO SAVE AND AUTO REFRESH */
+function saveData(){
+Object.keys(data).forEach(key=>{
+localStorage.setItem("hms_"+key,JSON.stringify(data[key]));
+});
+renderAll();
 }
 
 function toast(message){
- const t=document.getElementById("toast");
- t.textContent=message;
- t.style.display="block";
- clearTimeout(window.toastTimer);
- window.toastTimer=setTimeout(()=>t.style.display="none",2500);
+const t=document.getElementById("toast");
+t.textContent=message;
+t.style.display="block";
+clearTimeout(window.toastTimer);
+window.toastTimer=setTimeout(()=>t.style.display="none",2500);
 }
 
-document.getElementById("loginForm").addEventListener("submit",function(e){
- e.preventDefault();
- const username=document.getElementById("username").value.trim();
- document.getElementById("loggedName").textContent=username;
- document.getElementById("avatar").textContent=username.charAt(0).toUpperCase();
- localStorage.setItem("hms_login",username);
- document.getElementById("loginScreen").classList.add("hidden");
- document.getElementById("system").classList.remove("hidden");
- showSection("dashboard");
+/* LOGIN */
+document.getElementById("loginForm").addEventListener("submit",e=>{
+e.preventDefault();
+const username=document.getElementById("username").value.trim();
+localStorage.setItem("hms_login",username);
+enterSystem(username);
 });
 
-function logout(){
- localStorage.removeItem("hms_login");
- document.getElementById("system").classList.add("hidden");
- document.getElementById("loginScreen").classList.remove("hidden");
- document.getElementById("loginForm").reset();
+function enterSystem(username){
+document.getElementById("loggedName").textContent=username;
+document.getElementById("avatar").textContent=username.charAt(0).toUpperCase();
+document.getElementById("loginScreen").classList.add("hidden");
+document.getElementById("system").classList.remove("hidden");
+showSection("dashboard");
+renderAll();
 }
 
-document.getElementById("logoutBtn").addEventListener("click",logout);
+document.getElementById("logoutBtn").addEventListener("click",()=>{
+localStorage.removeItem("hms_login");
+document.getElementById("system").classList.add("hidden");
+document.getElementById("loginScreen").classList.remove("hidden");
+document.getElementById("loginForm").reset();
+});
 
+/* NAVIGATION */
 function showSection(section){
- document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
- document.getElementById(section).classList.add("active");
- document.querySelectorAll(".nav button[data-section]").forEach(b=>{
-  b.classList.toggle("active",b.dataset.section===section);
- });
- const titles={
-  dashboard:["Dashboard","Overview of hospital records and activities."],
-  patients:["Patients","Manage registered patient information."],
-  doctors:["Doctors","Manage doctors and their availability."],
-  appointments:["Appointments","Manage scheduled patient appointments."],
-  billing:["Billing","Manage patient billing and payments."]
- };
- document.getElementById("pageTitle").textContent=titles[section][0];
- document.getElementById("pageSubtitle").textContent=titles[section][1];
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.getElementById(section).classList.add("active");
+document.querySelectorAll(".nav button[data-section]").forEach(b=>b.classList.toggle("active",b.dataset.section===section));
+
+const titles={
+dashboard:["Dashboard","Overview of hospital records and activities."],
+patients:["Patients","Manage registered patient information."],
+doctors:["Doctors","Manage doctors and their availability."],
+appointments:["Appointments","Manage scheduled patient appointments."],
+billing:["Billing","Manage patient billing and payments."]
+};
+
+document.getElementById("pageTitle").textContent=titles[section][0];
+document.getElementById("pageSubtitle").textContent=titles[section][1];
 }
 
-document.querySelectorAll(".nav button[data-section]").forEach(button=>{
- button.addEventListener("click",()=>showSection(button.dataset.section));
+document.querySelectorAll(".nav button[data-section]").forEach(b=>{
+b.addEventListener("click",()=>showSection(b.dataset.section));
 });
 
+/* FORM GENERATION */
 function openModal(type){
- currentType=type;
- document.getElementById("modalTitle").textContent=
-  "Add "+type.charAt(0).toUpperCase()+type.slice(1).replace(/s$/,"");
- const container=document.getElementById("formFields");
- container.innerHTML="";
+currentType=type;
+document.getElementById("modalTitle").textContent="Add "+type.charAt(0).toUpperCase()+type.slice(1).replace(/s$/,"");
+const container=document.getElementById("formFields");
+container.innerHTML="";
 
- fields[type].forEach(field=>{
-  let html=`<div class="field"><label>${escapeHTML(field.name)}</label>`;
-  if(field.type==="select"){
-   html+=`<select name="${escapeHTML(field.name)}" required>
-    <option value="">Select ${escapeHTML(field.name)}</option>
-    ${field.options.map(o=>`<option value="${escapeHTML(o)}">${escapeHTML(o)}</option>`).join("")}
-   </select>`;
-  }
-  else if(field.type==="patient"){
-   html+=`<select name="${escapeHTML(field.name)}" required>
-    <option value="">Select Patient</option>
-    ${data.patients.map(p=>`<option value="${escapeHTML(p["Full Name"])}">${escapeHTML(p["Full Name"])}</option>`).join("")}
-   </select>`;
-  }
-  else if(field.type==="doctor"){
-   html+=`<select name="${escapeHTML(field.name)}" required>
-    <option value="">Select Doctor</option>
-    ${data.doctors.map(d=>{
-     let label=d["Full Name"]+" — "+d["Specialization"];
-     let disabled=d["Availability"]!=="Available"?"disabled":"";
-     return `<option value="${escapeHTML(label)}" ${disabled}>${escapeHTML(label)}${disabled?" (Unavailable)":""}</option>`;
-    }).join("")}
-   </select>`;
-  }
-  else{
-   html+=`<input type="${field.type}" name="${escapeHTML(field.name)}" ${field.required?"required":""} ${field.type==="number"?'min="0"':''}>`;
-  }
-  html+="</div>";
-  container.insertAdjacentHTML("beforeend",html);
- });
+fields[type].forEach(f=>{
+let html=`<div class="field"><label>${escapeHTML(f.name)}</label>`;
 
- document.getElementById("recordForm").reset();
- document.getElementById("overlay").classList.add("show");
+if(f.type==="select"){
+html+=`<select name="${escapeHTML(f.name)}" required><option value="">Select ${escapeHTML(f.name)}</option>${f.options.map(o=>`<option value="${escapeHTML(o)}">${escapeHTML(o)}</option>`).join("")}</select>`;
+}
+else if(f.type==="patient"){
+html+=`<select name="${escapeHTML(f.name)}" required><option value="">Select Patient</option>${data.patients.map(p=>`<option value="${escapeHTML(p["Full Name"])}">${escapeHTML(p["Full Name"])}</option>`).join("")}</select>`;
+}
+else if(f.type==="doctor"){
+html+=`<select name="${escapeHTML(f.name)}" required><option value="">Select Doctor</option>${data.doctors.map(d=>{
+const label=d["Full Name"]+" — "+d["Specialization"];
+const disabled=d["Availability"]!=="Available"?"disabled":"";
+return `<option value="${escapeHTML(label)}" ${disabled}>${escapeHTML(label)}${disabled?" (Unavailable)":""}</option>`;
+}).join("")}</select>`;
+}
+else{
+html+=`<input type="${f.type}" name="${escapeHTML(f.name)}" required ${f.type==="number"?'min="0"':''}>`;
+}
+html+="</div>";
+container.insertAdjacentHTML("beforeend",html);
+});
+
+document.getElementById("recordForm").reset();
+document.getElementById("overlay").classList.add("show");
 }
 
 function closeModal(){
- document.getElementById("overlay").classList.remove("show");
+document.getElementById("overlay").classList.remove("show");
 }
 
-document.getElementById("overlay").addEventListener("click",function(e){
- if(e.target===this)closeModal();
+document.getElementById("overlay").addEventListener("click",e=>{
+if(e.target===e.currentTarget)closeModal();
 });
 
-document.getElementById("recordForm").addEventListener("submit",function(e){
- e.preventDefault();
- const formData=new FormData(this);
- const record={};
- fields[currentType].forEach(field=>{
-  record[field.name]=formData.get(field.name);
- });
+/* SAVE FORM AUTOMATICALLY */
+document.getElementById("recordForm").addEventListener("submit",e=>{
+e.preventDefault();
+const formData=new FormData(e.target);
+const record={};
 
- if(currentType==="appointments"){
-  const doctorLabel=record["Doctor Name"];
-  const doctor=data.doctors.find(d=>
-   (d["Full Name"]+" — "+d["Specialization"])===doctorLabel
-  );
-  if(!doctor||doctor["Availability"]!=="Available"){
-   toast("Selected doctor is unavailable.");
-   return;
-  }
- }
+fields[currentType].forEach(f=>record[f.name]=formData.get(f.name));
 
- if(currentType==="patients"&&
- data.patients.some(p=>p["Full Name"].toLowerCase()===record["Full Name"].toLowerCase())){
-  toast("A patient with that name already exists.");
-  return;
- }
+if(currentType==="appointments"){
+const doctor=data.doctors.find(d=>(d["Full Name"]+" — "+d["Specialization"])===record["Doctor Name"]);
+if(!doctor||doctor["Availability"]!=="Available"){
+toast("Selected doctor is unavailable.");
+return;
+}
+}
 
- if(currentType==="doctors"&&
- data.doctors.some(d=>d["Full Name"].toLowerCase()===record["Full Name"].toLowerCase())){
-  toast("A doctor with that name already exists.");
-  return;
- }
+if(currentType==="patients"&&data.patients.some(p=>p["Full Name"].toLowerCase()===record["Full Name"].toLowerCase())){
+toast("Patient already exists.");
+return;
+}
 
- data[currentType].push(record);
- saveData();
- closeModal();
- this.reset();
- toast("Record saved successfully!");
+if(currentType==="doctors"&&data.doctors.some(d=>d["Full Name"].toLowerCase()===record["Full Name"].toLowerCase())){
+toast("Doctor already exists.");
+return;
+}
+
+/* ADD RECORD TO DATA */
+data[currentType].push(record);
+
+/* SAVE TO LOCAL STORAGE AND UPDATE EVERYTHING */
+saveData();
+
+/* CLOSE FORM AUTOMATICALLY */
+closeModal();
+e.target.reset();
+
+/* SUCCESS MESSAGE */
+toast("Saved! Tables and dashboard updated automatically.");
 });
 
+/* STATUS */
 function badge(value){
- const v=String(value).toLowerCase();
- let cls="pending";
- if(["available","paid","completed"].includes(v))cls="available";
- if(["not available","unpaid","cancelled"].includes(v))cls="unavailable";
- return `<span class="badge ${cls}">${escapeHTML(value)}</span>`;
+let v=String(value).toLowerCase();
+let cls="pending";
+if(["available","paid","completed"].includes(v))cls="available";
+if(["not available","unpaid","cancelled"].includes(v))cls="unavailable";
+return `<span class="badge ${cls}">${escapeHTML(value)}</span>`;
 }
 
 function row(values){
- return `<tr>${values.map(v=>`<td>${v}</td>`).join("")}</tr>`;
+return `<tr>${values.map(v=>`<td>${v}</td>`).join("")}</tr>`;
 }
 
+/* TABLES */
 function renderTable(type,filter=""){
- const tbody=document.getElementById("table"+type.charAt(0).toUpperCase()+type.slice(1));
- if(!tbody)return;
- let list=data[type];
- const q=filter.toLowerCase();
- list=list.filter(r=>Object.values(r).some(v=>String(v).toLowerCase().includes(q)));
+const tbody=document.getElementById("table"+type.charAt(0).toUpperCase()+type.slice(1));
+if(!tbody)return;
 
- if(!list.length){
-  tbody.innerHTML=`<tr><td colspan="8" class="empty">No records found.</td></tr>`;
-  return;
- }
+let list=data[type].filter(r=>Object.values(r).some(v=>String(v).toLowerCase().includes(filter.toLowerCase())));
 
- tbody.innerHTML=list.map(r=>{
-  if(type==="patients"){
-   return row([
-    `<span class="name-cell">${escapeHTML(r["Full Name"])}</span>`,
-    escapeHTML(r["Age"]),escapeHTML(r["Gender"]),
-    escapeHTML(r["Contact No."]),escapeHTML(r["Address"])
-   ]);
-  }
-  if(type==="doctors"){
-   return row([
-    `<span class="name-cell">${escapeHTML(r["Full Name"])}</span>`,
-    escapeHTML(r["Specialization"]),escapeHTML(r["Contact No."]),
-    escapeHTML(r["Schedule"]),badge(r["Availability"])
-   ]);
-  }
-  if(type==="appointments"){
-   return row([
-    escapeHTML(r["Patient Name"]),escapeHTML(r["Doctor Name"]),
-    escapeHTML(r["Date"]),escapeHTML(r["Time"]),badge(r["Status"])
-   ]);
-  }
-  if(type==="billing"){
-   return row([
-    escapeHTML(r["Patient Name"]),
-    "₱"+Number(r["Amount"]).toLocaleString("en-PH"),
-    escapeHTML(r["Date"]),badge(r["Status"])
-   ]);
-  }
- }).join("");
+if(!list.length){
+tbody.innerHTML='<tr><td colspan="8" class="empty">No records found.</td></tr>';
+return;
 }
 
+tbody.innerHTML=list.map(r=>{
+if(type==="patients")return row([
+`<span class="name-cell">${escapeHTML(r["Full Name"])}</span>`,
+escapeHTML(r["Age"]),escapeHTML(r["Gender"]),
+escapeHTML(r["Contact No."]),escapeHTML(r["Address"])
+]);
+
+if(type==="doctors")return row([
+`<span class="name-cell">${escapeHTML(r["Full Name"])}</span>`,
+escapeHTML(r["Specialization"]),escapeHTML(r["Contact No."]),
+escapeHTML(r["Schedule"]),badge(r["Availability"])
+]);
+
+if(type==="appointments")return row([
+escapeHTML(r["Patient Name"]),escapeHTML(r["Doctor Name"]),
+escapeHTML(r["Date"]),escapeHTML(r["Time"]),badge(r["Status"])
+]);
+
+if(type==="billing")return row([
+escapeHTML(r["Patient Name"]),
+"₱"+Number(r["Amount"]).toLocaleString("en-PH"),
+escapeHTML(r["Date"]),badge(r["Status"])
+]);
+}).join("");
+}
+
+/* DASHBOARD AUTOMATIC COUNTS */
 function renderDashboard(){
- document.getElementById("countPatients").textContent=data.patients.length;
- document.getElementById("countDoctors").textContent=data.doctors.length;
- document.getElementById("countAppointments").textContent=data.appointments.length;
- document.getElementById("countBilling").textContent=data.billing.length;
+document.getElementById("countPatients").textContent=data.patients.length;
+document.getElementById("countDoctors").textContent=data.doctors.length;
+document.getElementById("countAppointments").textContent=data.appointments.length;
+document.getElementById("countBilling").textContent=data.billing.length;
 
- const tbody=document.getElementById("dashboardAppointments");
- const recent=data.appointments.slice(-5).reverse();
- if(!recent.length){
-  tbody.innerHTML='<tr><td colspan="5" class="empty">No appointments recorded yet.</td></tr>';
-  return;
- }
- tbody.innerHTML=recent.map(a=>row([
-  escapeHTML(a["Patient Name"]),escapeHTML(a["Doctor Name"]),
-  escapeHTML(a["Date"]),escapeHTML(a["Time"]),badge(a["Status"])
- ])).join("");
+const tbody=document.getElementById("dashboardAppointments");
+const recent=data.appointments.slice(-5).reverse();
+
+if(!recent.length){
+tbody.innerHTML='<tr><td colspan="5" class="empty">No appointments recorded yet.</td></tr>';
+return;
 }
 
+tbody.innerHTML=recent.map(a=>row([
+escapeHTML(a["Patient Name"]),escapeHTML(a["Doctor Name"]),
+escapeHTML(a["Date"]),escapeHTML(a["Time"]),badge(a["Status"])
+])).join("");
+}
+
+/* REFRESH ALL SECTIONS */
 function renderAll(){
- renderDashboard();
- renderTable("patients",document.getElementById("searchPatients").value);
- renderTable("doctors",document.getElementById("searchDoctors").value);
- renderTable("appointments",document.getElementById("searchAppointments").value);
- renderTable("billing",document.getElementById("searchBilling").value);
+renderDashboard();
+renderTable("patients",document.getElementById("searchPatients").value);
+renderTable("doctors",document.getElementById("searchDoctors").value);
+renderTable("appointments",document.getElementById("searchAppointments").value);
+renderTable("billing",document.getElementById("searchBilling").value);
 }
 
+/* LIVE SEARCH */
 ["patients","doctors","appointments","billing"].forEach(type=>{
- document.getElementById("search"+type.charAt(0).toUpperCase()+type.slice(1))
- .addEventListener("input",function(){
-  renderTable(type,this.value);
- });
+document.getElementById("search"+type.charAt(0).toUpperCase()+type.slice(1)).addEventListener("input",function(){
+renderTable(type,this.value);
+});
 });
 
+/* INITIAL LOAD */
 renderAll();
 
 const savedLogin=localStorage.getItem("hms_login");
-if(savedLogin){
- document.getElementById("loggedName").textContent=savedLogin;
- document.getElementById("avatar").textContent=savedLogin.charAt(0).toUpperCase();
- document.getElementById("loginScreen").classList.add("hidden");
- document.getElementById("system").classList.remove("hidden");
-}
+if(savedLogin)enterSystem(savedLogin);
 </script>
 </body>
 </html>
