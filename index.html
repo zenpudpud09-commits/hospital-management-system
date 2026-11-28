@@ -1,698 +1,631 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hospital Management System</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
-body{background:#f4f7fb;color:#1e293b}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#edf3fb;color:#18345b}
 button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0;border-radius:8px;padding:10px 14px;background:#2563eb;color:white;font-weight:600}
-button:hover{background:#1d4ed8}
-.secondary{background:#e8f1ff;color:#1d4ed8}
-.danger{background:#fee2e2;color:#b91c1c}
-.small{padding:6px 10px;font-size:12px}
-.muted{color:#64748b;font-size:13px}
+button{cursor:pointer}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;background:#193b70;color:white;padding:20px;overflow:auto}
+.logo{font-size:20px;font-weight:bold;padding:12px 0 25px}
+.nav button{display:block;width:100%;text-align:left;padding:13px;margin:5px 0;background:transparent;border:0;color:white;border-radius:10px}
+.nav button:hover,.nav button.active{background:#3872c4}
+.main{margin-left:230px;padding:25px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.panel,.stat{background:white;padding:20px;border-radius:15px;margin-bottom:20px;box-shadow:0 3px 12px #dce5f3}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:15px}
+.stat h3{font-size:14px;color:#647b9c}
+.stat p{font-size:26px;font-weight:bold;margin:10px 0}
+h2{margin-top:0}
+h3{margin-top:0}
+input,select,textarea{padding:10px;border:1px solid #d1dced;border-radius:8px;width:100%;margin:5px 0 12px;background:white}
+textarea{min-height:70px}
+label{font-size:13px;font-weight:bold}
+.btn{background:#1763c4;color:white;border:0;padding:10px 15px;border-radius:8px;margin:3px}
+.btn.secondary{background:#e6efff;color:#1756a0}
+.btn.danger{background:#ffe5e5;color:#b42323}
+.btn.green{background:#e3f6ec;color:#167344}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{padding:11px;text-align:left;border-bottom:1px solid #e6edf7;font-size:14px}
+th{background:#f0f5fc}
+.tablewrap{overflow-x:auto}
+.search{max-width:350px}
+.symptoms{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.symptoms label{font-weight:normal;background:#f5f8fd;padding:10px;border-radius:8px;display:flex;gap:8px;align-items:center}
+.symptoms input{width:auto;margin:0}
 .hidden{display:none!important}
-#authPage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#eaf3ff,#f7fbff)}
-.auth-card{background:white;width:min(440px,100%);padding:32px;border-radius:18px;box-shadow:0 12px 35px #0f172a14}
-.auth-card h1{font-size:22px;color:#1d4ed8;margin-bottom:8px}
-.auth-card p{color:#64748b;margin:8px 0 20px}
-.auth-card input{margin:8px 0}
-.auth-card button{width:100%;margin:8px 0}
-.auth-card .switch{color:#2563eb;cursor:pointer;font-weight:bold}
-input,select,textarea{width:100%;padding:10px 12px;border:1px solid #dbe2ea;border-radius:8px;background:white;color:#1e293b;outline:none}
-input:focus,select:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3px #dbeafe}
-label{display:block;font-size:13px;font-weight:600;margin:8px 0 5px;color:#334155}
-#appShell{min-height:100vh;display:flex}
-.sidebar{width:245px;background:#fff;border-right:1px solid #e5eaf1;padding:22px 14px;position:fixed;left:0;top:0;bottom:0;overflow:auto}
-.brand{font-size:17px;font-weight:800;color:#1d4ed8;padding:8px 10px 22px}
-.navbtn{width:100%;display:flex;align-items:center;gap:10px;text-align:left;margin:4px 0;background:transparent;color:#475569;padding:12px;border-radius:9px}
-.navbtn:hover,.navbtn.active{background:#eff6ff;color:#1d4ed8}
-.main{margin-left:245px;width:calc(100% - 245px);padding:28px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;gap:12px}
-.topbar h1{font-size:25px}
-.userpill{background:#eaf2ff;color:#1d4ed8;padding:9px 12px;border-radius:20px;font-size:13px}
-.page{display:none}
-.page.active{display:block}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin:20px 0}
-.card,.panel{background:white;border:1px solid #e8edf4;border-radius:14px;padding:18px;box-shadow:0 2px 8px #0f172a06}
-.card h3{font-size:13px;color:#64748b;margin-bottom:10px}
-.card .num{font-size:28px;font-weight:800;color:#1d4ed8}
-.panel h2,.panel h3{margin-bottom:14px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}
-.toolbar input{max-width:420px}
-.table-wrap{overflow:auto;background:white;border:1px solid #e8edf4;border-radius:12px}
-table{border-collapse:collapse;width:100%;min-width:600px}
-th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #edf1f5;font-size:13px}
-th{background:#f8fafc;color:#475569;font-weight:700}
-tr:last-child td{border-bottom:0}
-.status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:700}
-.status-green{background:#dcfce7;color:#166534}
-.status-red{background:#fee2e2;color:#991b1b}
-.status-blue{background:#dbeafe;color:#1d4ed8}
-.status-amber{background:#fef3c7;color:#92400e}
-.actions{display:flex;gap:5px;flex-wrap:wrap}
-.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.modal{position:fixed;inset:0;background:#0f172a66;display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}
-.modalbox{background:white;padding:22px;border-radius:16px;width:min(650px,100%);max-height:90vh;overflow:auto}
-.modalbox h2{margin-bottom:12px}
-.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
-.badge{background:#eff6ff;color:#1d4ed8;padding:5px 9px;border-radius:20px;font-size:12px}
-.room-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}
-.roombox{padding:20px;border-radius:12px}
-.roombox.occupied{background:#fff1f2;color:#b91c1c}
-.roombox.available{background:#ecfdf5;color:#047857}
-.roombox strong{font-size:28px;display:block;margin-top:10px}
-.billing-total{background:#eff6ff;border:1px solid #bfdbfe;padding:18px;border-radius:12px;margin:16px 0;text-align:center}
-.billing-total strong{display:block;font-size:28px;color:#1d4ed8;margin-top:8px}
-.history-card{border-left:4px solid #2563eb;background:#f0f7ff;padding:15px;margin:12px 0;border-radius:8px}
-.settings-layout{display:grid;grid-template-columns:220px 1fr;gap:16px}
-.settings-menu button{width:100%;text-align:left;margin:4px 0;background:white;color:#475569}
-.settings-menu button.active{background:#eff6ff;color:#1d4ed8}
-.profilecircle{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#dbeafe;color:#1d4ed8;font-weight:800;font-size:20px}
-.toast{position:fixed;bottom:20px;right:20px;background:#0f172a;color:white;padding:12px 18px;border-radius:10px;z-index:40}
-.empty{padding:25px;color:#64748b;text-align:center}
-.searchwide{max-width:500px}
-.info{background:#fffbeb;border:1px solid #fde68a;color:#92400e;padding:12px;border-radius:9px;font-size:13px;margin:10px 0}
-@media(max-width:850px){
-.sidebar{width:190px}
-.main{margin-left:190px;width:calc(100% - 190px);padding:18px}
-.settings-layout{grid-template-columns:1fr}
-}
-@media(max-width:620px){
-#appShell{display:block}
-.sidebar{position:static;width:100%;display:flex;overflow:auto;padding:10px;gap:4px;border-bottom:1px solid #e5eaf1}
-.brand{display:none}
-.navbtn{white-space:nowrap;width:auto;margin:0;padding:9px}
-.main{margin:0;width:100%;padding:16px}
-.topbar{align-items:flex-start;flex-direction:column}
-.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
+.modal{position:fixed;inset:0;background:#0007;display:flex;justify-content:center;align-items:center;padding:15px;z-index:5}
+.modalbox{background:white;padding:25px;border-radius:15px;width:100%;max-width:850px;max-height:90vh;overflow:auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.badge{display:inline-block;padding:5px 9px;background:#e5efff;border-radius:20px;font-size:12px}
+small{color:#607493}
+hr{border:0;border-top:1px solid #e3eaf5;margin:20px 0}
+#loginScreen{position:fixed;inset:0;background:#edf3fb;display:flex;align-items:center;justify-content:center;z-index:10}
+.loginbox{background:white;width:360px;padding:30px;border-radius:15px;box-shadow:0 5px 25px #cdd9e9}
+@media(max-width:800px){.sidebar{width:180px}.main{margin-left:180px;padding:12px}}
+@media(max-width:600px){.sidebar{position:relative;width:100%;height:auto}.nav{display:flex;flex-wrap:wrap}.nav button{width:auto}.main{margin:0}}
 </style>
 </head>
 <body>
 
-<div id="authPage">
-<div class="auth-card">
-<h1>Hospital Management System</h1>
-<p>Sign in to access the hospital dashboard.</p>
-
-<div id="loginForm">
-<h2>Log In</h2>
-<input id="loginUsername" placeholder="Username" autocomplete="username">
-<input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password">
-<button onclick="loginUser()">Log In</button>
-<p>Don't have an account? <span class="switch" onclick="showSignup()">Sign Up</span></p>
+<div id="loginScreen">
+ <div class="loginbox">
+  <h2>🏥 HMS Login</h2>
+  <p>Hospital Management System</p>
+  <label>Username</label>
+  <input id="loginUser" placeholder="Enter username">
+  <label>Password</label>
+  <input id="loginPass" type="password" placeholder="Enter password">
+  <button class="btn" style="width:100%" onclick="login()">Login</button>
+  <button class="btn secondary" style="width:100%" onclick="showSignup()">Create Account</button>
+  <small>Demo login: admin / admin123</small>
+ </div>
 </div>
 
-<div id="signupForm" class="hidden">
-<h2>Create Account</h2>
-<input id="signupName" placeholder="Full name">
-<input id="signupUsername" placeholder="Username">
-<input id="signupPassword" type="password" placeholder="Password">
-<input id="signupConfirm" type="password" placeholder="Confirm password">
-<button onclick="registerUser()">Create Account</button>
-<p>Already registered? <span class="switch" onclick="showLogin()">Log In</span></p>
+<div id="signupScreen" class="hidden">
+ <div class="loginbox">
+  <h2>Create Account</h2>
+  <label>Username</label><input id="suUser">
+  <label>Password</label><input id="suPass" type="password">
+  <button class="btn" onclick="signup()">Sign Up</button>
+  <button class="btn secondary" onclick="backLogin()">Back</button>
+ </div>
 </div>
 
-<div id="authMessage"></div>
-<div class="info">Prototype only: don't use real patient information or real passwords. Browser storage is not secure and is not a real authentication system.</div>
-</div>
-</div>
-
-<div id="appShell" class="hidden">
+<div id="app" class="hidden">
 <aside class="sidebar">
-<div class="brand">HOSPITAL MANAGEMENT</div>
-<button class="navbtn active" onclick="navigate('Dashboard',this)">▦ Dashboard</button>
-<button class="navbtn" onclick="navigate('Patients',this)">♙ Patients</button>
-<button class="navbtn" onclick="navigate('Doctors',this)">⚕ Doctors</button>
-<button class="navbtn" onclick="navigate('Appointments',this)">▣ Appointments</button>
-<button class="navbtn" onclick="navigate('Diagnoses',this)">✚ Diagnoses</button>
-<button class="navbtn" onclick="navigate('Medical Records',this)">▤ Medical Records</button>
-<button class="navbtn" onclick="navigate('Rooms',this)">▥ Rooms</button>
-<button class="navbtn" onclick="navigate('Billing',this)">₱ Billing</button>
-<button class="navbtn" onclick="navigate('Settings',this)">⚙ Settings</button>
-<button class="navbtn" onclick="logoutUser()">↪ Logout</button>
+ <div class="logo">✚ Hospital Management System</div>
+ <div class="nav">
+  <button class="active" onclick="page('dashboard',this)">🏠 Dashboard</button>
+  <button onclick="page('patients',this)">👥 Patients & Doctors</button>
+  <button onclick="page('appointments',this)">📅 Appointments</button>
+  <button onclick="page('diagnoses',this)">📋 Diagnoses</button>
+  <button onclick="page('records',this)">📁 Medical Records</button>
+  <button onclick="page('rooms',this)">🛏 Rooms</button>
+  <button onclick="page('billing',this)">💳 Billing</button>
+  <button onclick="page('settings',this)">⚙ Settings</button>
+  <button onclick="logout()">↪ Logout</button>
+ </div>
 </aside>
 
 <main class="main">
-<div class="topbar">
-<h1 id="pageTitle">Dashboard</h1>
-<span class="userpill" id="loggedUser"></span>
+<div class="top">
+ <div><h2 id="pageTitle">Dashboard</h2><small id="welcome">Welcome!</small></div>
+ <span id="userLabel" class="badge"></span>
 </div>
 
-<section class="page active" id="Dashboard">
-<div class="cards">
-<div class="card"><h3>Total Patients</h3><div class="num" id="dashPatients">0</div></div>
-<div class="card"><h3>Total Doctors</h3><div class="num" id="dashDoctors">0</div></div>
-<div class="card"><h3>Appointments</h3><div class="num" id="dashAppointments">0</div></div>
-<div class="card"><h3>Available Rooms</h3><div class="num" id="dashRooms">0</div></div>
-</div>
-<div class="panel">
-<h2>Welcome</h2>
-<p class="muted">Use the sidebar to manage the demo records. Data stays in this browser only.</p>
-</div>
+<section id="dashboard">
+ <div class="stats">
+  <div class="stat"><h3>Total Patients</h3><p id="statPatients">0</p></div>
+  <div class="stat"><h3>Total Doctors</h3><p id="statDoctors">0</p></div>
+  <div class="stat"><h3>Appointments</h3><p id="statAppointments">0</p></div>
+  <div class="stat"><h3>Occupied Rooms</h3><p id="statRooms">0</p></div>
+ </div>
+ <div class="panel">
+  <h3>System Overview</h3>
+  <p>Manage patient information, doctor assignments, appointments, medical records, rooms and billing.</p>
+  <button class="btn" onclick="page('patients')">Manage Patients</button>
+  <button class="btn secondary" onclick="page('appointments')">Appointments</button>
+ </div>
 </section>
 
-<section class="page" id="Patients">
-<div class="toolbar">
-<input id="patientSearch" placeholder="Search patients..." oninput="renderPatients()">
-<button onclick="openPatientForm()">+ Add Patient</button>
-</div>
-<div class="table-wrap">
-<table>
-<thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Actions</th></tr></thead>
-<tbody id="patientTable"></tbody>
-</table>
-</div>
+<section id="patients" class="hidden">
+ <div class="panel">
+  <h3>Patients</h3>
+  <button class="btn" onclick="openPatientForm()">+ Add Patient</button>
+  <input class="search" placeholder="Search patients..." oninput="renderPatients(this.value)">
+  <div class="tablewrap"><table>
+  <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Symptoms</th><th>Suggested Doctor</th><th>Actions</th></tr></thead>
+  <tbody id="patientTable"></tbody></table></div>
+ </div>
+
+ <div class="panel">
+  <h3>Doctors</h3>
+  <button class="btn" onclick="openDoctorForm()">+ Add Doctor</button>
+  <input class="search" placeholder="Search doctors..." oninput="renderDoctors(this.value)">
+  <div class="tablewrap"><table>
+  <thead><tr><th>ID</th><th>Doctor Name</th><th>Patient Name</th><th>Specialization</th><th>Contact</th><th>Actions</th></tr></thead>
+  <tbody id="doctorTable"></tbody></table></div>
+ </div>
 </section>
 
-<section class="page" id="Doctors">
-<div class="toolbar">
-<input id="doctorSearch" placeholder="Search doctors..." oninput="renderDoctors()">
-<button onclick="openDoctorForm()">+ Add Doctor</button>
-</div>
-<div class="table-wrap">
-<table>
-<thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Actions</th></tr></thead>
-<tbody id="doctorTable"></tbody>
-</table>
-</div>
+<section id="appointments" class="hidden">
+ <div class="panel">
+  <h3>Appointments</h3>
+  <button class="btn" onclick="openAppointmentForm()">+ Add Appointment</button>
+  <input class="search" placeholder="Search appointments..." oninput="renderAppointments(this.value)">
+  <div class="tablewrap"><table>
+  <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+  <tbody id="appointmentTable"></tbody></table></div>
+ </div>
 </section>
 
-<section class="page" id="Appointments">
-<div class="toolbar">
-<input id="appointmentSearch" class="searchwide" placeholder="Search patient, doctor, date or ID..." oninput="renderAppointments()">
-<button onclick="openAppointmentForm()">+ Add Appointment</button>
-</div>
-<div class="table-wrap">
-<table>
-<thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
-<tbody id="appointmentTable"></tbody>
-</table>
-</div>
+<section id="diagnoses" class="hidden">
+ <div class="panel">
+  <h3>Diagnoses</h3>
+  <button class="btn" onclick="openDiagnosisForm()">+ Add Diagnosis Record</button>
+  <div class="tablewrap"><table>
+  <thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Diagnosis</th><th>Treatment / Notes</th><th>Actions</th></tr></thead>
+  <tbody id="diagnosisTable"></tbody></table></div>
+ </div>
 </section>
 
-<section class="page" id="Diagnoses">
-<div class="toolbar">
-<input id="diagnosisSearch" placeholder="Search patient or diagnosis..." oninput="renderDiagnoses()">
-<button onclick="openDiagnosisForm()">+ Add Diagnosis</button>
-</div>
-<div class="table-wrap">
-<table>
-<thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Diagnosis</th><th>Notes</th><th>Actions</th></tr></thead>
-<tbody id="diagnosisTable"></tbody>
-</table>
-</div>
+<section id="records" class="hidden">
+ <div class="panel">
+  <h3>Patient Medical Records</h3>
+  <input id="recordSearch" class="search" placeholder="Search patient name or ID..." oninput="renderRecords()">
+  <div id="recordResults"></div>
+ </div>
 </section>
 
-<section class="page" id="Medical Records">
-<div class="toolbar">
-<input id="medicalSearch" class="searchwide" placeholder="Search patient name or ID..." oninput="searchMedicalRecords()">
-</div>
-<div id="medicalRecordsResult"></div>
+<section id="rooms" class="hidden">
+ <div class="panel">
+  <h3>Rooms</h3>
+  <button class="btn" onclick="openRoomForm()">+ Add Room</button>
+  <div id="roomSummary"></div>
+  <div class="tablewrap"><table>
+  <thead><tr><th>Room Number</th><th>Patient</th><th>Status</th><th>Actions</th></tr></thead>
+  <tbody id="roomTable"></tbody></table></div>
+ </div>
 </section>
 
-<section class="page" id="Rooms">
-<div class="room-summary">
-<div class="roombox occupied">Occupied<strong id="occupiedCount">0</strong></div>
-<div class="roombox available">Not Occupied<strong id="availableCount">0</strong></div>
-</div>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Room Number</th><th>Status</th></tr></thead>
-<tbody id="roomTable"></tbody>
-</table>
-</div>
+<section id="billing" class="hidden">
+ <div class="panel">
+  <h3>Billing</h3>
+  <input class="search" placeholder="Search billing by patient..." oninput="renderBilling(this.value)">
+  <button class="btn" onclick="openBillingForm()">+ Add Billing</button>
+  <div class="tablewrap"><table>
+  <thead><tr><th>Patient</th><th>Room Fee</th><th>Services</th><th>Medication</th><th>Lab</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
+  <tbody id="billingTable"></tbody></table></div>
+ </div>
 </section>
 
-<section class="page" id="Billing">
-<div class="toolbar">
-<input id="billingSearch" class="searchwide" placeholder="Search patient name or ID..." oninput="searchBilling()">
-</div>
-<div id="billingResult"></div>
+<section id="settings" class="hidden">
+ <div class="panel">
+  <h3>Settings</h3>
+  <h4>Profile</h4>
+  <label>Username</label><input id="settingUsername" disabled>
+  <h4>Appearance</h4>
+  <select onchange="changeTheme(this.value)">
+   <option value="blue">Blue Theme</option><option value="light">Light Theme</option>
+  </select>
+  <h4>Login Security / Login History</h4>
+  <div class="tablewrap"><table>
+   <thead><tr><th>Username</th><th>Date</th><th>Status</th></tr></thead>
+   <tbody id="historyTable"></tbody>
+  </table></div>
+  <h4>System Information</h4>
+  <p>Hospital Management System – Browser Storage Prototype</p>
+ </div>
 </section>
 
-<section class="page" id="Settings">
-<div class="settings-layout">
-<div class="panel settings-menu">
-<button class="active" onclick="settingsTab('Profile',this)">Profile</button>
-<button onclick="settingsTab('Account',this)">Account</button>
-<button onclick="settingsTab('Notifications',this)">Notifications</button>
-<button onclick="settingsTab('Appearance',this)">Appearance</button>
-<button onclick="settingsTab('Login Security',this)">Login Security</button>
-<button onclick="settingsTab('System Info',this)">System Info</button>
-</div>
-<div class="panel"><div id="settingsContent"></div></div>
-</div>
-</section>
 </main>
 </div>
 
 <div id="modal" class="modal hidden">
-<div class="modalbox"><div id="modalContent"></div></div>
+ <div class="modalbox">
+  <div id="modalContent"></div>
+  <button class="btn secondary" onclick="closeModal()">Cancel</button>
+ </div>
 </div>
-<div id="toast" class="toast hidden"></div>
 
 <script>
 const SPECIALIZATIONS=[
-'General Medicine','Internal Medicine','Cardiology','Neurology','Pediatrics',
-'Obstetrics and Gynecology (OB-GYN)','Surgery','Orthopedics','Dermatology',
-'Ophthalmology','ENT (Ear, Nose and Throat)','Psychiatry','Radiology',
-'Anesthesiology','Emergency Medicine','Family Medicine','Urology','Oncology',
-'Pulmonology','Gastroenterology','Nephrology','Endocrinology','Infectious Disease',
-'Rheumatology','Hematology','Pathology','Physical Medicine and Rehabilitation',
-'Dentistry','General Practitioner'
+"General Medicine","Internal Medicine","Cardiology","Pulmonology",
+"Neurology","Gastroenterology","Dermatology","Orthopedics",
+"Ophthalmology","Psychiatry","Pediatrics","Obstetrics and Gynecology",
+"ENT (Otolaryngology)","Urology","Nephrology","Endocrinology",
+"Oncology","General Surgery","Emergency Medicine","Other"
 ];
 
-const load=(key,def=[])=>{
-try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(def))}
-catch{return def}
+const SYMPTOMS=[
+"Fever","Cough","Cold / Runny Nose","Sore Throat","Headache",
+"Dizziness","Difficulty Breathing","Chest Pain","Stomach Pain",
+"Nausea","Vomiting","Diarrhea","Constipation","Body Pain",
+"Muscle Pain","Back Pain","Joint Pain","Fatigue / Weakness",
+"Loss of Appetite","Skin Rash","Itching","Swelling","Bleeding",
+"High Blood Pressure","Fast Heartbeat","Blurred Vision",
+"Difficulty Sleeping","Anxiety / Nervousness","Other"
+];
+
+const SUGGESTIONS={
+"Fever":"General Medicine",
+"Cough":"General Medicine",
+"Cold / Runny Nose":"General Medicine",
+"Sore Throat":"General Medicine",
+"Headache":"Neurology",
+"Dizziness":"General Medicine",
+"Difficulty Breathing":"Pulmonology",
+"Chest Pain":"Cardiology",
+"Stomach Pain":"Gastroenterology",
+"Nausea":"Gastroenterology",
+"Vomiting":"Gastroenterology",
+"Diarrhea":"Gastroenterology",
+"Constipation":"Gastroenterology",
+"Body Pain":"General Medicine",
+"Muscle Pain":"Orthopedics",
+"Back Pain":"Orthopedics",
+"Joint Pain":"Orthopedics",
+"Fatigue / Weakness":"General Medicine",
+"Loss of Appetite":"General Medicine",
+"Skin Rash":"Dermatology",
+"Itching":"Dermatology",
+"Swelling":"General Medicine",
+"Bleeding":"General Medicine",
+"High Blood Pressure":"Internal Medicine",
+"Fast Heartbeat":"Cardiology",
+"Blurred Vision":"Ophthalmology",
+"Difficulty Sleeping":"General Medicine",
+"Anxiety / Nervousness":"General Medicine"
 };
-const save=(key,val)=>localStorage.setItem(key,JSON.stringify(val));
 
-let patients=load('hmsPatients');
-let doctors=load('hmsDoctors');
-let appointments=load('hmsAppointments');
-let diagnoses=load('hmsDiagnoses');
-let rooms=load('hmsRooms',[
-{number:'101',status:'Occupied'},
-{number:'102',status:'Not Occupied'},
-{number:'103',status:'Occupied'},
-{number:'104',status:'Not Occupied'},
-{number:'105',status:'Not Occupied'},
-{number:'106',status:'Occupied'},
-{number:'107',status:'Not Occupied'},
-{number:'108',status:'Not Occupied'}
-]);
-let billing=load('hmsBilling');
-let users=load('demoUsers');
-let loginHistory=load('hmsLoginHistory');
+let patients=JSON.parse(localStorage.getItem("hms_patients")||"[]");
+let doctors=JSON.parse(localStorage.getItem("hms_doctors")||"[]");
+let appointments=JSON.parse(localStorage.getItem("hms_appointments")||"[]");
+let diagnoses=JSON.parse(localStorage.getItem("hms_diagnoses")||"[]");
+let rooms=JSON.parse(localStorage.getItem("hms_rooms")||"[]");
+let bills=JSON.parse(localStorage.getItem("hms_bills")||"[]");
+let users=JSON.parse(localStorage.getItem("hms_users")||'{"admin":"admin123"}');
+let history=JSON.parse(localStorage.getItem("hms_history")||"[]");
+let currentUser="";
 
-let nextPatient=()=> 'P-'+String(patients.length+1).padStart(3,'0');
-let nextDoctor=()=> 'D-'+String(doctors.length+1).padStart(3,'0');
-let nextAppointment=()=> 'A-'+String(appointments.length+1).padStart(3,'0');
-let nextDiagnosis=()=> 'DG-'+String(diagnoses.length+1).padStart(3,'0');
+function save(){
+ localStorage.setItem("hms_patients",JSON.stringify(patients));
+ localStorage.setItem("hms_doctors",JSON.stringify(doctors));
+ localStorage.setItem("hms_appointments",JSON.stringify(appointments));
+ localStorage.setItem("hms_diagnoses",JSON.stringify(diagnoses));
+ localStorage.setItem("hms_rooms",JSON.stringify(rooms));
+ localStorage.setItem("hms_bills",JSON.stringify(bills));
+ localStorage.setItem("hms_users",JSON.stringify(users));
+ localStorage.setItem("hms_history",JSON.stringify(history));
+ renderAll();
+}
 
-function esc(s){
-return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+function login(){
+ let u=document.getElementById("loginUser").value.trim();
+ let p=document.getElementById("loginPass").value;
+ if(users[u]===p){
+  currentUser=u;
+  history.unshift({user:u,date:new Date().toLocaleString(),status:"Successful"});
+  save();
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("signupScreen").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("userLabel").innerText=u;
+  document.getElementById("welcome").innerText="Welcome back, "+u+"!";
+  document.getElementById("settingUsername").value=u;
+  renderAll();
+ }else{
+  alert("Invalid username or password.");
+  history.unshift({user:u,date:new Date().toLocaleString(),status:"Failed"});
+  save();
+ }
 }
-function money(n){
-return '₱'+Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2})
+
+function logout(){
+ history.unshift({user:currentUser,date:new Date().toLocaleString(),status:"Logout"});
+ save();
+ currentUser="";
+ document.getElementById("app").classList.add("hidden");
+ document.getElementById("loginScreen").classList.remove("hidden");
 }
-function toast(m){
-let t=document.getElementById('toast');
-t.textContent=m;
-t.classList.remove('hidden');
-setTimeout(()=>t.classList.add('hidden'),2400)
-}
+
 function showSignup(){
-document.getElementById('loginForm').classList.add('hidden');
-document.getElementById('signupForm').classList.remove('hidden');
-document.getElementById('authMessage').textContent=''
+ document.getElementById("loginScreen").classList.add("hidden");
+ document.getElementById("signupScreen").classList.remove("hidden");
+ document.getElementById("signupScreen").classList.add("loginScreen");
 }
-function showLogin(){
-document.getElementById('signupForm').classList.add('hidden');
-document.getElementById('loginForm').classList.remove('hidden');
-document.getElementById('authMessage').textContent=''
+function backLogin(){
+ document.getElementById("signupScreen").classList.add("hidden");
+ document.getElementById("loginScreen").classList.remove("hidden");
 }
-function registerUser(){
-let name=document.getElementById('signupName').value.trim();
-let username=document.getElementById('signupUsername').value.trim();
-let pw=document.getElementById('signupPassword').value;
-let cf=document.getElementById('signupConfirm').value;
-let msg=document.getElementById('authMessage');
-if(!name||!username||!pw||!cf){msg.textContent='Complete all fields.';return}
-if(pw!==cf){msg.textContent='Passwords do not match.';return}
-if(users.some(u=>u.username.toLowerCase()===username.toLowerCase())){msg.textContent='Username already exists.';return}
-users.push({name,username,password:pw});
-save('demoUsers',users);
-msg.style.color='green';
-msg.textContent='Account created. Log in now.';
-document.getElementById('loginUsername').value=username;
-showLogin()
-}
-function recordLogin(username,status){
-let now=new Date();
-loginHistory.unshift({username:username||'Unknown',date:now.toLocaleDateString(),time:now.toLocaleTimeString(),status});
-loginHistory=loginHistory.slice(0,200);
-save('hmsLoginHistory',loginHistory)
-}
-function loginUser(){
-let username=document.getElementById('loginUsername').value.trim();
-let pw=document.getElementById('loginPassword').value;
-let user=users.find(u=>u.username.toLowerCase()===username.toLowerCase()&&u.password===pw);
-if(!user){
-recordLogin(username,'Failed');
-document.getElementById('authMessage').textContent='Invalid username or password.';
-return
-}
-recordLogin(user.username,'Successful');
-localStorage.setItem('hmsCurrentUser',user.username);
-enterApp()
-}
-function enterApp(){
-let u=localStorage.getItem('hmsCurrentUser');
-if(!u){
-document.getElementById('authPage').classList.remove('hidden');
-document.getElementById('appShell').classList.add('hidden');
-return
-}
-document.getElementById('authPage').classList.add('hidden');
-document.getElementById('appShell').classList.remove('hidden');
-document.getElementById('loggedUser').textContent='Logged in: '+u;
-refreshDashboard();
-navigate('Dashboard')
-}
-function logoutUser(){
-localStorage.removeItem('hmsCurrentUser');
-document.getElementById('appShell').classList.add('hidden');
-document.getElementById('authPage').classList.remove('hidden');
-showLogin();
-document.getElementById('loginPassword').value=''
-}
-function navigate(name,btn){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-let page=document.getElementById(name);
-if(page)page.classList.add('active');
-document.getElementById('pageTitle').textContent=name;
-document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));
-if(btn)btn.classList.add('active');
-else{
-let b=[...document.querySelectorAll('.navbtn')].find(x=>x.textContent.trim().includes(name));
-if(b)b.classList.add('active')
-}
-if(name==='Patients')renderPatients();
-if(name==='Doctors')renderDoctors();
-if(name==='Appointments')renderAppointments();
-if(name==='Diagnoses')renderDiagnoses();
-if(name==='Rooms')renderRooms();
-if(name==='Settings')settingsTab('Profile');
-refreshDashboard()
-}
-function refreshDashboard(){
-document.getElementById('dashPatients').textContent=patients.length;
-document.getElementById('dashDoctors').textContent=doctors.length;
-document.getElementById('dashAppointments').textContent=appointments.length;
-document.getElementById('dashRooms').textContent=rooms.filter(r=>r.status==='Not Occupied').length
-}
-function openModal(html){
-document.getElementById('modalContent').innerHTML=html;
-document.getElementById('modal').classList.remove('hidden')
-}
-function closeModal(){
-document.getElementById('modal').classList.add('hidden')
+function signup(){
+ let u=document.getElementById("suUser").value.trim();
+ let p=document.getElementById("suPass").value;
+ if(!u||!p)return alert("Enter username and password.");
+ if(users[u])return alert("Username already exists.");
+ users[u]=p;
+ save();
+ alert("Account created. Please log in.");
+ backLogin();
 }
 
-// PATIENTS
-function openPatientForm(id=''){
-let p=patients.find(x=>x.id===id)||{};
-openModal(`<h2>${id?'Edit':'Add'} Patient</h2>
-<div class="formgrid">
-<div><label>Full Name</label><input id="pName" value="${esc(p.name||'')}"></div>
-<div><label>Age</label><input id="pAge" type="number" value="${esc(p.age||'')}"></div>
-<div><label>Gender</label><select id="pGender"><option value="">Select</option><option ${p.gender==='Male'?'selected':''}>Male</option><option ${p.gender==='Female'?'selected':''}>Female</option><option ${p.gender==='Other'?'selected':''}>Other</option></select></div>
-<div><label>Contact</label><input id="pContact" value="${esc(p.contact||'')}"></div>
-<div><label>Address</label><input id="pAddress" value="${esc(p.address||'')}"></div>
-</div>
-<div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancel</button><button onclick="savePatient('${id}')">Save Patient</button></div>`)
+function page(id,btn){
+ document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ document.getElementById("pageTitle").innerText={
+ dashboard:"Dashboard",patients:"Patients & Doctors",
+ appointments:"Appointments",diagnoses:"Diagnoses",
+ records:"Medical Records",rooms:"Rooms",
+ billing:"Billing",settings:"Settings"
+ }[id]||id;
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ renderAll();
 }
-function savePatient(id){
-let name=document.getElementById('pName').value.trim();
-if(!name){toast('Patient name required');return}
-let data={
-id:id||nextPatient(),
-name,
-age:document.getElementById('pAge').value,
-gender:document.getElementById('pGender').value,
-contact:document.getElementById('pContact').value,
-address:document.getElementById('pAddress').value
-};
-if(id)patients=patients.map(p=>p.id===id?data:p);
-else patients.push(data);
-save('hmsPatients',patients);
-ensureBilling(data.id);
-closeModal();
-renderPatients();
-refreshDashboard();
-toast('Patient saved')
+
+function openModal(html){
+ document.getElementById("modalContent").innerHTML=html;
+ document.getElementById("modal").classList.remove("hidden");
 }
-function ensureBilling(pid){
-if(!billing.some(b=>b.patientId===pid)){
-billing.push({patientId:pid,roomFee:0,services:0,medication:0,laboratory:0,payment:0});
-save('hmsBilling',billing)
+function closeModal(){document.getElementById("modal").classList.add("hidden")}
+function id(prefix,arr){return prefix+(arr.length+1).toString().padStart(3,"0")}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function money(v){return "₱"+Number(v||0).toLocaleString("en-PH",{minimumFractionDigits:2})}
+
+function openPatientForm(editId=null){
+ let p=patients.find(x=>x.id===editId)||{};
+ let checked=p.symptoms||[];
+ let symptomHtml=SYMPTOMS.map(s=>`<label><input type="checkbox" name="symptom" value="${esc(s)}" ${checked.includes(s)?"checked":""}> ${esc(s)}</label>`).join("");
+ openModal(`
+ <h2>${editId?"Edit":"Add"} Patient</h2>
+ <form id="patientForm">
+ <div class="grid2">
+ <div><label>Full Name *</label><input id="pname" required value="${esc(p.name||"")}"></div>
+ <div><label>Age *</label><input id="page" type="number" required value="${esc(p.age||"")}"></div>
+ <div><label>Gender</label><select id="pgender"><option>Male</option><option ${p.gender==="Female"?"selected":""}>Female</option><option>Other</option></select></div>
+ <div><label>Contact Number</label><input id="pcontact" value="${esc(p.contact||"")}"></div>
+ <div><label>Address</label><input id="paddress" value="${esc(p.address||"")}"></div>
+ </div>
+ <hr><h3>Patient Symptoms</h3>
+ <small>Select all symptoms reported by the patient.</small>
+ <div class="symptoms">${symptomHtml}</div>
+ <label>Other Symptoms (Specify)</label><input id="pother" value="${esc(p.other||"")}">
+ <div class="grid2">
+ <div><label>Duration</label><input id="pduration" placeholder="e.g. 2 days" value="${esc(p.duration||"")}"></div>
+ <div><label>Reported Severity</label><select id="pseverity"><option value="">Select</option><option ${p.severity==="Mild"?"selected":""}>Mild</option><option ${p.severity==="Moderate"?"selected":""}>Moderate</option><option ${p.severity==="Severe"?"selected":""}>Severe</option></select></div>
+ </div>
+ <label>Notes</label><textarea id="pnotes">${esc(p.notes||"")}</textarea>
+ <hr><h3>Suggested Doctor</h3>
+ <div id="suggestionBox" class="panel">Select symptoms to see suggested specialization.</div>
+ <label>Assign Doctor</label><select id="passign"></select>
+ <button class="btn" type="submit">Save Patient</button>
+ </form>
+ `);
+ populatePatientDoctorSuggestions();
+ document.querySelectorAll('input[name="symptom"]').forEach(c=>c.addEventListener("change",populatePatientDoctorSuggestions));
+ document.getElementById("pother").addEventListener("input",populatePatientDoctorSuggestions);
+ document.getElementById("patientForm").onsubmit=e=>{
+ e.preventDefault();
+ let symptoms=[...document.querySelectorAll('input[name="symptom"]:checked')].map(c=>c.value);
+ let other=document.getElementById("pother").value.trim();
+ if(other)symptoms.push(other);
+ let suggestion=getSuggestion(symptoms);
+ let assigned=document.getElementById("passign").value;
+ let obj={id:p.id||id("P",patients),name:document.getElementById("pname").value,age:document.getElementById("page").value,gender:document.getElementById("pgender").value,contact:document.getElementById("pcontact").value,address:document.getElementById("paddress").value,symptoms,other,duration:document.getElementById("pduration").value,severity:document.getElementById("pseverity").value,notes:document.getElementById("pnotes").value,suggested:suggestion,doctorId:assigned};
+ if(editId)patients[patients.findIndex(x=>x.id===editId)]=obj;else patients.push(obj);
+ if(assigned){
+  let d=doctors.find(x=>x.id===assigned);
+  if(d)d.patientId=obj.id;
+ }
+ save();closeModal();
+ };
 }
+
+function populatePatientDoctorSuggestions(){
+ let symptoms=[...document.querySelectorAll('input[name="symptom"]:checked')].map(c=>c.value);
+ let other=document.getElementById("pother").value.trim();
+ if(other)symptoms.push(other);
+ let suggestion=getSuggestion(symptoms);
+ let box=document.getElementById("suggestionBox");
+ let sel=document.getElementById("passign");
+ if(!box||!sel)return;
+ box.innerHTML=suggestion?
+ "<b>Suggested specialization:</b> "+esc(suggestion)+"<br><small>Suggestion only. Clinical staff should confirm.</small>":
+ "Select symptoms to see suggested specialization.";
+ let matched=doctors.filter(d=>d.specialization===suggestion);
+ sel.innerHTML='<option value="">Select Doctor</option>'+matched.map(d=>`<option value="${d.id}">${esc(d.name)} (${esc(d.specialization)})</option>`).join("")+
+ '<option value="none">No matching doctor available</option>';
 }
-function renderPatients(){
-let q=(document.getElementById('patientSearch')?.value||'').toLowerCase();
-let rows=patients.filter(p=>(p.name+' '+p.id+' '+p.contact).toLowerCase().includes(q));
-document.getElementById('patientTable').innerHTML=rows.map(p=>`
-<tr><td>${esc(p.id)}</td><td>${esc(p.name)}</td><td>${esc(p.age)}</td>
-<td>${esc(p.gender)}</td><td>${esc(p.contact)}</td>
-<td><div class="actions"><button class="small secondary" onclick="openPatientForm('${p.id}')">Edit</button>
-<button class="small danger" onclick="deletePatient('${p.id}')">Delete</button></div></td></tr>`).join('')||'<tr><td colspan="6" class="empty">No patients found.</td></tr>'
+
+function getSuggestion(symptoms){
+ for(let s of symptoms){
+  if(SUGGESTIONS[s])return SUGGESTIONS[s];
+ }
+ return symptoms.length?"General Medicine":"";
+}
+
+function renderPatients(q=""){
+ document.getElementById("patientTable").innerHTML=patients.filter(p=>(p.name+p.id+p.contact).toLowerCase().includes(q.toLowerCase())).map(p=>{
+ let d=doctors.find(x=>x.id===p.doctorId);
+ return `<tr><td>${esc(p.id)}</td><td>${esc(p.name)}</td><td>${esc(p.age)}</td><td>${esc(p.gender)}</td><td>${esc(p.contact)}</td><td>${esc((p.symptoms||[]).join(", "))}</td><td>${esc(d?d.name:p.suggested||"Not assigned")}</td><td><button class="btn secondary" onclick="openPatientForm('${p.id}')">Edit</button><button class="btn danger" onclick="deletePatient('${p.id}')">Delete</button></td></tr>`;
+ }).join("");
 }
 function deletePatient(id){
-if(confirm('Delete this patient from the demo?')){
-patients=patients.filter(p=>p.id!==id);
-save('hmsPatients',patients);
-renderPatients();
-refreshDashboard()
-}
+ if(confirm("Delete this patient?")){
+ patients=patients.filter(p=>p.id!==id);
+ save();
+ }
 }
 
-// DOCTORS
-function openDoctorForm(id=''){
-let d=doctors.find(x=>x.id===id)||{};
-openModal(`<h2>${id?'Edit':'Add'} Doctor</h2>
-<div class="formgrid">
-<div><label>Doctor Name</label><input id="dName" value="${esc(d.name||'')}"></div>
-<div><label>Specialization</label><select id="dSpec"><option value="">Select specialization</option>${SPECIALIZATIONS.map(s=>`<option ${d.specialization===s?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
-<div><label>Contact</label><input id="dContact" value="${esc(d.contact||'')}"></div>
-</div>
-<div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancel</button><button onclick="saveDoctor('${id}')">Save Doctor</button></div>`)
+function openDoctorForm(editId=null){
+ let d=doctors.find(x=>x.id===editId)||{};
+ openModal(`<h2>${editId?"Edit":"Add"} Doctor</h2>
+ <form id="doctorForm">
+ <label>Doctor Name *</label><input id="dname" required value="${esc(d.name||"")}">
+ <label>Patient Name</label><select id="dpatient"><option value="">Unassigned</option>${patients.map(p=>`<option value="${p.id}" ${d.patientId===p.id?"selected":""}>${esc(p.name)}</option>`).join("")}</select>
+ <label>Specialization *</label><select id="dspec" required>${SPECIALIZATIONS.map(s=>`<option ${d.specialization===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+ <label>Contact</label><input id="dcontact" value="${esc(d.contact||"")}">
+ <button class="btn" type="submit">Save Doctor</button></form>`);
+ document.getElementById("doctorForm").onsubmit=e=>{
+ e.preventDefault();
+ let obj={id:d.id||id("D",doctors),name:document.getElementById("dname").value,patientId:document.getElementById("dpatient").value,specialization:document.getElementById("dspec").value,contact:document.getElementById("dcontact").value};
+ if(editId)doctors[doctors.findIndex(x=>x.id===editId)]=obj;else doctors.push(obj);
+ if(obj.patientId){
+  let p=patients.find(x=>x.id===obj.patientId);
+  if(p)p.doctorId=obj.id;
+ }
+ save();closeModal();
+ };
 }
-function saveDoctor(id){
-let name=document.getElementById('dName').value.trim(),spec=document.getElementById('dSpec').value;
-if(!name||!spec){toast('Name and specialization required');return}
-let d={id:id||nextDoctor(),name,specialization:spec,contact:document.getElementById('dContact').value};
-if(id)doctors=doctors.map(x=>x.id===id?d:x);
-else doctors.push(d);
-save('hmsDoctors',doctors);
-closeModal();
-renderDoctors();
-refreshDashboard();
-toast('Doctor saved')
-}
-function renderDoctors(){
-let q=(document.getElementById('doctorSearch')?.value||'').toLowerCase();
-let list=doctors.filter(d=>(d.name+' '+d.specialization+' '+d.id).toLowerCase().includes(q));
-document.getElementById('doctorTable').innerHTML=list.map(d=>`
-<tr><td>${esc(d.id)}</td><td>${esc(d.name)}</td><td>${esc(d.specialization)}</td><td>${esc(d.contact)}</td>
-<td><div class="actions"><button class="small secondary" onclick="openDoctorForm('${d.id}')">Edit</button>
-<button class="small danger" onclick="deleteDoctor('${d.id}')">Delete</button></div></td></tr>`).join('')||'<tr><td colspan="5" class="empty">No doctors found.</td></tr>'
+function renderDoctors(q=""){
+ document.getElementById("doctorTable").innerHTML=doctors.filter(d=>(d.name+d.specialization+d.contact).toLowerCase().includes(q.toLowerCase())).map(d=>{
+ let p=patients.find(x=>x.id===d.patientId);
+ return `<tr><td>${esc(d.id)}</td><td>${esc(d.name)}</td><td>${esc(p?p.name:"Unassigned")}</td><td>${esc(d.specialization)}</td><td>${esc(d.contact)}</td><td><button class="btn secondary" onclick="openDoctorForm('${d.id}')">Edit</button><button class="btn danger" onclick="deleteDoctor('${d.id}')">Delete</button></td></tr>`;
+ }).join("");
 }
 function deleteDoctor(id){
-if(confirm('Delete doctor?')){
-doctors=doctors.filter(d=>d.id!==id);
-save('hmsDoctors',doctors);
-renderDoctors();
-refreshDashboard()
-}
+ if(confirm("Delete doctor?")){
+ doctors=doctors.filter(d=>d.id!==id);
+ save();
+ }
 }
 
-// APPOINTMENTS
-function openAppointmentForm(id=''){
-let a=appointments.find(x=>x.id===id)||{};
-openModal(`<h2>${id?'Edit':'Add'} Appointment</h2>
-<div class="formgrid">
-<div><label>Patient</label><select id="aPatient"><option value="">Select patient</option>${patientOptions(a.patientId)}</select></div>
-<div><label>Doctor</label><select id="aDoctor"><option value="">Select doctor</option>${doctorOptions(a.doctorId)}</select></div>
-<div><label>Date</label><input id="aDate" type="date" value="${esc(a.date||new Date().toISOString().slice(0,10))}"></div>
-<div><label>Status</label><select id="aStatus"><option ${a.status==='Admitted'?'selected':''}>Admitted</option><option ${a.status==='Discharged'?'selected':''}>Discharged</option><option ${a.status==='Scheduled'?'selected':''}>Scheduled</option></select></div>
-</div>
-<div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancel</button><button onclick="saveAppointment('${id}')">Save Appointment</button></div>`)
+function patientOptions(){
+ return patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
 }
-function saveAppointment(id){
-let pid=document.getElementById('aPatient').value,did=document.getElementById('aDoctor').value;
-if(!pid||!did){toast('Select patient and doctor');return}
-let a={id:id||nextAppointment(),patientId:pid,doctorId:did,date:document.getElementById('aDate').value,status:document.getElementById('aStatus').value};
-if(id)appointments=appointments.map(x=>x.id===id?a:x);
-else appointments.push(a);
-save('hmsAppointments',appointments);
-closeModal();
-renderAppointments();
-refreshDashboard();
-toast('Appointment saved')
-}
-function renderAppointments(){
-let q=(document.getElementById('appointmentSearch')?.value||'').toLowerCase();
-let list=appointments.filter(a=>{
-let p=patients.find(x=>x.id===a.patientId),d=doctors.find(x=>x.id===a.doctorId);
-return(a.id+' '+(p?.name||'')+' '+(d?.name||'')+' '+a.date+' '+a.status).toLowerCase().includes(q)
-});
-document.getElementById('appointmentTable').innerHTML=list.map(a=>{
-let p=patients.find(x=>x.id===a.patientId),d=doctors.find(x=>x.id===a.doctorId);
-return `<tr><td>${esc(a.id)}</td><td>${esc(p?.name||'Unknown')}</td><td>${esc(d?.name||'Unknown')}</td><td>${esc(a.date)}</td><td><span class="status status-blue">${esc(a.status)}</span></td><td><div class="actions"><button class="small secondary" onclick="openAppointmentForm('${a.id}')">Edit</button><button class="small danger" onclick="deleteAppointment('${a.id}')">Delete</button></div></td></tr>`
-}).join('')||'<tr><td colspan="6" class="empty">No appointments found.</td></tr>'
-}
-function deleteAppointment(id){
-if(confirm('Delete appointment?')){
-appointments=appointments.filter(a=>a.id!==id);
-save('hmsAppointments',appointments);
-renderAppointments();
-refreshDashboard()
-}
+function doctorOptions(){
+ return doctors.map(d=>`<option value="${d.id}">${esc(d.name)} – ${esc(d.specialization)}</option>`).join("");
 }
 
-// DIAGNOSES
-function openDiagnosisForm(id=''){
-let x=diagnoses.find(z=>z.id===id)||{};
-openModal(`<h2>${id?'Edit':'Add'} Diagnosis</h2>
-<div class="formgrid">
-<div><label>Patient</label><select id="gPatient"><option value="">Select patient</option>${patientOptions(x.patientId)}</select></div>
-<div><label>Doctor</label><select id="gDoctor"><option value="">Select doctor</option>${doctorOptions(x.doctorId)}</select></div>
-<div><label>Date</label><input id="gDate" type="date" value="${esc(x.date||new Date().toISOString().slice(0,10))}"></div>
-<div><label>Diagnosis</label><input id="gDiag" value="${esc(x.diagnosis||'')}"></div>
-<div><label>Treatment / Plan</label><input id="gTreatment" value="${esc(x.treatment||'')}"></div>
-<div><label>Notes</label><textarea id="gNotes">${esc(x.notes||'')}</textarea></div>
-</div>
-<div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancel</button><button onclick="saveDiagnosis('${id}')">Save</button></div>`)
+function openAppointmentForm(){
+ openModal(`<h2>Add Appointment</h2><form id="af">
+ <label>Patient</label><select id="ap" required>${patientOptions()}</select>
+ <label>Doctor</label><select id="ad" required>${doctorOptions()}</select>
+ <label>Date</label><input id="adt" type="date" required>
+ <label>Status</label><select id="ast"><option>Scheduled</option><option>Admitted</option><option>Discharged</option><option>Completed</option><option>Cancelled</option></select>
+ <button class="btn">Save Appointment</button></form>`);
+ document.getElementById("af").onsubmit=e=>{
+ e.preventDefault();
+ appointments.push({id:id("A",appointments),patientId:document.getElementById("ap").value,doctorId:document.getElementById("ad").value,date:document.getElementById("adt").value,status:document.getElementById("ast").value});
+ save();closeModal();
+ };
 }
-function saveDiagnosis(id){
-let pid=document.getElementById('gPatient').value,did=document.getElementById('gDoctor').value,diag=document.getElementById('gDiag').value.trim();
-if(!pid||!did||!diag){toast('Patient, doctor and diagnosis required');return}
-let x={id:id||nextDiagnosis(),patientId:pid,doctorId:did,date:document.getElementById('gDate').value,diagnosis:diag,treatment:document.getElementById('gTreatment').value,notes:document.getElementById('gNotes').value};
-if(id)diagnoses=diagnoses.map(z=>z.id===id?x:z);
-else diagnoses.push(x);
-save('hmsDiagnoses',diagnoses);
-closeModal();
-renderDiagnoses();
-toast('Diagnosis saved')
+function renderAppointments(q=""){
+ document.getElementById("appointmentTable").innerHTML=appointments.filter(a=>{let p=patients.find(x=>x.id===a.patientId),d=doctors.find(x=>x.id===a.doctorId);return ((p?p.name:"")+(d?d.name:"")+a.date+a.status).toLowerCase().includes(q.toLowerCase())}).map(a=>{
+ let p=patients.find(x=>x.id===a.patientId),d=doctors.find(x=>x.id===a.doctorId);
+ return `<tr><td>${esc(a.id)}</td><td>${esc(p?p.name:"Unknown")}</td><td>${esc(d?d.name:"Unknown")}</td><td>${esc(a.date)}</td><td>${esc(a.status)}</td><td><button class="btn danger" onclick="delAppointment('${a.id}')">Delete</button></td></tr>`;
+ }).join("");
+}
+function delAppointment(id){appointments=appointments.filter(a=>a.id!==id);save()}
+
+function openDiagnosisForm(){
+ openModal(`<h2>Add Diagnosis Record</h2><form id="df">
+ <label>Patient</label><select id="dp" required>${patientOptions()}</select>
+ <label>Doctor</label><select id="dd" required>${doctorOptions()}</select>
+ <label>Date</label><input id="ddate" type="date" required>
+ <label>Diagnosis</label><input id="dtext" required>
+ <label>Treatment / Notes</label><textarea id="dnotes"></textarea>
+ <button class="btn">Save Record</button></form>`);
+ document.getElementById("df").onsubmit=e=>{
+ e.preventDefault();
+ diagnoses.push({id:id("DX",diagnoses),patientId:document.getElementById("dp").value,doctorId:document.getElementById("dd").value,date:document.getElementById("ddate").value,diagnosis:document.getElementById("dtext").value,notes:document.getElementById("dnotes").value});
+ save();closeModal();
+ };
 }
 function renderDiagnoses(){
-let q=(document.getElementById('diagnosisSearch')?.value||'').toLowerCase();
-let list=diagnoses.filter(x=>{
-let p=patients.find(z=>z.id===x.patientId),d=doctors.find(z=>z.id===x.doctorId);
-return(x.diagnosis+' '+x.id+' '+(p?.name||'')+' '+(d?.name||'')).toLowerCase().includes(q)
-});
-document.getElementById('diagnosisTable').innerHTML=list.map(x=>{
-let p=patients.find(z=>z.id===x.patientId),d=doctors.find(z=>z.id===x.doctorId);
-return `<tr><td>${esc(x.id)}</td><td>${esc(p?.name||'Unknown')}</td><td>${esc(d?.name||'Unknown')}</td><td>${esc(x.date)}</td><td>${esc(x.diagnosis)}</td><td>${esc(x.notes)}</td><td><div class="actions"><button class="small secondary" onclick="openDiagnosisForm('${x.id}')">Edit</button><button class="small danger" onclick="deleteDiagnosis('${x.id}')">Delete</button></div></td></tr>`
-}).join('')||'<tr><td colspan="7" class="empty">No diagnoses found.</td></tr>'
+ document.getElementById("diagnosisTable").innerHTML=diagnoses.map(x=>{
+ let p=patients.find(z=>z.id===x.patientId),d=doctors.find(z=>z.id===x.doctorId);
+ return `<tr><td>${esc(p?p.name:"Unknown")}</td><td>${esc(d?d.name:"Unknown")}</td><td>${esc(x.date)}</td><td>${esc(x.diagnosis)}</td><td>${esc(x.notes)}</td><td><button class="btn danger" onclick="delDiagnosis('${x.id}')">Delete</button></td></tr>`;
+ }).join("");
 }
-function deleteDiagnosis(id){
-if(confirm('Delete diagnosis?')){
-diagnoses=diagnoses.filter(x=>x.id!==id);
-save('hmsDiagnoses',diagnoses);
-renderDiagnoses()
-}
+function delDiagnosis(id){diagnoses=diagnoses.filter(x=>x.id!==id);save()}
+
+function renderRecords(){
+ let q=(document.getElementById("recordSearch").value||"").toLowerCase();
+ let found=patients.filter(p=>(p.name+p.id).toLowerCase().includes(q));
+ document.getElementById("recordResults").innerHTML=found.map(p=>{
+ let a=appointments.filter(x=>x.patientId===p.id),dx=diagnoses.filter(x=>x.patientId===p.id);
+ let d=doctors.find(x=>x.id===p.doctorId);
+ return `<div class="panel"><h3>${esc(p.name)} (${esc(p.id)})</h3>
+ <p><b>Symptoms:</b> ${esc((p.symptoms||[]).join(", "))}</p>
+ <p><b>Assigned Doctor:</b> ${esc(d?d.name:"Unassigned")}</p>
+ <h4>Diagnoses</h4>${dx.map(x=>`<p>${esc(x.date)} – ${esc(x.diagnosis)} – ${esc(x.notes)}</p>`).join("")||"No diagnoses saved"}
+ <h4>Appointments</h4>${a.map(x=>`<p>${esc(x.date)} – ${esc(x.status)}</p>`).join("")||"No appointments"}
+ </div>`;
+ }).join("")||"No patients found.";
 }
 
-// MEDICAL RECORDS
-function searchMedicalRecords(){
-let q=document.getElementById('medicalSearch').value.trim().toLowerCase(),out=document.getElementById('medicalRecordsResult');
-if(!q){out.innerHTML='';return}
-let p=patients.find(x=>(x.name+' '+x.id).toLowerCase().includes(q));
-if(!p){out.innerHTML='<div class="panel empty">No patient found.</div>';return}
-let records=diagnoses.filter(x=>x.patientId===p.id),ap=appointments.filter(x=>x.patientId===p.id);
-out.innerHTML=`<div class="panel"><h2>Patient Profile</h2>
-<div class="formgrid"><div><strong>Name:</strong> ${esc(p.name)}</div><div><strong>Patient ID:</strong> ${esc(p.id)}</div><div><strong>Age:</strong> ${esc(p.age||'—')}</div><div><strong>Gender:</strong> ${esc(p.gender||'—')}</div><div><strong>Contact:</strong> ${esc(p.contact||'—')}</div><div><strong>Address:</strong> ${esc(p.address||'—')}</div></div>
-<h3 style="margin-top:20px">Medical History</h3>
-${records.length?records.slice().reverse().map(r=>{
-let d=doctors.find(x=>x.id===r.doctorId);
-return `<div class="history-card"><strong>${esc(r.date)}</strong><p><strong>Doctor:</strong> ${esc(d?.name||'Unknown')}</p><p><strong>Diagnosis:</strong> ${esc(r.diagnosis)}</p><p><strong>Treatment/Plan:</strong> ${esc(r.treatment||'—')}</p><p><strong>Notes:</strong> ${esc(r.notes||'—')}</p></div>`
-}).join(''):'<p class="muted">No diagnosis records available.</p>'}
-<h3>Appointment History</h3>
-${ap.length?ap.map(a=>{
-let d=doctors.find(x=>x.id===a.doctorId);
-return `<div class="history-card"><strong>${esc(a.date)}</strong><p>Doctor: ${esc(d?.name||'Unknown')}</p><p>Status: ${esc(a.status)}</p></div>`
-}).join(''):'<p class="muted">No appointments recorded.</p>'}
-</div>`
+function openRoomForm(){
+ openModal(`<h2>Add Room</h2><form id="rf">
+ <label>Room Number</label><input id="rnum" required>
+ <label>Occupant</label><select id="rpatient"><option value="">Not Occupied</option>${patientOptions()}</select>
+ <button class="btn">Save Room</button></form>`);
+ document.getElementById("rf").onsubmit=e=>{
+ e.preventDefault();
+ rooms.push({id:id("R",rooms),number:document.getElementById("rnum").value,patientId:document.getElementById("rpatient").value});
+ save();closeModal();
+ };
 }
-
-// ROOMS
 function renderRooms(){
-let occ=rooms.filter(r=>r.status==='Occupied').length,avail=rooms.length-occ;
-document.getElementById('occupiedCount').textContent=occ;
-document.getElementById('availableCount').textContent=avail;
-document.getElementById('roomTable').innerHTML=rooms.map(r=>`<tr><td>${esc(r.number)}</td><td><span class="status ${r.status==='Occupied'?'status-red':'status-green'}">${esc(r.status)}</span></td></tr>`).join('');
-refreshDashboard()
+ let occ=rooms.filter(r=>r.patientId).length;
+ document.getElementById("roomSummary").innerHTML=`<p><b>Total Rooms:</b> ${rooms.length} &nbsp; <b>Occupied:</b> ${occ} &nbsp; <b>Not Occupied:</b> ${rooms.length-occ}</p>`;
+ document.getElementById("roomTable").innerHTML=rooms.map(r=>{
+ let p=patients.find(x=>x.id===r.patientId);
+ return `<tr><td>${esc(r.number)}</td><td>${esc(p?p.name:"—")}</td><td><span class="badge">${p?"Occupied":"Not Occupied"}</span></td><td><button class="btn secondary" onclick="editRoom('${r.id}')">Edit</button><button class="btn danger" onclick="delRoom('${r.id}')">Delete</button></td></tr>`;
+ }).join("");
 }
+function editRoom(id){
+ let r=rooms.find(x=>x.id===id);
+ openModal(`<h2>Edit Room</h2><form id="rf">
+ <label>Room Number</label><input id="rnum" value="${esc(r.number)}" required>
+ <label>Patient</label><select id="rpatient"><option value="">Not Occupied</option>${patients.map(p=>`<option value="${p.id}" ${p.id===r.patientId?"selected":""}>${esc(p.name)}</option>`).join("")}</select>
+ <button class="btn">Save</button></form>`);
+ document.getElementById("rf").onsubmit=e=>{
+ e.preventDefault();r.number=document.getElementById("rnum").value;r.patientId=document.getElementById("rpatient").value;save();closeModal();
+ };
+}
+function delRoom(id){rooms=rooms.filter(r=>r.id!==id);save()}
 
-// BILLING
-function searchBilling(){
-let q=document.getElementById('billingSearch').value.trim().toLowerCase(),out=document.getElementById('billingResult');
-if(!q){out.innerHTML='';return}
-let p=patients.find(x=>(x.name+' '+x.id).toLowerCase().includes(q));
-if(!p){out.innerHTML='<div class="panel empty">No patient found.</div>';return}
-let b=billing.find(x=>x.patientId===p.id);
-if(!b){out.innerHTML='<div class="panel">No billing record for this patient.</div>';return}
-let total=Number(b.roomFee||0)+Number(b.services||0)+Number(b.medication||0)+Number(b.laboratory||0),paid=Number(b.payment||0),balance=Math.max(0,total-paid),status=balance<=0?'Paid':paid>0?'Partially Paid':'Pending';
-out.innerHTML=`<div class="panel"><h2>Patient Billing</h2><p><strong>Name:</strong> ${esc(p.name)}</p><p><strong>Patient ID:</strong> ${esc(p.id)}</p>
-<table style="margin-top:16px"><tr><th>Charge</th><th>Amount</th></tr>
-<tr><td>Room Fee</td><td>${money(b.roomFee)}</td></tr><tr><td>Medical Services</td><td>${money(b.services)}</td></tr><tr><td>Medication</td><td>${money(b.medication)}</td></tr><tr><td>Laboratory</td><td>${money(b.laboratory)}</td></tr></table>
-<div class="billing-total">TOTAL BILL<strong>${money(total)}</strong></div>
-<p><strong>Payment received:</strong> ${money(paid)}</p>
-<p style="margin:10px 0"><strong>Remaining Balance:</strong> ${money(balance)}</p>
-<p><strong>Payment Status:</strong> <span class="status ${status==='Paid'?'status-green':status==='Pending'?'status-red':'status-blue'}">${status}</span></p>
-<button style="margin-top:15px" onclick="openBillingForm('${p.id}')">Edit Billing Charges / Payment</button></div>`
+function openBillingForm(){
+ openModal(`<h2>Add Billing</h2><form id="bf">
+ <label>Patient</label><select id="bp" required>${patientOptions()}</select>
+ <div class="grid2">
+ <div><label>Room Fee</label><input id="br" type="number" min="0" value="0"></div>
+ <div><label>Services</label><input id="bs" type="number" min="0" value="0"></div>
+ <div><label>Medication</label><input id="bm" type="number" min="0" value="0"></div>
+ <div><label>Laboratory</label><input id="bl" type="number" min="0" value="0"></div>
+ <div><label>Payment Received</label><input id="bpaid" type="number" min="0" value="0"></div>
+ </div><button class="btn">Save Billing</button></form>`);
+ document.getElementById("bf").onsubmit=e=>{
+ e.preventDefault();
+ let total=["br","bs","bm","bl"].reduce((a,x)=>a+Number(document.getElementById(x).value),0);
+ let paid=Number(document.getElementById("bpaid").value);
+ bills.push({id:id("B",bills),patientId:document.getElementById("bp").value,room:Number(document.getElementById("br").value),services:Number(document.getElementById("bs").value),med:Number(document.getElementById("bm").value),lab:Number(document.getElementById("bl").value),total,paid});
+ save();closeModal();
+ };
 }
-function openBillingForm(pid){
-let b=billing.find(x=>x.patientId===pid)||{patientId:pid,roomFee:0,services:0,medication:0,laboratory:0,payment:0},p=patients.find(x=>x.id===pid);
-openModal(`<h2>Billing — ${esc(p?.name||pid)}</h2>
-<div class="formgrid">${['roomFee','services','medication','laboratory','payment'].map((k,i)=>`<div><label>${['Room Fee','Medical Services','Medication','Laboratory','Payment Received'][i]}</label><input type="number" min="0" step="0.01" id="bill_${k}" value="${Number(b[k]||0)}"></div>`).join('')}</div>
-<div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancel</button><button onclick="saveBilling('${pid}')">Save Billing</button></div>`)
+function renderBilling(q=""){
+ document.getElementById("billingTable").innerHTML=bills.filter(b=>{let p=patients.find(x=>x.id===b.patientId);return (p?p.name:"").toLowerCase().includes(q.toLowerCase())}).map(b=>{
+ let p=patients.find(x=>x.id===b.patientId),bal=b.total-b.paid,status=bal<=0?"Paid":b.paid>0?"Partially Paid":"Pending";
+ return `<tr><td>${esc(p?p.name:"Unknown")}</td><td>${money(b.room)}</td><td>${money(b.services)}</td><td>${money(b.med)}</td><td>${money(b.lab)}</td><td>${money(b.total)}</td><td>${money(b.paid)}</td><td>${money(bal)}</td><td>${status}</td><td><button class="btn secondary" onclick="payBill('${b.id}')">Payment</button><button class="btn danger" onclick="delBill('${b.id}')">Delete</button></td></tr>`;
+ }).join("");
 }
-function saveBilling(pid){
-let b={patientId:pid,roomFee:Number(document.getElementById('bill_roomFee').value||0),services:Number(document.getElementById('bill_services').value||0),medication:Number(document.getElementById('bill_medication').value||0),laboratory:Number(document.getElementById('bill_laboratory').value||0),payment:Number(document.getElementById('bill_payment').value||0)};
-billing=billing.filter(x=>x.patientId!==pid);
-billing.push(b);
-save('hmsBilling',billing);
-closeModal();
-if(document.getElementById('billingSearch').value)searchBilling();
-toast('Billing updated')
+function payBill(id){
+ let b=bills.find(x=>x.id===id);
+ let amt=prompt("Enter payment amount:");
+ if(amt===null)return;
+ if(!Number.isFinite(Number(amt))||Number(amt)<=0)return alert("Enter a valid amount.");
+ b.paid=Math.min(b.total,b.paid+Number(amt));
+ save();
 }
+function delBill(id){bills=bills.filter(b=>b.id!==id);save()}
 
-// SETTINGS
-function settingsTab(tab,btn){
-document.querySelectorAll('.settings-menu button').forEach(b=>b.classList.remove('active'));
-if(btn)btn.classList.add('active');
-else{
-let b=[...document.querySelectorAll('.settings-menu button')].find(x=>x.textContent===tab);
-if(b)b.classList.add('active')
+function renderHistory(){
+ document.getElementById("historyTable").innerHTML=history.map(x=>`<tr><td>${esc(x.user)}</td><td>${esc(x.date)}</td><td>${esc(x.status)}</td></tr>`).join("");
 }
-let u=localStorage.getItem('hmsCurrentUser')||'—',user=users.find(x=>x.username===u)||{};
-let c=document.getElementById('settingsContent');
-if(tab==='Profile'){
-c.innerHTML=`<div class="profilecircle">${esc((user.name||u).slice(0,1).toUpperCase())}</div><h2 style="margin-top:12px">${esc(user.name||u)}</h2><p class="muted">Hospital Management System account</p><p style="margin-top:16px"><strong>Username:</strong> ${esc(u)}</p><p><strong>Account type:</strong> Demo account</p>`
-}else if(tab==='Account'){
-c.innerHTML=`<h2>Account</h2><p><strong>Username:</strong> ${esc(u)}</p><p class="muted" style="margin-top:10px">This browser prototype does not support server-side account recovery or account management.</p>`
-}else if(tab==='Notifications'){
-c.innerHTML=`<h2>Notifications</h2><p class="muted">Notification controls are not connected in this prototype.</p>`
-}else if(tab==='Appearance'){
-c.innerHTML=`<h2>Appearance</h2><p class="muted">Current interface theme: White and Blue</p>`
-}else if(tab==='Login Security'){
-c.innerHTML=`<h2>Login Security</h2><p class="muted">Recent login activity (demo browser log)</p>
-<div class="table-wrap" style="margin-top:14px"><table><thead><tr><th>Username</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody>
-${loginHistory.map(x=>`<tr><td>${esc(x.username)}</td><td>${esc(x.date)}</td><td>${esc(x.time)}</td><td><span class="status ${x.status==='Successful'?'status-green':'status-red'}">${esc(x.status)}</span></td></tr>`).join('')||'<tr><td colspan="4">No login history.</td></tr>'}
-</tbody></table></div><p class="muted" style="margin-top:12px">Passwords are not displayed in this history. This prototype records login attempts locally in the browser.</p>`
-}else{
-c.innerHTML=`<h2>System Information</h2><p>Hospital Management System</p><p class="muted">Front-end demo prototype. Not for real patient data.</p>`
+function changeTheme(v){
+ document.body.style.background=v==="light"?"#f8f8f8":"#edf3fb";
 }
+function renderAll(){
+ renderPatients();
+ renderDoctors();
+ renderAppointments();
+ renderDiagnoses();
+ renderRecords();
+ renderRooms();
+ renderBilling();
+ renderHistory();
+ document.getElementById("statPatients").innerText=patients.length;
+ document.getElementById("statDoctors").innerText=doctors.length;
+ document.getElementById("statAppointments").innerText=appointments.length;
+ document.getElementById("statRooms").innerText=rooms.filter(r=>r.patientId).length;
 }
-
-// INITIALIZE
-function init(){
-if(localStorage.getItem('hmsCurrentUser'))enterApp();
-else{
-document.getElementById('authPage').classList.remove('hidden');
-document.getElementById('appShell').classList.add('hidden')
-}
-}
-init();
+renderAll();
 </script>
 </body>
 </html>
