@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hospital Management System</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#25344a}
@@ -35,6 +36,19 @@ th{background:#eef5fc;color:#24588e}
 .small{font-size:12px;color:#718096}
 hr{border:0;border-top:1px solid #e5edf5;margin:20px 0}
 .badge{display:inline-block;padding:5px 8px;border-radius:20px;background:#e8f3ff;color:#1763a5;font-size:12px}
+
+/* PATIENT AND DOCTOR SIDE BY SIDE */
+.patient-doctor-layout{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+align-items:start;
+}
+
+@media(max-width:1000px){
+.patient-doctor-layout{grid-template-columns:1fr}
+}
+
 @media(max-width:700px){
 .sidebar{position:relative;width:100%;height:auto}
 .sidebar button{width:auto;display:inline-block}
@@ -42,6 +56,7 @@ hr{border:0;border-top:1px solid #e5edf5;margin:20px 0}
 }
 </style>
 </head>
+
 <body>
 
 <!-- SIDEBAR -->
@@ -101,6 +116,13 @@ function save(){
 
 load();
 
+/* SORT DOCTORS A-Z */
+function sortDoctors(){
+ data.doctors.sort((a,b)=>
+  a.name.localeCompare(b.name,undefined,{sensitivity:"base"})
+ );
+}
+
 /* =========================
    NAVIGATION
 ========================= */
@@ -140,7 +162,7 @@ function dashboard(){
 
  <div class="card">
  <h3>Welcome to the Hospital Management System</h3>
- <p>Manage hospital patients, doctors, appointments, diagnoses, medical records, rooms and billing.</p>
+ <p>Manage patients, doctors, appointments, diagnoses, medical records, rooms and billing.</p>
  </div>
 
  <div class="card">
@@ -151,7 +173,7 @@ function dashboard(){
 }
 
 /* =========================
-   PATIENTS
+   PATIENTS AND DOCTORS
 ========================= */
 
 const symptomList=[
@@ -191,43 +213,63 @@ function suggestedSpecialty(symptoms){
 }
 
 function patientsPage(){
+
  return `
+ <div class="patient-doctor-layout">
+
+ <!-- PATIENT SECTION -->
+ <div>
+
  <div class="card">
  <h3>Add Patient</h3>
 
  <form id="patientForm">
+
+ <label>Patient Name</label>
+ <input name="name" required>
+
  <div class="grid">
- <div><label>Patient Name</label><input name="name" required></div>
  <div><label>Age</label><input name="age" type="number" min="0" required></div>
+
  <div><label>Gender</label>
  <select name="gender" required>
  <option value="">Select</option>
- <option>Male</option><option>Female</option><option>Other</option>
+ <option>Male</option>
+ <option>Female</option>
+ <option>Other</option>
  </select></div>
- <div><label>Contact</label><input name="contact"></div>
  </div>
 
- <label>Address</label><input name="address">
+ <label>Contact</label>
+ <input name="contact">
+
+ <label>Address</label>
+ <input name="address">
 
  <hr>
  <h3>Symptoms</h3>
+
  <div class="symptoms">${symptomOptions()}</div>
 
  <label>Other Symptoms</label>
  <textarea name="otherSymptoms"></textarea>
 
- <div class="grid">
- <div><label>Duration</label><input name="duration" placeholder="e.g. 2 days"></div>
- <div><label>Severity</label>
- <select name="severity">
- <option>Not specified</option><option>Mild</option><option>Moderate</option><option>Severe</option>
- </select></div>
- </div>
+ <label>Duration</label>
+ <input name="duration" placeholder="e.g. 2 days">
 
- <label>Notes</label><textarea name="notes"></textarea>
+ <label>Severity</label>
+ <select name="severity">
+ <option>Not specified</option>
+ <option>Mild</option>
+ <option>Moderate</option>
+ <option>Severe</option>
+ </select>
+
+ <label>Notes</label>
+ <textarea name="notes"></textarea>
 
  <label>Suggested Specialty</label>
- <input id="suggested" readonly>
+ <input id="suggested" readonly placeholder="Automatically suggested">
 
  <label>Assign Doctor</label>
  <select name="doctor" id="assignDoctor">
@@ -236,48 +278,90 @@ function patientsPage(){
 
  <button type="submit">Add Patient</button>
  </form>
+
  <p class="small">Specialty suggestions are not medical diagnoses.</p>
  </div>
 
+ <!-- PATIENT LIST -->
  <div class="card">
  <h3>Patient List</h3>
- <input id="patientSearch" placeholder="Search patient name or ID..." oninput="renderPatientList()">
+
+ <input id="patientSearch"
+ placeholder="Search patient name or ID..."
+ oninput="renderPatientList()">
+
  <div id="patientList"></div>
  </div>
 
+ </div>
+
+ <!-- DOCTOR SECTION -->
+ <div>
+
  <div class="card">
  <h3>Doctors</h3>
+
  <form id="doctorForm">
- <div class="grid">
- <div><label>Doctor Name</label><input name="name" required></div>
- <div><label>Specialization</label>
+
+ <label>Doctor Name</label>
+ <input name="name" required>
+
+ <label>Specialization</label>
  <select name="specialty" required>
  ${specialties.map(s=>`<option>${esc(s)}</option>`).join("")}
- </select></div>
- <div><label>Contact</label><input name="contact"></div>
- </div>
+ </select>
+
+ <label>Contact</label>
+ <input name="contact">
+
  <button type="submit">Add Doctor</button>
  </form>
+
+ <hr>
+ <h3>Doctor List (A–Z)</h3>
  <div id="doctorList"></div>
+ </div>
+
+ </div>
+
  </div>
  `;
 }
 
+/* =========================
+   DOCTOR DROPDOWN
+========================= */
+
 function doctorSelectOptions(){
+ sortDoctors();
+
  return data.doctors.map(d=>
  `<option value="${d.id}">${esc(d.name)} — ${esc(d.specialty)}</option>`
  ).join("");
 }
 
+/* =========================
+   PATIENT TABLE
+========================= */
+
 function patientTable(list,showActions=true){
+
  if(!list.length)return "<p class='small'>No patients found.</p>";
 
  return `
  <div class="tablewrap">
  <table>
  <thead>
- <tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th>${showActions?"<th>Actions</th>":""}</tr>
+ <tr>
+ <th>ID</th>
+ <th>Name</th>
+ <th>Age</th>
+ <th>Gender</th>
+ <th>Contact</th>
+ ${showActions?"<th>Actions</th>":""}
+ </tr>
  </thead>
+
  <tbody>
  ${list.map(p=>`
  <tr>
@@ -286,6 +370,7 @@ function patientTable(list,showActions=true){
  <td>${esc(p.age)}</td>
  <td>${esc(p.gender)}</td>
  <td>${esc(p.contact||"-")}</td>
+
  ${showActions?`
  <td class="actions">
  <button onclick="editPatient('${p.id}')">Edit</button>
@@ -298,14 +383,28 @@ function patientTable(list,showActions=true){
 }
 
 function renderPatientList(){
+
  const q=(document.getElementById("patientSearch")?.value||"").toLowerCase();
- const list=data.patients.filter(p=>(p.name+" "+p.id).toLowerCase().includes(q));
+
+ const list=data.patients.filter(p=>
+ (p.name+" "+p.id).toLowerCase().includes(q)
+ );
+
  const el=document.getElementById("patientList");
+
  if(el)el.innerHTML=patientTable(list);
 }
 
+/* =========================
+   DOCTOR LIST A-Z
+========================= */
+
 function renderDoctorList(){
+
+ sortDoctors();
+
  const el=document.getElementById("doctorList");
+
  if(!el)return;
 
  if(!data.doctors.length){
@@ -316,101 +415,167 @@ function renderDoctorList(){
  el.innerHTML=`
  <div class="tablewrap">
  <table>
- <thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Assigned Patients</th><th>Actions</th></tr></thead>
+ <thead>
+ <tr>
+ <th>Doctor Name</th>
+ <th>Specialization</th>
+ <th>Contact</th>
+ <th>Assigned Patients</th>
+ <th>Actions</th>
+ </tr>
+ </thead>
+
  <tbody>
+
  ${data.doctors.map(d=>{
- const assigned=data.patients.filter(p=>p.doctor===d.id).map(p=>p.name);
+
+ const assigned=data.patients
+ .filter(p=>p.doctor===d.id)
+ .map(p=>p.name);
+
  return `
  <tr>
- <td>${esc(d.id)}</td>
  <td>${esc(d.name)}</td>
  <td>${esc(d.specialty)}</td>
  <td>${esc(d.contact||"-")}</td>
  <td>${esc(assigned.join(", ")||"None")}</td>
- <td><button class="danger" onclick="deleteDoctor('${d.id}')">Delete</button></td>
+
+ <td>
+ <button class="danger" onclick="deleteDoctor('${d.id}')">Delete</button>
+ </td>
  </tr>`;
  }).join("")}
+
  </tbody>
  </table>
  </div>`;
 }
 
+/* =========================
+   ADD PATIENT AND DOCTOR
+========================= */
+
 function bindPatientDoctorForms(){
+
  const pf=document.getElementById("patientForm");
  const df=document.getElementById("doctorForm");
 
  if(pf){
+
   const select=document.getElementById("assignDoctor");
-  select.innerHTML='<option value="">No doctor assigned</option>'+doctorSelectOptions();
+
+  select.innerHTML=
+  '<option value="">No doctor assigned</option>'+
+  doctorSelectOptions();
 
   pf.addEventListener("change",()=>{
-   const symptoms=[...document.querySelectorAll(".symptomCheck:checked")].map(x=>x.value);
+
+   const symptoms=[
+    ...document.querySelectorAll(".symptomCheck:checked")
+   ].map(x=>x.value);
+
    const spec=suggestedSpecialty(symptoms);
-   document.getElementById("suggested").value=symptoms.length?spec:"";
+
+   document.getElementById("suggested").value=
+   symptoms.length?spec:"";
 
    if(symptoms.length){
+
     const matching=data.doctors.filter(d=>d.specialty===spec);
-    if(matching.length)select.value=matching[0].id;
+
+    if(matching.length){
+     select.value=matching[0].id;
+    }
    }
   });
 
   pf.addEventListener("submit",e=>{
+
    e.preventDefault();
+
    const f=new FormData(pf);
-   const symptoms=[...document.querySelectorAll(".symptomCheck:checked")].map(x=>x.value);
+
+   const symptoms=[
+    ...document.querySelectorAll(".symptomCheck:checked")
+   ].map(x=>x.value);
 
    data.patients.push({
+
     id:"P"+Date.now(),
+
     name:f.get("name"),
     age:f.get("age"),
     gender:f.get("gender"),
     contact:f.get("contact"),
     address:f.get("address"),
-    symptoms,
+
+    symptoms:symptoms,
     otherSymptoms:f.get("otherSymptoms"),
     duration:f.get("duration"),
     severity:f.get("severity"),
     notes:f.get("notes"),
+
     suggested:document.getElementById("suggested").value,
     doctor:f.get("doctor")
+
    });
 
    save();
    alert("Patient added successfully.");
    page("patients");
+
   });
  }
 
  if(df){
+
   df.addEventListener("submit",e=>{
+
    e.preventDefault();
+
    const f=new FormData(df);
 
    data.doctors.push({
+
     id:"D"+Date.now(),
-    name:f.get("name"),
+    name:f.get("name").trim(),
     specialty:f.get("specialty"),
     contact:f.get("contact")
+
    });
+
+   /* AUTOMATIC A-Z SORT */
+   sortDoctors();
 
    save();
    page("patients");
+
   });
  }
 }
 
+/* =========================
+   EDIT / DELETE PATIENTS
+========================= */
+
 function editPatient(id){
+
  const p=data.patients.find(x=>x.id===id);
+
  if(!p)return;
 
  const name=prompt("Patient name:",p.name);
+
  if(name===null)return;
+
  p.name=name.trim()||p.name;
 
  const age=prompt("Patient age:",p.age);
+
  if(age!==null)p.age=age;
 
  const contact=prompt("Patient contact:",p.contact||"");
+
  if(contact!==null)p.contact=contact;
 
  save();
@@ -418,16 +583,25 @@ function editPatient(id){
 }
 
 function deletePatient(id){
+
  if(!confirm("Delete this patient?"))return;
+
  data.patients=data.patients.filter(p=>p.id!==id);
+
  save();
  page("patients");
 }
 
 function deleteDoctor(id){
+
  if(!confirm("Delete this doctor?"))return;
+
  data.doctors=data.doctors.filter(d=>d.id!==id);
- data.patients.forEach(p=>{if(p.doctor===id)p.doctor=""});
+
+ data.patients.forEach(p=>{
+  if(p.doctor===id)p.doctor="";
+ });
+
  save();
  page("patients");
 }
@@ -437,48 +611,72 @@ function deleteDoctor(id){
 ========================= */
 
 function appointmentsPage(){
+
  return `
  <div class="card">
  <h3>Add Appointment</h3>
+
  <form id="appointmentForm">
- <div class="grid">
- <div><label>Patient</label>
+
+ <label>Patient</label>
  <select name="patient" required>
  <option value="">Select Patient</option>
  ${data.patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}
- </select></div>
+ </select>
 
- <div><label>Doctor</label>
+ <label>Doctor</label>
  <select name="doctor" required>
- <option value="">Select Doctor</option>${doctorSelectOptions()}
- </select></div>
+ <option value="">Select Doctor</option>
+ ${doctorSelectOptions()}
+ </select>
 
+ <div class="grid">
  <div><label>Date</label><input type="date" name="date" required></div>
  <div><label>Time</label><input type="time" name="time" required></div>
  </div>
 
  <label>Status</label>
- <select name="status"><option>Scheduled</option><option>Completed</option><option>Cancelled</option></select>
+ <select name="status">
+ <option>Scheduled</option>
+ <option>Completed</option>
+ <option>Cancelled</option>
+ </select>
 
- <label>Notes</label><textarea name="notes"></textarea>
+ <label>Notes</label>
+ <textarea name="notes"></textarea>
+
  <button type="submit">Add Appointment</button>
  </form>
  </div>
 
- <div class="card"><h3>Appointments</h3><div id="appointmentList"></div></div>
+ <div class="card">
+ <h3>Appointments</h3>
+ <div id="appointmentList"></div>
+ </div>
  `;
 }
 
 function renderAppointments(){
+
  const el=document.getElementById("appointmentList");
+
  if(!el)return;
 
- if(!data.appointments.length){el.innerHTML="<p>No appointments.</p>";return;}
+ if(!data.appointments.length){
+  el.innerHTML="<p>No appointments.</p>";
+  return;
+ }
 
  el.innerHTML=`
  <div class="tablewrap">
  <table>
- <thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Notes</th><th>Actions</th></tr></thead>
+ <thead>
+ <tr>
+ <th>Patient</th><th>Doctor</th><th>Date</th>
+ <th>Time</th><th>Status</th><th>Notes</th><th>Actions</th>
+ </tr>
+ </thead>
+
  <tbody>
  ${data.appointments.map(a=>`
  <tr>
@@ -496,14 +694,19 @@ function renderAppointments(){
 }
 
 function bindAppointmentForm(){
+
  const f=document.getElementById("appointmentForm");
+
  if(!f)return;
 
  f.addEventListener("submit",e=>{
+
   e.preventDefault();
+
   const fd=new FormData(f);
 
   data.appointments.push({
+
    id:"A"+Date.now(),
    patient:fd.get("patient"),
    doctor:fd.get("doctor"),
@@ -511,6 +714,7 @@ function bindAppointmentForm(){
    time:fd.get("time"),
    status:fd.get("status"),
    notes:fd.get("notes")
+
   });
 
   save();
@@ -519,8 +723,11 @@ function bindAppointmentForm(){
 }
 
 function deleteAppointment(id){
+
  if(!confirm("Delete appointment?"))return;
+
  data.appointments=data.appointments.filter(a=>a.id!==id);
+
  save();
  page("appointments");
 }
@@ -530,45 +737,67 @@ function deleteAppointment(id){
 ========================= */
 
 function diagnosesPage(){
+
  return `
  <div class="card">
  <h3>Add Diagnosis Record</h3>
+
  <form id="diagnosisForm">
- <div class="grid">
- <div><label>Patient</label>
+
+ <label>Patient</label>
  <select name="patient" required>
  <option value="">Select patient</option>
  ${data.patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}
- </select></div>
+ </select>
 
- <div><label>Doctor</label>
+ <label>Doctor</label>
  <select name="doctor" required>
- <option value="">Select doctor</option>${doctorSelectOptions()}
- </select></div>
+ <option value="">Select doctor</option>
+ ${doctorSelectOptions()}
+ </select>
 
- <div><label>Date</label><input type="date" name="date" required></div>
- </div>
+ <label>Date</label>
+ <input type="date" name="date" required>
 
- <label>Diagnosis</label><input name="diagnosis" required>
- <label>Treatment</label><textarea name="treatment"></textarea>
- <label>Notes</label><textarea name="notes"></textarea>
+ <label>Diagnosis</label>
+ <input name="diagnosis" required>
+
+ <label>Treatment</label>
+ <textarea name="treatment"></textarea>
+
+ <label>Notes</label>
+ <textarea name="notes"></textarea>
+
  <button type="submit">Save Diagnosis</button>
  </form>
  </div>
 
- <div class="card"><h3>Diagnosis List</h3><div id="diagnosisList"></div></div>
+ <div class="card">
+ <h3>Diagnosis List</h3>
+ <div id="diagnosisList"></div>
+ </div>
  `;
 }
 
 function renderDiagnoses(){
+
  const el=document.getElementById("diagnosisList");
+
  if(!el)return;
- if(!data.diagnoses.length){el.innerHTML="<p>No records.</p>";return;}
+
+ if(!data.diagnoses.length){
+  el.innerHTML="<p>No records.</p>";
+  return;
+ }
 
  el.innerHTML=`
  <div class="tablewrap">
  <table>
- <thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Diagnosis</th><th>Treatment</th><th>Notes</th><th>Actions</th></tr></thead>
+ <thead>
+ <tr><th>Patient</th><th>Doctor</th><th>Date</th>
+ <th>Diagnosis</th><th>Treatment</th><th>Notes</th><th>Actions</th></tr>
+ </thead>
+
  <tbody>
  ${data.diagnoses.map(d=>`
  <tr>
@@ -586,14 +815,19 @@ function renderDiagnoses(){
 }
 
 function bindDiagnosisForm(){
+
  const f=document.getElementById("diagnosisForm");
+
  if(!f)return;
 
  f.addEventListener("submit",e=>{
+
   e.preventDefault();
+
   const fd=new FormData(f);
 
   data.diagnoses.push({
+
    id:"DX"+Date.now(),
    patient:fd.get("patient"),
    doctor:fd.get("doctor"),
@@ -601,6 +835,7 @@ function bindDiagnosisForm(){
    diagnosis:fd.get("diagnosis"),
    treatment:fd.get("treatment"),
    notes:fd.get("notes")
+
   });
 
   save();
@@ -609,8 +844,11 @@ function bindDiagnosisForm(){
 }
 
 function deleteDiagnosis(id){
+
  if(!confirm("Delete diagnosis record?"))return;
+
  data.diagnoses=data.diagnoses.filter(d=>d.id!==id);
+
  save();
  page("diagnoses");
 }
@@ -620,33 +858,55 @@ function deleteDiagnosis(id){
 ========================= */
 
 function recordsPage(){
+
  return `
  <div class="card">
  <h3>Search Patient Medical History</h3>
- <input id="recordSearch" placeholder="Enter patient name or ID..." oninput="searchRecords()">
+
+ <input id="recordSearch"
+ placeholder="Enter patient name or ID..."
+ oninput="searchRecords()">
+
  <div id="recordResults"></div>
  </div>`;
 }
 
 function searchRecords(){
- const q=(document.getElementById("recordSearch")?.value||"").toLowerCase();
- const el=document.getElementById("recordResults");
- if(!el)return;
- if(!q){el.innerHTML="";return;}
 
- const list=data.patients.filter(p=>(p.name+" "+p.id).toLowerCase().includes(q));
- if(!list.length){el.innerHTML="<p>No patients found.</p>";return;}
+ const q=(document.getElementById("recordSearch")?.value||"").toLowerCase();
+
+ const el=document.getElementById("recordResults");
+
+ if(!el)return;
+
+ if(!q){
+  el.innerHTML="";
+  return;
+ }
+
+ const list=data.patients.filter(p=>
+ (p.name+" "+p.id).toLowerCase().includes(q)
+ );
+
+ if(!list.length){
+  el.innerHTML="<p>No patients found.</p>";
+  return;
+ }
 
  el.innerHTML=list.map(p=>{
+
   const dx=data.diagnoses.filter(d=>d.patient===p.id);
   const ap=data.appointments.filter(a=>a.patient===p.id);
   const bills=data.bills.filter(b=>b.patient===p.id);
 
   return `
   <div class="card">
+
   <h3>${esc(p.name)}</h3>
+
   <p><b>Patient ID:</b> ${esc(p.id)}</p>
-  <p><b>Age:</b> ${esc(p.age)} | <b>Gender:</b> ${esc(p.gender)}</p>
+  <p><b>Age:</b> ${esc(p.age)}</p>
+  <p><b>Gender:</b> ${esc(p.gender)}</p>
   <p><b>Contact:</b> ${esc(p.contact||"-")}</p>
   <p><b>Address:</b> ${esc(p.address||"-")}</p>
   <p><b>Symptoms:</b> ${esc((p.symptoms||[]).join(", ")||"-")}</p>
@@ -657,20 +917,37 @@ function searchRecords(){
   <p><b>Assigned Doctor:</b> ${esc(doctorName(p.doctor))}</p>
   <p><b>Notes:</b> ${esc(p.notes||"-")}</p>
 
-  <hr><h3>Diagnosis History</h3>
+  <hr>
+  <h3>Diagnosis History</h3>
+
   ${dx.length?dx.map(d=>`
-  <p><b>${esc(d.date)}</b> — ${esc(d.diagnosis)}<br>
+  <p>
+  <b>${esc(d.date)}</b> — ${esc(d.diagnosis)}<br>
   Doctor: ${esc(doctorName(d.doctor))}<br>
   Treatment: ${esc(d.treatment||"-")}<br>
-  Notes: ${esc(d.notes||"-")}</p>`).join(""):"<p>No diagnosis records.</p>"}
+  Notes: ${esc(d.notes||"-")}
+  </p>`).join(""):"<p>No diagnosis records.</p>"}
 
-  <hr><h3>Appointment History</h3>
+  <hr>
+  <h3>Appointment History</h3>
+
   ${ap.length?ap.map(a=>`
-  <p>${esc(a.date)} ${esc(a.time)} — ${esc(doctorName(a.doctor))} — ${esc(a.status)}</p>`).join(""):"<p>No appointments.</p>"}
+  <p>
+  ${esc(a.date)} ${esc(a.time)} —
+  ${esc(doctorName(a.doctor))} — ${esc(a.status)}
+  </p>`).join(""):"<p>No appointments.</p>"}
 
-  <hr><h3>Billing History</h3>
+  <hr>
+  <h3>Billing History</h3>
+
   ${bills.length?bills.map(b=>`
-  <p>Date: ${esc(b.date)} | Total: ${money(b.total)} | Status: ${esc(b.status)} | Balance: ${money(b.balance)}</p>`).join(""):"<p>No billing records.</p>"}
+  <p>
+  Date: ${esc(b.date)} |
+  Total: ${money(b.total)} |
+  Status: ${esc(b.status)} |
+  Balance: ${money(b.balance)}
+  </p>`).join(""):"<p>No billing records.</p>"}
+
   </div>`;
  }).join("");
 }
@@ -680,6 +957,7 @@ function searchRecords(){
 ========================= */
 
 function roomsPage(){
+
  return `
  <div class="grid">
  <div class="stat">Occupied<strong>${data.rooms.filter(r=>r.status==="Occupied").length}</strong></div>
@@ -688,33 +966,51 @@ function roomsPage(){
 
  <div class="card">
  <h3>Add Room</h3>
+
  <form id="roomForm">
- <div class="grid">
- <div><label>Room Number</label><input name="number" required></div>
- <div><label>Status</label>
- <select name="status"><option>Not Occupied</option><option>Occupied</option></select></div>
- <div><label>Patient</label>
- <select name="patient"><option value="">None</option>
+
+ <label>Room Number</label>
+ <input name="number" required>
+
+ <label>Status</label>
+ <select name="status">
+ <option>Not Occupied</option>
+ <option>Occupied</option>
+ </select>
+
+ <label>Patient</label>
+ <select name="patient">
+ <option value="">None</option>
  ${data.patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}
- </select></div>
- </div>
+ </select>
+
  <button type="submit">Add Room</button>
  </form>
  </div>
 
- <div class="card"><h3>Room List</h3><div id="roomList"></div></div>
+ <div class="card">
+ <h3>Room List</h3>
+ <div id="roomList"></div>
+ </div>
  `;
 }
 
 function renderRooms(){
+
  const el=document.getElementById("roomList");
+
  if(!el)return;
- if(!data.rooms.length){el.innerHTML="<p>No rooms added.</p>";return;}
+
+ if(!data.rooms.length){
+  el.innerHTML="<p>No rooms added.</p>";
+  return;
+ }
 
  el.innerHTML=`
  <div class="tablewrap">
  <table>
  <thead><tr><th>Room</th><th>Status</th><th>Patient</th><th>Actions</th></tr></thead>
+
  <tbody>
  ${data.rooms.map(r=>`
  <tr>
@@ -732,11 +1028,15 @@ function renderRooms(){
 }
 
 function bindRoomForm(){
+
  const f=document.getElementById("roomForm");
+
  if(!f)return;
 
  f.addEventListener("submit",e=>{
+
   e.preventDefault();
+
   const fd=new FormData(f);
 
   if(data.rooms.some(r=>r.number===fd.get("number"))){
@@ -745,10 +1045,12 @@ function bindRoomForm(){
   }
 
   data.rooms.push({
+
    id:"R"+Date.now(),
    number:fd.get("number"),
    status:fd.get("status"),
    patient:fd.get("status")==="Occupied"?fd.get("patient"):""
+
   });
 
   save();
@@ -757,7 +1059,9 @@ function bindRoomForm(){
 }
 
 function toggleRoom(id){
+
  const r=data.rooms.find(x=>x.id===id);
+
  if(!r)return;
 
  if(r.status==="Occupied"){
@@ -773,8 +1077,11 @@ function toggleRoom(id){
 }
 
 function deleteRoom(id){
+
  if(!confirm("Delete room?"))return;
+
  data.rooms=data.rooms.filter(r=>r.id!==id);
+
  save();
  page("rooms");
 }
@@ -784,10 +1091,13 @@ function deleteRoom(id){
 ========================= */
 
 function billingPage(){
+
  return `
  <div class="card">
  <h3>Add Billing Record</h3>
+
  <form id="billForm">
+
  <label>Patient</label>
  <select name="patient" required>
  <option value="">Select patient</option>
@@ -808,17 +1118,25 @@ function billingPage(){
 
  <div class="card">
  <h3>Billing Search</h3>
- <input id="billSearch" placeholder="Search patient name or ID..." oninput="renderBills()">
+
+ <input id="billSearch"
+ placeholder="Search patient name or ID..."
+ oninput="renderBills()">
+
  <div id="billList"></div>
  </div>`;
 }
 
 function bindBillForm(){
+
  const f=document.getElementById("billForm");
+
  if(!f)return;
 
  f.addEventListener("submit",e=>{
+
   e.preventDefault();
+
   const fd=new FormData(f);
 
   const roomFee=Number(fd.get("roomFee"))||0;
@@ -826,15 +1144,19 @@ function bindBillForm(){
   const medication=Number(fd.get("medication"))||0;
   const lab=Number(fd.get("lab"))||0;
   const paid=Number(fd.get("paid"))||0;
+
   const total=roomFee+services+medication+lab;
   const balance=Math.max(total-paid,0);
+
   const status=balance<=0?"Paid":paid>0?"Partially Paid":"Pending";
 
   data.bills.push({
+
    id:"B"+Date.now(),
    patient:fd.get("patient"),
    date:new Date().toLocaleDateString(),
    roomFee,services,medication,lab,total,paid,balance,status
+
   });
 
   save();
@@ -843,18 +1165,33 @@ function bindBillForm(){
 }
 
 function renderBills(){
+
  const el=document.getElementById("billList");
+
  if(!el)return;
 
  const q=(document.getElementById("billSearch")?.value||"").toLowerCase();
- const list=data.bills.filter(b=>(patientName(b.patient)+" "+b.patient).toLowerCase().includes(q));
 
- if(!list.length){el.innerHTML="<p>No billing records found.</p>";return;}
+ const list=data.bills.filter(b=>
+ (patientName(b.patient)+" "+b.patient).toLowerCase().includes(q)
+ );
+
+ if(!list.length){
+  el.innerHTML="<p>No billing records found.</p>";
+  return;
+ }
 
  el.innerHTML=`
  <div class="tablewrap">
  <table>
- <thead><tr><th>Patient</th><th>Date</th><th>Room</th><th>Services</th><th>Medication</th><th>Lab</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
+ <thead>
+ <tr>
+ <th>Patient</th><th>Date</th><th>Room</th>
+ <th>Services</th><th>Medication</th><th>Lab</th>
+ <th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th>
+ </tr>
+ </thead>
+
  <tbody>
  ${list.map(b=>`
  <tr>
@@ -880,8 +1217,11 @@ function renderBills(){
 }
 
 function deleteBill(id){
+
  if(!confirm("Delete billing record?"))return;
+
  data.bills=data.bills.filter(b=>b.id!==id);
+
  save();
  page("billing");
 }
@@ -891,35 +1231,44 @@ function deleteBill(id){
 ========================= */
 
 function settingsPage(){
+
  return `
  <div class="card">
  <h3>System Settings</h3>
  <p>Hospital Management System</p>
  <p>Version 1.0</p>
  <p>Storage: Browser localStorage</p>
- <p class="small">This system is a school project prototype. Do not use it to store real patient information.</p>
+ <p class="small">School project prototype. Do not use real patient information.</p>
  </div>
 
  <div class="card">
  <h3>Data Management</h3>
+
  <button onclick="exportData()">Export System Data</button>
+
  <button class="danger" onclick="resetSystem()">Reset All System Data</button>
  </div>
  `;
 }
 
 function exportData(){
+
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+
  const url=URL.createObjectURL(blob);
+
  const a=document.createElement("a");
  a.href=url;
  a.download="hospital_data.json";
  a.click();
+
  URL.revokeObjectURL(url);
 }
 
 function resetSystem(){
+
  if(!confirm("Delete all system records?"))return;
+
  localStorage.removeItem(KEY);
  location.reload();
 }
@@ -937,10 +1286,14 @@ function doctorName(id){
 }
 
 function money(n){
- return "₱"+(Number(n)||0).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});
+ return "₱"+(Number(n)||0).toLocaleString("en-PH",{
+ minimumFractionDigits:2,
+ maximumFractionDigits:2
+ });
 }
 
 function esc(v){
+
  return String(v??"").replace(/[&<>"']/g,c=>({
  "&":"&amp;",
  "<":"&lt;",
@@ -955,7 +1308,9 @@ function esc(v){
 ========================= */
 
 function render(){
+
  const el=document.getElementById("content");
+
  if(!el)return;
 
  switch(currentPage){
@@ -1009,11 +1364,13 @@ function render(){
 }
 
 /* =========================
-   OPEN DASHBOARD DIRECTLY
+   START SYSTEM
 ========================= */
 
+sortDoctors();
 page("dashboard");
 
 </script>
+
 </body>
 </html>
