@@ -3,15 +3,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hospital Management System</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#edf3fb;color:#18345b}
+body{margin:0;font-family:Arial;background:#edf3fb;color:#18345b}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 .sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;background:#193b70;color:white;padding:20px;overflow:auto}
-.logo{font-size:20px;font-weight:bold;padding:12px 0 25px}
+.logo{font-size:19px;font-weight:bold;padding:12px 0 25px}
 .nav button{display:block;width:100%;text-align:left;padding:13px;margin:5px 0;background:transparent;border:0;color:white;border-radius:10px}
 .nav button:hover,.nav button.active{background:#3872c4}
 .main{margin-left:230px;padding:25px}
@@ -20,31 +20,28 @@ button{cursor:pointer}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:15px}
 .stat h3{font-size:14px;color:#647b9c}
 .stat p{font-size:26px;font-weight:bold;margin:10px 0}
-h2{margin-top:0}
-h3{margin-top:0}
 input,select,textarea{padding:10px;border:1px solid #d1dced;border-radius:8px;width:100%;margin:5px 0 12px;background:white}
 textarea{min-height:70px}
 label{font-size:13px;font-weight:bold}
+.symptoms{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.symptoms label{font-weight:normal;background:#f5f8fd;padding:10px;border-radius:8px;display:flex;gap:8px;align-items:center}
+.symptoms input{width:auto;margin:0}
 .btn{background:#1763c4;color:white;border:0;padding:10px 15px;border-radius:8px;margin:3px}
 .btn.secondary{background:#e6efff;color:#1756a0}
 .btn.danger{background:#ffe5e5;color:#b42323}
-.btn.green{background:#e3f6ec;color:#167344}
+.badge{display:inline-block;padding:5px 9px;background:#e5efff;border-radius:20px;font-size:12px}
 table{width:100%;border-collapse:collapse;min-width:700px}
 th,td{padding:11px;text-align:left;border-bottom:1px solid #e6edf7;font-size:14px}
 th{background:#f0f5fc}
 .tablewrap{overflow-x:auto}
 .search{max-width:350px}
-.symptoms{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
-.symptoms label{font-weight:normal;background:#f5f8fd;padding:10px;border-radius:8px;display:flex;gap:8px;align-items:center}
-.symptoms input{width:auto;margin:0}
 .hidden{display:none!important}
 .modal{position:fixed;inset:0;background:#0007;display:flex;justify-content:center;align-items:center;padding:15px;z-index:5}
 .modalbox{background:white;padding:25px;border-radius:15px;width:100%;max-width:850px;max-height:90vh;overflow:auto}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.badge{display:inline-block;padding:5px 9px;background:#e5efff;border-radius:20px;font-size:12px}
 small{color:#607493}
 hr{border:0;border-top:1px solid #e3eaf5;margin:20px 0}
-#loginScreen{position:fixed;inset:0;background:#edf3fb;display:flex;align-items:center;justify-content:center;z-index:10}
+#loginScreen,#signupScreen{position:fixed;inset:0;background:#edf3fb;display:flex;align-items:center;justify-content:center;z-index:10}
 .loginbox{background:white;width:360px;padding:30px;border-radius:15px;box-shadow:0 5px 25px #cdd9e9}
 @media(max-width:800px){.sidebar{width:180px}.main{margin-left:180px;padding:12px}}
 @media(max-width:600px){.sidebar{position:relative;width:100%;height:auto}.nav{display:flex;flex-wrap:wrap}.nav button{width:auto}.main{margin:0}}
@@ -53,164 +50,169 @@ hr{border:0;border-top:1px solid #e3eaf5;margin:20px 0}
 <body>
 
 <div id="loginScreen">
- <div class="loginbox">
-  <h2>🏥 HMS Login</h2>
-  <p>Hospital Management System</p>
-  <label>Username</label>
-  <input id="loginUser" placeholder="Enter username">
-  <label>Password</label>
-  <input id="loginPass" type="password" placeholder="Enter password">
-  <button class="btn" style="width:100%" onclick="login()">Login</button>
-  <button class="btn secondary" style="width:100%" onclick="showSignup()">Create Account</button>
-  <small>Demo login: admin / admin123</small>
- </div>
+<div class="loginbox">
+<h2>🏥 HMS Login</h2>
+<p>Hospital Management System</p>
+<label>Username</label>
+<input id="loginUser" placeholder="Enter username">
+<label>Password</label>
+<input id="loginPass" type="password" placeholder="Enter password">
+<button class="btn" style="width:100%" onclick="login()">Login</button>
+<button class="btn secondary" style="width:100%" onclick="showSignup()">Create Account</button>
+<small>Default login: admin / admin123</small>
+</div>
 </div>
 
 <div id="signupScreen" class="hidden">
- <div class="loginbox">
-  <h2>Create Account</h2>
-  <label>Username</label><input id="suUser">
-  <label>Password</label><input id="suPass" type="password">
-  <button class="btn" onclick="signup()">Sign Up</button>
-  <button class="btn secondary" onclick="backLogin()">Back</button>
- </div>
+<div class="loginbox">
+<h2>Create Account</h2>
+<label>Username</label><input id="suUser">
+<label>Password</label><input id="suPass" type="password">
+<button class="btn" onclick="signup()">Sign Up</button>
+<button class="btn secondary" onclick="backLogin()">Back</button>
+</div>
 </div>
 
 <div id="app" class="hidden">
 <aside class="sidebar">
- <div class="logo">✚ Hospital Management System</div>
- <div class="nav">
-  <button class="active" onclick="page('dashboard',this)">🏠 Dashboard</button>
-  <button onclick="page('patients',this)">👥 Patients & Doctors</button>
-  <button onclick="page('appointments',this)">📅 Appointments</button>
-  <button onclick="page('diagnoses',this)">📋 Diagnoses</button>
-  <button onclick="page('records',this)">📁 Medical Records</button>
-  <button onclick="page('rooms',this)">🛏 Rooms</button>
-  <button onclick="page('billing',this)">💳 Billing</button>
-  <button onclick="page('settings',this)">⚙ Settings</button>
-  <button onclick="logout()">↪ Logout</button>
- </div>
+<div class="logo">✚ Hospital Management System</div>
+<div class="nav">
+<button class="active" onclick="page('dashboard',this)">🏠 Dashboard</button>
+<button onclick="page('patients',this)">👥 Patients & Doctors</button>
+<button onclick="page('appointments',this)">📅 Appointments</button>
+<button onclick="page('diagnoses',this)">📋 Diagnoses</button>
+<button onclick="page('records',this)">📁 Medical Records</button>
+<button onclick="page('rooms',this)">🛏 Rooms</button>
+<button onclick="page('billing',this)">💳 Billing</button>
+<button onclick="page('settings',this)">⚙ Settings</button>
+<button onclick="logout()">↪ Logout</button>
+</div>
 </aside>
 
 <main class="main">
 <div class="top">
- <div><h2 id="pageTitle">Dashboard</h2><small id="welcome">Welcome!</small></div>
- <span id="userLabel" class="badge"></span>
+<div><h2 id="pageTitle">Dashboard</h2><small id="welcome">Welcome!</small></div>
+<span id="userLabel" class="badge"></span>
 </div>
 
 <section id="dashboard">
- <div class="stats">
-  <div class="stat"><h3>Total Patients</h3><p id="statPatients">0</p></div>
-  <div class="stat"><h3>Total Doctors</h3><p id="statDoctors">0</p></div>
-  <div class="stat"><h3>Appointments</h3><p id="statAppointments">0</p></div>
-  <div class="stat"><h3>Occupied Rooms</h3><p id="statRooms">0</p></div>
- </div>
- <div class="panel">
-  <h3>System Overview</h3>
-  <p>Manage patient information, doctor assignments, appointments, medical records, rooms and billing.</p>
-  <button class="btn" onclick="page('patients')">Manage Patients</button>
-  <button class="btn secondary" onclick="page('appointments')">Appointments</button>
- </div>
+<div class="stats">
+<div class="stat"><h3>Total Patients</h3><p id="statPatients">0</p></div>
+<div class="stat"><h3>Total Doctors</h3><p id="statDoctors">0</p></div>
+<div class="stat"><h3>Appointments</h3><p id="statAppointments">0</p></div>
+<div class="stat"><h3>Occupied Rooms</h3><p id="statRooms">0</p></div>
+</div>
+<div class="panel">
+<h3>System Overview</h3>
+<p>Manage patients, doctors, appointments, records, rooms and billing.</p>
+<button class="btn" onclick="page('patients')">Manage Patients</button>
+<button class="btn secondary" onclick="page('appointments')">Appointments</button>
+</div>
 </section>
 
 <section id="patients" class="hidden">
- <div class="panel">
-  <h3>Patients</h3>
-  <button class="btn" onclick="openPatientForm()">+ Add Patient</button>
-  <input class="search" placeholder="Search patients..." oninput="renderPatients(this.value)">
-  <div class="tablewrap"><table>
-  <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Symptoms</th><th>Suggested Doctor</th><th>Actions</th></tr></thead>
-  <tbody id="patientTable"></tbody></table></div>
- </div>
+<div class="panel">
+<h3>Patients</h3>
+<button class="btn" onclick="openPatientForm()">+ Add Patient</button>
+<input class="search" placeholder="Search patients..." oninput="renderPatients(this.value)">
+<div class="tablewrap"><table>
+<thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Symptoms</th><th>Assigned Doctor</th><th>Actions</th></tr></thead>
+<tbody id="patientTable"></tbody>
+</table></div>
+</div>
 
- <div class="panel">
-  <h3>Doctors</h3>
-  <button class="btn" onclick="openDoctorForm()">+ Add Doctor</button>
-  <input class="search" placeholder="Search doctors..." oninput="renderDoctors(this.value)">
-  <div class="tablewrap"><table>
-  <thead><tr><th>ID</th><th>Doctor Name</th><th>Patient Name</th><th>Specialization</th><th>Contact</th><th>Actions</th></tr></thead>
-  <tbody id="doctorTable"></tbody></table></div>
- </div>
+<div class="panel">
+<h3>Doctors</h3>
+<button class="btn" onclick="openDoctorForm()">+ Add Doctor</button>
+<input class="search" placeholder="Search doctors..." oninput="renderDoctors(this.value)">
+<div class="tablewrap"><table>
+<thead><tr><th>ID</th><th>Doctor Name</th><th>Patient Name</th><th>Specialization</th><th>Contact</th><th>Actions</th></tr></thead>
+<tbody id="doctorTable"></tbody>
+</table></div>
+</div>
 </section>
 
 <section id="appointments" class="hidden">
- <div class="panel">
-  <h3>Appointments</h3>
-  <button class="btn" onclick="openAppointmentForm()">+ Add Appointment</button>
-  <input class="search" placeholder="Search appointments..." oninput="renderAppointments(this.value)">
-  <div class="tablewrap"><table>
-  <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
-  <tbody id="appointmentTable"></tbody></table></div>
- </div>
+<div class="panel">
+<h3>Appointments</h3>
+<button class="btn" onclick="openAppointmentForm()">+ Add Appointment</button>
+<input class="search" placeholder="Search appointments..." oninput="renderAppointments(this.value)">
+<div class="tablewrap"><table>
+<thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody id="appointmentTable"></tbody>
+</table></div>
+</div>
 </section>
 
 <section id="diagnoses" class="hidden">
- <div class="panel">
-  <h3>Diagnoses</h3>
-  <button class="btn" onclick="openDiagnosisForm()">+ Add Diagnosis Record</button>
-  <div class="tablewrap"><table>
-  <thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Diagnosis</th><th>Treatment / Notes</th><th>Actions</th></tr></thead>
-  <tbody id="diagnosisTable"></tbody></table></div>
- </div>
+<div class="panel">
+<h3>Diagnoses</h3>
+<button class="btn" onclick="openDiagnosisForm()">+ Add Diagnosis</button>
+<div class="tablewrap"><table>
+<thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Diagnosis</th><th>Notes</th><th>Actions</th></tr></thead>
+<tbody id="diagnosisTable"></tbody>
+</table></div>
+</div>
 </section>
 
 <section id="records" class="hidden">
- <div class="panel">
-  <h3>Patient Medical Records</h3>
-  <input id="recordSearch" class="search" placeholder="Search patient name or ID..." oninput="renderRecords()">
-  <div id="recordResults"></div>
- </div>
+<div class="panel">
+<h3>Medical Records</h3>
+<input id="recordSearch" class="search" placeholder="Search patient name or ID..." oninput="renderRecords()">
+<div id="recordResults"></div>
+</div>
 </section>
 
 <section id="rooms" class="hidden">
- <div class="panel">
-  <h3>Rooms</h3>
-  <button class="btn" onclick="openRoomForm()">+ Add Room</button>
-  <div id="roomSummary"></div>
-  <div class="tablewrap"><table>
-  <thead><tr><th>Room Number</th><th>Patient</th><th>Status</th><th>Actions</th></tr></thead>
-  <tbody id="roomTable"></tbody></table></div>
- </div>
+<div class="panel">
+<h3>Rooms</h3>
+<button class="btn" onclick="openRoomForm()">+ Add Room</button>
+<div id="roomSummary"></div>
+<div class="tablewrap"><table>
+<thead><tr><th>Room Number</th><th>Patient</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody id="roomTable"></tbody>
+</table></div>
+</div>
 </section>
 
 <section id="billing" class="hidden">
- <div class="panel">
-  <h3>Billing</h3>
-  <input class="search" placeholder="Search billing by patient..." oninput="renderBilling(this.value)">
-  <button class="btn" onclick="openBillingForm()">+ Add Billing</button>
-  <div class="tablewrap"><table>
-  <thead><tr><th>Patient</th><th>Room Fee</th><th>Services</th><th>Medication</th><th>Lab</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
-  <tbody id="billingTable"></tbody></table></div>
- </div>
+<div class="panel">
+<h3>Billing</h3>
+<input class="search" placeholder="Search patient billing..." oninput="renderBilling(this.value)">
+<button class="btn" onclick="openBillingForm()">+ Add Billing</button>
+<div class="tablewrap"><table>
+<thead><tr><th>Patient</th><th>Room</th><th>Services</th><th>Medication</th><th>Lab</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody id="billingTable"></tbody>
+</table></div>
+</div>
 </section>
 
 <section id="settings" class="hidden">
- <div class="panel">
-  <h3>Settings</h3>
-  <h4>Profile</h4>
-  <label>Username</label><input id="settingUsername" disabled>
-  <h4>Appearance</h4>
-  <select onchange="changeTheme(this.value)">
-   <option value="blue">Blue Theme</option><option value="light">Light Theme</option>
-  </select>
-  <h4>Login Security / Login History</h4>
-  <div class="tablewrap"><table>
-   <thead><tr><th>Username</th><th>Date</th><th>Status</th></tr></thead>
-   <tbody id="historyTable"></tbody>
-  </table></div>
-  <h4>System Information</h4>
-  <p>Hospital Management System – Browser Storage Prototype</p>
- </div>
+<div class="panel">
+<h3>Settings</h3>
+<h4>Profile</h4>
+<label>Username</label><input id="settingUsername" disabled>
+<h4>Appearance</h4>
+<select onchange="changeTheme(this.value)">
+<option value="blue">Blue Theme</option><option value="light">Light Theme</option>
+</select>
+<h4>Login Security / Login History</h4>
+<div class="tablewrap"><table>
+<thead><tr><th>Username</th><th>Date</th><th>Status</th></tr></thead>
+<tbody id="historyTable"></tbody>
+</table></div>
+<h4>System Information</h4>
+<p>Hospital Management System – Browser Storage Prototype</p>
+</div>
 </section>
-
 </main>
 </div>
 
 <div id="modal" class="modal hidden">
- <div class="modalbox">
-  <div id="modalContent"></div>
-  <button class="btn secondary" onclick="closeModal()">Cancel</button>
- </div>
+<div class="modalbox">
+<div id="modalContent"></div>
+<button class="btn secondary" onclick="closeModal()">Cancel</button>
+</div>
 </div>
 
 <script>
@@ -233,34 +235,20 @@ const SYMPTOMS=[
 ];
 
 const SUGGESTIONS={
-"Fever":"General Medicine",
-"Cough":"General Medicine",
-"Cold / Runny Nose":"General Medicine",
-"Sore Throat":"General Medicine",
-"Headache":"Neurology",
-"Dizziness":"General Medicine",
-"Difficulty Breathing":"Pulmonology",
-"Chest Pain":"Cardiology",
-"Stomach Pain":"Gastroenterology",
-"Nausea":"Gastroenterology",
-"Vomiting":"Gastroenterology",
-"Diarrhea":"Gastroenterology",
-"Constipation":"Gastroenterology",
-"Body Pain":"General Medicine",
-"Muscle Pain":"Orthopedics",
-"Back Pain":"Orthopedics",
-"Joint Pain":"Orthopedics",
-"Fatigue / Weakness":"General Medicine",
-"Loss of Appetite":"General Medicine",
-"Skin Rash":"Dermatology",
-"Itching":"Dermatology",
-"Swelling":"General Medicine",
-"Bleeding":"General Medicine",
-"High Blood Pressure":"Internal Medicine",
-"Fast Heartbeat":"Cardiology",
-"Blurred Vision":"Ophthalmology",
-"Difficulty Sleeping":"General Medicine",
-"Anxiety / Nervousness":"General Medicine"
+"Fever":"General Medicine","Cough":"General Medicine",
+"Cold / Runny Nose":"General Medicine","Sore Throat":"General Medicine",
+"Headache":"Neurology","Dizziness":"General Medicine",
+"Difficulty Breathing":"Pulmonology","Chest Pain":"Cardiology",
+"Stomach Pain":"Gastroenterology","Nausea":"Gastroenterology",
+"Vomiting":"Gastroenterology","Diarrhea":"Gastroenterology",
+"Constipation":"Gastroenterology","Body Pain":"General Medicine",
+"Muscle Pain":"Orthopedics","Back Pain":"Orthopedics",
+"Joint Pain":"Orthopedics","Fatigue / Weakness":"General Medicine",
+"Loss of Appetite":"General Medicine","Skin Rash":"Dermatology",
+"Itching":"Dermatology","Swelling":"General Medicine",
+"Bleeding":"General Medicine","High Blood Pressure":"Internal Medicine",
+"Fast Heartbeat":"Cardiology","Blurred Vision":"Ophthalmology",
+"Difficulty Sleeping":"General Medicine","Anxiety / Nervousness":"General Medicine"
 };
 
 let patients=JSON.parse(localStorage.getItem("hms_patients")||"[]");
@@ -269,88 +257,93 @@ let appointments=JSON.parse(localStorage.getItem("hms_appointments")||"[]");
 let diagnoses=JSON.parse(localStorage.getItem("hms_diagnoses")||"[]");
 let rooms=JSON.parse(localStorage.getItem("hms_rooms")||"[]");
 let bills=JSON.parse(localStorage.getItem("hms_bills")||"[]");
-let users=JSON.parse(localStorage.getItem("hms_users")||'{"admin":"admin123"}');
+let users=JSON.parse(localStorage.getItem("hms_users")||"{}");
+if(!users.admin){users.admin="admin123";localStorage.setItem("hms_users",JSON.stringify(users))}
 let history=JSON.parse(localStorage.getItem("hms_history")||"[]");
 let currentUser="";
 
 function save(){
- localStorage.setItem("hms_patients",JSON.stringify(patients));
- localStorage.setItem("hms_doctors",JSON.stringify(doctors));
- localStorage.setItem("hms_appointments",JSON.stringify(appointments));
- localStorage.setItem("hms_diagnoses",JSON.stringify(diagnoses));
- localStorage.setItem("hms_rooms",JSON.stringify(rooms));
- localStorage.setItem("hms_bills",JSON.stringify(bills));
- localStorage.setItem("hms_users",JSON.stringify(users));
- localStorage.setItem("hms_history",JSON.stringify(history));
- renderAll();
+localStorage.setItem("hms_patients",JSON.stringify(patients));
+localStorage.setItem("hms_doctors",JSON.stringify(doctors));
+localStorage.setItem("hms_appointments",JSON.stringify(appointments));
+localStorage.setItem("hms_diagnoses",JSON.stringify(diagnoses));
+localStorage.setItem("hms_rooms",JSON.stringify(rooms));
+localStorage.setItem("hms_bills",JSON.stringify(bills));
+localStorage.setItem("hms_users",JSON.stringify(users));
+localStorage.setItem("hms_history",JSON.stringify(history));
+renderAll();
 }
 
 function login(){
- let u=document.getElementById("loginUser").value.trim();
- let p=document.getElementById("loginPass").value;
- if(users[u]===p){
-  currentUser=u;
-  history.unshift({user:u,date:new Date().toLocaleString(),status:"Successful"});
-  save();
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("signupScreen").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  document.getElementById("userLabel").innerText=u;
-  document.getElementById("welcome").innerText="Welcome back, "+u+"!";
-  document.getElementById("settingUsername").value=u;
-  renderAll();
- }else{
-  alert("Invalid username or password.");
-  history.unshift({user:u,date:new Date().toLocaleString(),status:"Failed"});
-  save();
- }
+let u=document.getElementById("loginUser").value.trim();
+let p=document.getElementById("loginPass").value;
+let savedUsers=JSON.parse(localStorage.getItem("hms_users")||"{}");
+if(!savedUsers.admin){
+savedUsers.admin="admin123";
+localStorage.setItem("hms_users",JSON.stringify(savedUsers));
+}
+if(savedUsers[u]===p){
+currentUser=u;
+history.unshift({user:u,date:new Date().toLocaleString(),status:"Successful"});
+save();
+document.getElementById("loginScreen").classList.add("hidden");
+document.getElementById("signupScreen").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+document.getElementById("userLabel").innerText=u;
+document.getElementById("welcome").innerText="Welcome back, "+u+"!";
+document.getElementById("settingUsername").value=u;
+page("dashboard");
+renderAll();
+}else{
+history.unshift({user:u,date:new Date().toLocaleString(),status:"Failed"});
+save();
+alert("Incorrect username or password.");
+}
 }
 
 function logout(){
- history.unshift({user:currentUser,date:new Date().toLocaleString(),status:"Logout"});
- save();
- currentUser="";
- document.getElementById("app").classList.add("hidden");
- document.getElementById("loginScreen").classList.remove("hidden");
+history.unshift({user:currentUser,date:new Date().toLocaleString(),status:"Logout"});
+save();
+currentUser="";
+document.getElementById("app").classList.add("hidden");
+document.getElementById("loginScreen").classList.remove("hidden");
 }
 
 function showSignup(){
- document.getElementById("loginScreen").classList.add("hidden");
- document.getElementById("signupScreen").classList.remove("hidden");
- document.getElementById("signupScreen").classList.add("loginScreen");
+document.getElementById("loginScreen").classList.add("hidden");
+document.getElementById("signupScreen").classList.remove("hidden");
 }
 function backLogin(){
- document.getElementById("signupScreen").classList.add("hidden");
- document.getElementById("loginScreen").classList.remove("hidden");
+document.getElementById("signupScreen").classList.add("hidden");
+document.getElementById("loginScreen").classList.remove("hidden");
 }
 function signup(){
- let u=document.getElementById("suUser").value.trim();
- let p=document.getElementById("suPass").value;
- if(!u||!p)return alert("Enter username and password.");
- if(users[u])return alert("Username already exists.");
- users[u]=p;
- save();
- alert("Account created. Please log in.");
- backLogin();
+let u=document.getElementById("suUser").value.trim();
+let p=document.getElementById("suPass").value;
+if(!u||!p)return alert("Enter username and password.");
+if(users[u])return alert("Username already exists.");
+users[u]=p;
+save();
+alert("Account created. Please log in.");
+backLogin();
 }
 
 function page(id,btn){
- document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
- document.getElementById(id).classList.remove("hidden");
- document.getElementById("pageTitle").innerText={
- dashboard:"Dashboard",patients:"Patients & Doctors",
- appointments:"Appointments",diagnoses:"Diagnoses",
- records:"Medical Records",rooms:"Rooms",
- billing:"Billing",settings:"Settings"
- }[id]||id;
- document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
- if(btn)btn.classList.add("active");
- renderAll();
+document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+document.getElementById("pageTitle").innerText={
+dashboard:"Dashboard",patients:"Patients & Doctors",
+appointments:"Appointments",diagnoses:"Diagnoses",
+records:"Medical Records",rooms:"Rooms",billing:"Billing",settings:"Settings"
+}[id]||id;
+document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+if(btn)btn.classList.add("active");
+renderAll();
 }
 
 function openModal(html){
- document.getElementById("modalContent").innerHTML=html;
- document.getElementById("modal").classList.remove("hidden");
+document.getElementById("modalContent").innerHTML=html;
+document.getElementById("modal").classList.remove("hidden");
 }
 function closeModal(){document.getElementById("modal").classList.add("hidden")}
 function id(prefix,arr){return prefix+(arr.length+1).toString().padStart(3,"0")}
@@ -358,272 +351,246 @@ function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&l
 function money(v){return "₱"+Number(v||0).toLocaleString("en-PH",{minimumFractionDigits:2})}
 
 function openPatientForm(editId=null){
- let p=patients.find(x=>x.id===editId)||{};
- let checked=p.symptoms||[];
- let symptomHtml=SYMPTOMS.map(s=>`<label><input type="checkbox" name="symptom" value="${esc(s)}" ${checked.includes(s)?"checked":""}> ${esc(s)}</label>`).join("");
- openModal(`
- <h2>${editId?"Edit":"Add"} Patient</h2>
- <form id="patientForm">
- <div class="grid2">
- <div><label>Full Name *</label><input id="pname" required value="${esc(p.name||"")}"></div>
- <div><label>Age *</label><input id="page" type="number" required value="${esc(p.age||"")}"></div>
- <div><label>Gender</label><select id="pgender"><option>Male</option><option ${p.gender==="Female"?"selected":""}>Female</option><option>Other</option></select></div>
- <div><label>Contact Number</label><input id="pcontact" value="${esc(p.contact||"")}"></div>
- <div><label>Address</label><input id="paddress" value="${esc(p.address||"")}"></div>
- </div>
- <hr><h3>Patient Symptoms</h3>
- <small>Select all symptoms reported by the patient.</small>
- <div class="symptoms">${symptomHtml}</div>
- <label>Other Symptoms (Specify)</label><input id="pother" value="${esc(p.other||"")}">
- <div class="grid2">
- <div><label>Duration</label><input id="pduration" placeholder="e.g. 2 days" value="${esc(p.duration||"")}"></div>
- <div><label>Reported Severity</label><select id="pseverity"><option value="">Select</option><option ${p.severity==="Mild"?"selected":""}>Mild</option><option ${p.severity==="Moderate"?"selected":""}>Moderate</option><option ${p.severity==="Severe"?"selected":""}>Severe</option></select></div>
- </div>
- <label>Notes</label><textarea id="pnotes">${esc(p.notes||"")}</textarea>
- <hr><h3>Suggested Doctor</h3>
- <div id="suggestionBox" class="panel">Select symptoms to see suggested specialization.</div>
- <label>Assign Doctor</label><select id="passign"></select>
- <button class="btn" type="submit">Save Patient</button>
- </form>
- `);
- populatePatientDoctorSuggestions();
- document.querySelectorAll('input[name="symptom"]').forEach(c=>c.addEventListener("change",populatePatientDoctorSuggestions));
- document.getElementById("pother").addEventListener("input",populatePatientDoctorSuggestions);
- document.getElementById("patientForm").onsubmit=e=>{
- e.preventDefault();
- let symptoms=[...document.querySelectorAll('input[name="symptom"]:checked')].map(c=>c.value);
- let other=document.getElementById("pother").value.trim();
- if(other)symptoms.push(other);
- let suggestion=getSuggestion(symptoms);
- let assigned=document.getElementById("passign").value;
- let obj={id:p.id||id("P",patients),name:document.getElementById("pname").value,age:document.getElementById("page").value,gender:document.getElementById("pgender").value,contact:document.getElementById("pcontact").value,address:document.getElementById("paddress").value,symptoms,other,duration:document.getElementById("pduration").value,severity:document.getElementById("pseverity").value,notes:document.getElementById("pnotes").value,suggested:suggestion,doctorId:assigned};
- if(editId)patients[patients.findIndex(x=>x.id===editId)]=obj;else patients.push(obj);
- if(assigned){
-  let d=doctors.find(x=>x.id===assigned);
-  if(d)d.patientId=obj.id;
- }
- save();closeModal();
- };
+let p=patients.find(x=>x.id===editId)||{};
+let checked=p.symptoms||[];
+let symptomHtml=SYMPTOMS.map(s=>`<label><input type="checkbox" name="symptom" value="${esc(s)}" ${checked.includes(s)?"checked":""}> ${esc(s)}</label>`).join("");
+openModal(`
+<h2>${editId?"Edit":"Add"} Patient</h2>
+<form id="patientForm">
+<div class="grid2">
+<div><label>Full Name *</label><input id="pname" required value="${esc(p.name||"")}"></div>
+<div><label>Age *</label><input id="page" type="number" required value="${esc(p.age||"")}"></div>
+<div><label>Gender</label><select id="pgender"><option ${p.gender==="Male"?"selected":""}>Male</option><option ${p.gender==="Female"?"selected":""}>Female</option><option ${p.gender==="Other"?"selected":""}>Other</option></select></div>
+<div><label>Contact Number</label><input id="pcontact" value="${esc(p.contact||"")}"></div>
+<div><label>Address</label><input id="paddress" value="${esc(p.address||"")}"></div>
+</div>
+<hr><h3>Patient Symptoms</h3>
+<small>Select all symptoms reported by the patient.</small>
+<div class="symptoms">${symptomHtml}</div>
+<label>Other Symptoms (Specify)</label><input id="pother" value="${esc(p.other||"")}">
+<div class="grid2">
+<div><label>Duration</label><input id="pduration" placeholder="e.g. 2 days" value="${esc(p.duration||"")}"></div>
+<div><label>Reported Severity</label><select id="pseverity"><option value="">Select</option><option ${p.severity==="Mild"?"selected":""}>Mild</option><option ${p.severity==="Moderate"?"selected":""}>Moderate</option><option ${p.severity==="Severe"?"selected":""}>Severe</option></select></div>
+</div>
+<label>Notes</label><textarea id="pnotes">${esc(p.notes||"")}</textarea>
+<hr><h3>Suggested Doctor</h3>
+<div id="suggestionBox" class="panel">Select symptoms to see suggested specialization.</div>
+<label>Assign Doctor</label><select id="passign"></select>
+<button class="btn" type="submit">Save Patient</button>
+</form>
+`);
+populatePatientDoctorSuggestions();
+document.querySelectorAll('input[name="symptom"]').forEach(c=>c.addEventListener("change",populatePatientDoctorSuggestions));
+document.getElementById("pother").addEventListener("input",populatePatientDoctorSuggestions);
+document.getElementById("patientForm").onsubmit=e=>{
+e.preventDefault();
+let symptoms=[...document.querySelectorAll('input[name="symptom"]:checked')].map(c=>c.value);
+let other=document.getElementById("pother").value.trim();
+if(other)symptoms.push(other);
+let suggestion=getSuggestion(symptoms);
+let assigned=document.getElementById("passign").value;
+let obj={id:p.id||id("P",patients),name:document.getElementById("pname").value,age:document.getElementById("page").value,gender:document.getElementById("pgender").value,contact:document.getElementById("pcontact").value,address:document.getElementById("paddress").value,symptoms,other,duration:document.getElementById("pduration").value,severity:document.getElementById("pseverity").value,notes:document.getElementById("pnotes").value,suggested:suggestion,doctorId:assigned};
+if(editId)patients[patients.findIndex(x=>x.id===editId)]=obj;else patients.push(obj);
+if(assigned){
+let d=doctors.find(x=>x.id===assigned);
+if(d)d.patientId=obj.id;
+}
+save();closeModal();
+};
 }
 
 function populatePatientDoctorSuggestions(){
- let symptoms=[...document.querySelectorAll('input[name="symptom"]:checked')].map(c=>c.value);
- let other=document.getElementById("pother").value.trim();
- if(other)symptoms.push(other);
- let suggestion=getSuggestion(symptoms);
- let box=document.getElementById("suggestionBox");
- let sel=document.getElementById("passign");
- if(!box||!sel)return;
- box.innerHTML=suggestion?
- "<b>Suggested specialization:</b> "+esc(suggestion)+"<br><small>Suggestion only. Clinical staff should confirm.</small>":
- "Select symptoms to see suggested specialization.";
- let matched=doctors.filter(d=>d.specialization===suggestion);
- sel.innerHTML='<option value="">Select Doctor</option>'+matched.map(d=>`<option value="${d.id}">${esc(d.name)} (${esc(d.specialization)})</option>`).join("")+
- '<option value="none">No matching doctor available</option>';
+let symptoms=[...document.querySelectorAll('input[name="symptom"]:checked')].map(c=>c.value);
+let other=document.getElementById("pother").value.trim();
+if(other)symptoms.push(other);
+let suggestion=getSuggestion(symptoms);
+let box=document.getElementById("suggestionBox");
+let sel=document.getElementById("passign");
+if(!box||!sel)return;
+box.innerHTML=suggestion?"<b>Suggested specialization:</b> "+esc(suggestion)+"<br><small>Suggestion only. Staff should confirm.</small>":"Select symptoms to see suggested specialization.";
+let matched=doctors.filter(d=>d.specialization===suggestion);
+sel.innerHTML='<option value="">Select Doctor</option>'+matched.map(d=>`<option value="${d.id}">${esc(d.name)} (${esc(d.specialization)})</option>`).join("")+'<option value="none">No matching doctor available</option>';
 }
 
 function getSuggestion(symptoms){
- for(let s of symptoms){
-  if(SUGGESTIONS[s])return SUGGESTIONS[s];
- }
- return symptoms.length?"General Medicine":"";
+for(let s of symptoms){if(SUGGESTIONS[s])return SUGGESTIONS[s]}
+return symptoms.length?"General Medicine":"";
 }
 
 function renderPatients(q=""){
- document.getElementById("patientTable").innerHTML=patients.filter(p=>(p.name+p.id+p.contact).toLowerCase().includes(q.toLowerCase())).map(p=>{
- let d=doctors.find(x=>x.id===p.doctorId);
- return `<tr><td>${esc(p.id)}</td><td>${esc(p.name)}</td><td>${esc(p.age)}</td><td>${esc(p.gender)}</td><td>${esc(p.contact)}</td><td>${esc((p.symptoms||[]).join(", "))}</td><td>${esc(d?d.name:p.suggested||"Not assigned")}</td><td><button class="btn secondary" onclick="openPatientForm('${p.id}')">Edit</button><button class="btn danger" onclick="deletePatient('${p.id}')">Delete</button></td></tr>`;
- }).join("");
+document.getElementById("patientTable").innerHTML=patients.filter(p=>(p.name+p.id+p.contact).toLowerCase().includes(q.toLowerCase())).map(p=>{
+let d=doctors.find(x=>x.id===p.doctorId);
+return `<tr><td>${esc(p.id)}</td><td>${esc(p.name)}</td><td>${esc(p.age)}</td><td>${esc(p.gender)}</td><td>${esc(p.contact)}</td><td>${esc((p.symptoms||[]).join(", "))}</td><td>${esc(d?d.name:p.suggested||"Not assigned")}</td><td><button class="btn secondary" onclick="openPatientForm('${p.id}')">Edit</button><button class="btn danger" onclick="deletePatient('${p.id}')">Delete</button></td></tr>`;
+}).join("");
 }
 function deletePatient(id){
- if(confirm("Delete this patient?")){
- patients=patients.filter(p=>p.id!==id);
- save();
- }
+if(confirm("Delete this patient?")){patients=patients.filter(p=>p.id!==id);save()}
 }
 
 function openDoctorForm(editId=null){
- let d=doctors.find(x=>x.id===editId)||{};
- openModal(`<h2>${editId?"Edit":"Add"} Doctor</h2>
- <form id="doctorForm">
- <label>Doctor Name *</label><input id="dname" required value="${esc(d.name||"")}">
- <label>Patient Name</label><select id="dpatient"><option value="">Unassigned</option>${patients.map(p=>`<option value="${p.id}" ${d.patientId===p.id?"selected":""}>${esc(p.name)}</option>`).join("")}</select>
- <label>Specialization *</label><select id="dspec" required>${SPECIALIZATIONS.map(s=>`<option ${d.specialization===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
- <label>Contact</label><input id="dcontact" value="${esc(d.contact||"")}">
- <button class="btn" type="submit">Save Doctor</button></form>`);
- document.getElementById("doctorForm").onsubmit=e=>{
- e.preventDefault();
- let obj={id:d.id||id("D",doctors),name:document.getElementById("dname").value,patientId:document.getElementById("dpatient").value,specialization:document.getElementById("dspec").value,contact:document.getElementById("dcontact").value};
- if(editId)doctors[doctors.findIndex(x=>x.id===editId)]=obj;else doctors.push(obj);
- if(obj.patientId){
-  let p=patients.find(x=>x.id===obj.patientId);
-  if(p)p.doctorId=obj.id;
- }
- save();closeModal();
- };
+let d=doctors.find(x=>x.id===editId)||{};
+openModal(`<h2>${editId?"Edit":"Add"} Doctor</h2>
+<form id="doctorForm">
+<label>Doctor Name *</label><input id="dname" required value="${esc(d.name||"")}">
+<label>Patient Name</label><select id="dpatient"><option value="">Unassigned</option>${patients.map(p=>`<option value="${p.id}" ${d.patientId===p.id?"selected":""}>${esc(p.name)}</option>`).join("")}</select>
+<label>Specialization *</label><select id="dspec" required>${SPECIALIZATIONS.map(s=>`<option ${d.specialization===s?"selected":""}>${esc(s)}</option>`).join("")}</select>
+<label>Contact</label><input id="dcontact" value="${esc(d.contact||"")}">
+<button class="btn" type="submit">Save Doctor</button></form>`);
+document.getElementById("doctorForm").onsubmit=e=>{
+e.preventDefault();
+let obj={id:d.id||id("D",doctors),name:document.getElementById("dname").value,patientId:document.getElementById("dpatient").value,specialization:document.getElementById("dspec").value,contact:document.getElementById("dcontact").value};
+if(editId)doctors[doctors.findIndex(x=>x.id===editId)]=obj;else doctors.push(obj);
+if(obj.patientId){let p=patients.find(x=>x.id===obj.patientId);if(p)p.doctorId=obj.id}
+save();closeModal();
+};
 }
 function renderDoctors(q=""){
- document.getElementById("doctorTable").innerHTML=doctors.filter(d=>(d.name+d.specialization+d.contact).toLowerCase().includes(q.toLowerCase())).map(d=>{
- let p=patients.find(x=>x.id===d.patientId);
- return `<tr><td>${esc(d.id)}</td><td>${esc(d.name)}</td><td>${esc(p?p.name:"Unassigned")}</td><td>${esc(d.specialization)}</td><td>${esc(d.contact)}</td><td><button class="btn secondary" onclick="openDoctorForm('${d.id}')">Edit</button><button class="btn danger" onclick="deleteDoctor('${d.id}')">Delete</button></td></tr>`;
- }).join("");
+document.getElementById("doctorTable").innerHTML=doctors.filter(d=>(d.name+d.specialization+d.contact).toLowerCase().includes(q.toLowerCase())).map(d=>{
+let p=patients.find(x=>x.id===d.patientId);
+return `<tr><td>${esc(d.id)}</td><td>${esc(d.name)}</td><td>${esc(p?p.name:"Unassigned")}</td><td>${esc(d.specialization)}</td><td>${esc(d.contact)}</td><td><button class="btn secondary" onclick="openDoctorForm('${d.id}')">Edit</button><button class="btn danger" onclick="deleteDoctor('${d.id}')">Delete</button></td></tr>`;
+}).join("");
 }
-function deleteDoctor(id){
- if(confirm("Delete doctor?")){
- doctors=doctors.filter(d=>d.id!==id);
- save();
- }
-}
+function deleteDoctor(id){if(confirm("Delete doctor?")){doctors=doctors.filter(d=>d.id!==id);save()}}
 
-function patientOptions(){
- return patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
-}
-function doctorOptions(){
- return doctors.map(d=>`<option value="${d.id}">${esc(d.name)} – ${esc(d.specialization)}</option>`).join("");
-}
+function patientOptions(){return patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}
+function doctorOptions(){return doctors.map(d=>`<option value="${d.id}">${esc(d.name)} – ${esc(d.specialization)}</option>`).join("")}
 
 function openAppointmentForm(){
- openModal(`<h2>Add Appointment</h2><form id="af">
- <label>Patient</label><select id="ap" required>${patientOptions()}</select>
- <label>Doctor</label><select id="ad" required>${doctorOptions()}</select>
- <label>Date</label><input id="adt" type="date" required>
- <label>Status</label><select id="ast"><option>Scheduled</option><option>Admitted</option><option>Discharged</option><option>Completed</option><option>Cancelled</option></select>
- <button class="btn">Save Appointment</button></form>`);
- document.getElementById("af").onsubmit=e=>{
- e.preventDefault();
- appointments.push({id:id("A",appointments),patientId:document.getElementById("ap").value,doctorId:document.getElementById("ad").value,date:document.getElementById("adt").value,status:document.getElementById("ast").value});
- save();closeModal();
- };
+openModal(`<h2>Add Appointment</h2><form id="af">
+<label>Patient</label><select id="ap" required>${patientOptions()}</select>
+<label>Doctor</label><select id="ad" required>${doctorOptions()}</select>
+<label>Date</label><input id="adt" type="date" required>
+<label>Status</label><select id="ast"><option>Scheduled</option><option>Admitted</option><option>Discharged</option><option>Completed</option><option>Cancelled</option></select>
+<button class="btn">Save Appointment</button></form>`);
+document.getElementById("af").onsubmit=e=>{
+e.preventDefault();
+appointments.push({id:id("A",appointments),patientId:document.getElementById("ap").value,doctorId:document.getElementById("ad").value,date:document.getElementById("adt").value,status:document.getElementById("ast").value});
+save();closeModal();
+};
 }
 function renderAppointments(q=""){
- document.getElementById("appointmentTable").innerHTML=appointments.filter(a=>{let p=patients.find(x=>x.id===a.patientId),d=doctors.find(x=>x.id===a.doctorId);return ((p?p.name:"")+(d?d.name:"")+a.date+a.status).toLowerCase().includes(q.toLowerCase())}).map(a=>{
- let p=patients.find(x=>x.id===a.patientId),d=doctors.find(x=>x.id===a.doctorId);
- return `<tr><td>${esc(a.id)}</td><td>${esc(p?p.name:"Unknown")}</td><td>${esc(d?d.name:"Unknown")}</td><td>${esc(a.date)}</td><td>${esc(a.status)}</td><td><button class="btn danger" onclick="delAppointment('${a.id}')">Delete</button></td></tr>`;
- }).join("");
+document.getElementById("appointmentTable").innerHTML=appointments.filter(a=>{let p=patients.find(x=>x.id===a.patientId),d=doctors.find(x=>x.id===a.doctorId);return ((p?p.name:"")+(d?d.name:"")+a.date+a.status).toLowerCase().includes(q.toLowerCase())}).map(a=>{
+let p=patients.find(x=>x.id===a.patientId),d=doctors.find(x=>x.id===a.doctorId);
+return `<tr><td>${esc(a.id)}</td><td>${esc(p?p.name:"Unknown")}</td><td>${esc(d?d.name:"Unknown")}</td><td>${esc(a.date)}</td><td>${esc(a.status)}</td><td><button class="btn danger" onclick="delAppointment('${a.id}')">Delete</button></td></tr>`;
+}).join("");
 }
 function delAppointment(id){appointments=appointments.filter(a=>a.id!==id);save()}
 
 function openDiagnosisForm(){
- openModal(`<h2>Add Diagnosis Record</h2><form id="df">
- <label>Patient</label><select id="dp" required>${patientOptions()}</select>
- <label>Doctor</label><select id="dd" required>${doctorOptions()}</select>
- <label>Date</label><input id="ddate" type="date" required>
- <label>Diagnosis</label><input id="dtext" required>
- <label>Treatment / Notes</label><textarea id="dnotes"></textarea>
- <button class="btn">Save Record</button></form>`);
- document.getElementById("df").onsubmit=e=>{
- e.preventDefault();
- diagnoses.push({id:id("DX",diagnoses),patientId:document.getElementById("dp").value,doctorId:document.getElementById("dd").value,date:document.getElementById("ddate").value,diagnosis:document.getElementById("dtext").value,notes:document.getElementById("dnotes").value});
- save();closeModal();
- };
+openModal(`<h2>Add Diagnosis Record</h2><form id="df">
+<label>Patient</label><select id="dp" required>${patientOptions()}</select>
+<label>Doctor</label><select id="dd" required>${doctorOptions()}</select>
+<label>Date</label><input id="ddate" type="date" required>
+<label>Diagnosis</label><input id="dtext" required>
+<label>Treatment / Notes</label><textarea id="dnotes"></textarea>
+<button class="btn">Save Record</button></form>`);
+document.getElementById("df").onsubmit=e=>{
+e.preventDefault();
+diagnoses.push({id:id("DX",diagnoses),patientId:document.getElementById("dp").value,doctorId:document.getElementById("dd").value,date:document.getElementById("ddate").value,diagnosis:document.getElementById("dtext").value,notes:document.getElementById("dnotes").value});
+save();closeModal();
+};
 }
 function renderDiagnoses(){
- document.getElementById("diagnosisTable").innerHTML=diagnoses.map(x=>{
- let p=patients.find(z=>z.id===x.patientId),d=doctors.find(z=>z.id===x.doctorId);
- return `<tr><td>${esc(p?p.name:"Unknown")}</td><td>${esc(d?d.name:"Unknown")}</td><td>${esc(x.date)}</td><td>${esc(x.diagnosis)}</td><td>${esc(x.notes)}</td><td><button class="btn danger" onclick="delDiagnosis('${x.id}')">Delete</button></td></tr>`;
- }).join("");
+document.getElementById("diagnosisTable").innerHTML=diagnoses.map(x=>{
+let p=patients.find(z=>z.id===x.patientId),d=doctors.find(z=>z.id===x.doctorId);
+return `<tr><td>${esc(p?p.name:"Unknown")}</td><td>${esc(d?d.name:"Unknown")}</td><td>${esc(x.date)}</td><td>${esc(x.diagnosis)}</td><td>${esc(x.notes)}</td><td><button class="btn danger" onclick="delDiagnosis('${x.id}')">Delete</button></td></tr>`;
+}).join("");
 }
 function delDiagnosis(id){diagnoses=diagnoses.filter(x=>x.id!==id);save()}
 
 function renderRecords(){
- let q=(document.getElementById("recordSearch").value||"").toLowerCase();
- let found=patients.filter(p=>(p.name+p.id).toLowerCase().includes(q));
- document.getElementById("recordResults").innerHTML=found.map(p=>{
- let a=appointments.filter(x=>x.patientId===p.id),dx=diagnoses.filter(x=>x.patientId===p.id);
- let d=doctors.find(x=>x.id===p.doctorId);
- return `<div class="panel"><h3>${esc(p.name)} (${esc(p.id)})</h3>
- <p><b>Symptoms:</b> ${esc((p.symptoms||[]).join(", "))}</p>
- <p><b>Assigned Doctor:</b> ${esc(d?d.name:"Unassigned")}</p>
- <h4>Diagnoses</h4>${dx.map(x=>`<p>${esc(x.date)} – ${esc(x.diagnosis)} – ${esc(x.notes)}</p>`).join("")||"No diagnoses saved"}
- <h4>Appointments</h4>${a.map(x=>`<p>${esc(x.date)} – ${esc(x.status)}</p>`).join("")||"No appointments"}
- </div>`;
- }).join("")||"No patients found.";
+let q=(document.getElementById("recordSearch").value||"").toLowerCase();
+let found=patients.filter(p=>(p.name+p.id).toLowerCase().includes(q));
+document.getElementById("recordResults").innerHTML=found.map(p=>{
+let a=appointments.filter(x=>x.patientId===p.id),dx=diagnoses.filter(x=>x.patientId===p.id),d=doctors.find(x=>x.id===p.doctorId);
+return `<div class="panel"><h3>${esc(p.name)} (${esc(p.id)})</h3>
+<p><b>Symptoms:</b> ${esc((p.symptoms||[]).join(", "))}</p>
+<p><b>Assigned Doctor:</b> ${esc(d?d.name:"Unassigned")}</p>
+<h4>Diagnoses</h4>${dx.map(x=>`<p>${esc(x.date)} – ${esc(x.diagnosis)} – ${esc(x.notes)}</p>`).join("")||"No diagnoses saved"}
+<h4>Appointments</h4>${a.map(x=>`<p>${esc(x.date)} – ${esc(x.status)}</p>`).join("")||"No appointments"}</div>`;
+}).join("")||"No patients found.";
 }
 
 function openRoomForm(){
- openModal(`<h2>Add Room</h2><form id="rf">
- <label>Room Number</label><input id="rnum" required>
- <label>Occupant</label><select id="rpatient"><option value="">Not Occupied</option>${patientOptions()}</select>
- <button class="btn">Save Room</button></form>`);
- document.getElementById("rf").onsubmit=e=>{
- e.preventDefault();
- rooms.push({id:id("R",rooms),number:document.getElementById("rnum").value,patientId:document.getElementById("rpatient").value});
- save();closeModal();
- };
+openModal(`<h2>Add Room</h2><form id="rf">
+<label>Room Number</label><input id="rnum" required>
+<label>Occupant</label><select id="rpatient"><option value="">Not Occupied</option>${patientOptions()}</select>
+<button class="btn">Save Room</button></form>`);
+document.getElementById("rf").onsubmit=e=>{
+e.preventDefault();
+rooms.push({id:id("R",rooms),number:document.getElementById("rnum").value,patientId:document.getElementById("rpatient").value});
+save();closeModal();
+};
 }
 function renderRooms(){
- let occ=rooms.filter(r=>r.patientId).length;
- document.getElementById("roomSummary").innerHTML=`<p><b>Total Rooms:</b> ${rooms.length} &nbsp; <b>Occupied:</b> ${occ} &nbsp; <b>Not Occupied:</b> ${rooms.length-occ}</p>`;
- document.getElementById("roomTable").innerHTML=rooms.map(r=>{
- let p=patients.find(x=>x.id===r.patientId);
- return `<tr><td>${esc(r.number)}</td><td>${esc(p?p.name:"—")}</td><td><span class="badge">${p?"Occupied":"Not Occupied"}</span></td><td><button class="btn secondary" onclick="editRoom('${r.id}')">Edit</button><button class="btn danger" onclick="delRoom('${r.id}')">Delete</button></td></tr>`;
- }).join("");
+let occ=rooms.filter(r=>r.patientId).length;
+document.getElementById("roomSummary").innerHTML=`<p><b>Total Rooms:</b> ${rooms.length} &nbsp; <b>Occupied:</b> ${occ} &nbsp; <b>Not Occupied:</b> ${rooms.length-occ}</p>`;
+document.getElementById("roomTable").innerHTML=rooms.map(r=>{
+let p=patients.find(x=>x.id===r.patientId);
+return `<tr><td>${esc(r.number)}</td><td>${esc(p?p.name:"—")}</td><td><span class="badge">${p?"Occupied":"Not Occupied"}</span></td><td><button class="btn secondary" onclick="editRoom('${r.id}')">Edit</button><button class="btn danger" onclick="delRoom('${r.id}')">Delete</button></td></tr>`;
+}).join("");
 }
 function editRoom(id){
- let r=rooms.find(x=>x.id===id);
- openModal(`<h2>Edit Room</h2><form id="rf">
- <label>Room Number</label><input id="rnum" value="${esc(r.number)}" required>
- <label>Patient</label><select id="rpatient"><option value="">Not Occupied</option>${patients.map(p=>`<option value="${p.id}" ${p.id===r.patientId?"selected":""}>${esc(p.name)}</option>`).join("")}</select>
- <button class="btn">Save</button></form>`);
- document.getElementById("rf").onsubmit=e=>{
- e.preventDefault();r.number=document.getElementById("rnum").value;r.patientId=document.getElementById("rpatient").value;save();closeModal();
- };
+let r=rooms.find(x=>x.id===id);
+openModal(`<h2>Edit Room</h2><form id="rf">
+<label>Room Number</label><input id="rnum" value="${esc(r.number)}" required>
+<label>Patient</label><select id="rpatient"><option value="">Not Occupied</option>${patients.map(p=>`<option value="${p.id}" ${p.id===r.patientId?"selected":""}>${esc(p.name)}</option>`).join("")}</select>
+<button class="btn">Save</button></form>`);
+document.getElementById("rf").onsubmit=e=>{
+e.preventDefault();r.number=document.getElementById("rnum").value;r.patientId=document.getElementById("rpatient").value;save();closeModal();
+};
 }
 function delRoom(id){rooms=rooms.filter(r=>r.id!==id);save()}
 
 function openBillingForm(){
- openModal(`<h2>Add Billing</h2><form id="bf">
- <label>Patient</label><select id="bp" required>${patientOptions()}</select>
- <div class="grid2">
- <div><label>Room Fee</label><input id="br" type="number" min="0" value="0"></div>
- <div><label>Services</label><input id="bs" type="number" min="0" value="0"></div>
- <div><label>Medication</label><input id="bm" type="number" min="0" value="0"></div>
- <div><label>Laboratory</label><input id="bl" type="number" min="0" value="0"></div>
- <div><label>Payment Received</label><input id="bpaid" type="number" min="0" value="0"></div>
- </div><button class="btn">Save Billing</button></form>`);
- document.getElementById("bf").onsubmit=e=>{
- e.preventDefault();
- let total=["br","bs","bm","bl"].reduce((a,x)=>a+Number(document.getElementById(x).value),0);
- let paid=Number(document.getElementById("bpaid").value);
- bills.push({id:id("B",bills),patientId:document.getElementById("bp").value,room:Number(document.getElementById("br").value),services:Number(document.getElementById("bs").value),med:Number(document.getElementById("bm").value),lab:Number(document.getElementById("bl").value),total,paid});
- save();closeModal();
- };
+openModal(`<h2>Add Billing</h2><form id="bf">
+<label>Patient</label><select id="bp" required>${patientOptions()}</select>
+<div class="grid2">
+<div><label>Room Fee</label><input id="br" type="number" min="0" value="0"></div>
+<div><label>Services</label><input id="bs" type="number" min="0" value="0"></div>
+<div><label>Medication</label><input id="bm" type="number" min="0" value="0"></div>
+<div><label>Laboratory</label><input id="bl" type="number" min="0" value="0"></div>
+<div><label>Payment Received</label><input id="bpaid" type="number" min="0" value="0"></div>
+</div><button class="btn">Save Billing</button></form>`);
+document.getElementById("bf").onsubmit=e=>{
+e.preventDefault();
+let total=["br","bs","bm","bl"].reduce((a,x)=>a+Number(document.getElementById(x).value),0),paid=Number(document.getElementById("bpaid").value);
+bills.push({id:id("B",bills),patientId:document.getElementById("bp").value,room:Number(document.getElementById("br").value),services:Number(document.getElementById("bs").value),med:Number(document.getElementById("bm").value),lab:Number(document.getElementById("bl").value),total,paid});
+save();closeModal();
+};
 }
 function renderBilling(q=""){
- document.getElementById("billingTable").innerHTML=bills.filter(b=>{let p=patients.find(x=>x.id===b.patientId);return (p?p.name:"").toLowerCase().includes(q.toLowerCase())}).map(b=>{
- let p=patients.find(x=>x.id===b.patientId),bal=b.total-b.paid,status=bal<=0?"Paid":b.paid>0?"Partially Paid":"Pending";
- return `<tr><td>${esc(p?p.name:"Unknown")}</td><td>${money(b.room)}</td><td>${money(b.services)}</td><td>${money(b.med)}</td><td>${money(b.lab)}</td><td>${money(b.total)}</td><td>${money(b.paid)}</td><td>${money(bal)}</td><td>${status}</td><td><button class="btn secondary" onclick="payBill('${b.id}')">Payment</button><button class="btn danger" onclick="delBill('${b.id}')">Delete</button></td></tr>`;
- }).join("");
+document.getElementById("billingTable").innerHTML=bills.filter(b=>{let p=patients.find(x=>x.id===b.patientId);return (p?p.name:"").toLowerCase().includes(q.toLowerCase())}).map(b=>{
+let p=patients.find(x=>x.id===b.patientId),bal=b.total-b.paid,status=bal<=0?"Paid":b.paid>0?"Partially Paid":"Pending";
+return `<tr><td>${esc(p?p.name:"Unknown")}</td><td>${money(b.room)}</td><td>${money(b.services)}</td><td>${money(b.med)}</td><td>${money(b.lab)}</td><td>${money(b.total)}</td><td>${money(b.paid)}</td><td>${money(bal)}</td><td>${status}</td><td><button class="btn secondary" onclick="payBill('${b.id}')">Payment</button><button class="btn danger" onclick="delBill('${b.id}')">Delete</button></td></tr>`;
+}).join("");
 }
 function payBill(id){
- let b=bills.find(x=>x.id===id);
- let amt=prompt("Enter payment amount:");
- if(amt===null)return;
- if(!Number.isFinite(Number(amt))||Number(amt)<=0)return alert("Enter a valid amount.");
- b.paid=Math.min(b.total,b.paid+Number(amt));
- save();
+let b=bills.find(x=>x.id===id),amt=prompt("Enter payment amount:");
+if(amt===null)return;
+if(!Number.isFinite(Number(amt))||Number(amt)<=0)return alert("Enter a valid amount.");
+b.paid=Math.min(b.total,b.paid+Number(amt));save();
 }
 function delBill(id){bills=bills.filter(b=>b.id!==id);save()}
 
 function renderHistory(){
- document.getElementById("historyTable").innerHTML=history.map(x=>`<tr><td>${esc(x.user)}</td><td>${esc(x.date)}</td><td>${esc(x.status)}</td></tr>`).join("");
+document.getElementById("historyTable").innerHTML=history.map(x=>`<tr><td>${esc(x.user)}</td><td>${esc(x.date)}</td><td>${esc(x.status)}</td></tr>`).join("");
 }
-function changeTheme(v){
- document.body.style.background=v==="light"?"#f8f8f8":"#edf3fb";
-}
+function changeTheme(v){document.body.style.background=v==="light"?"#f8f8f8":"#edf3fb"}
+
 function renderAll(){
- renderPatients();
- renderDoctors();
- renderAppointments();
- renderDiagnoses();
- renderRecords();
- renderRooms();
- renderBilling();
- renderHistory();
- document.getElementById("statPatients").innerText=patients.length;
- document.getElementById("statDoctors").innerText=doctors.length;
- document.getElementById("statAppointments").innerText=appointments.length;
- document.getElementById("statRooms").innerText=rooms.filter(r=>r.patientId).length;
+renderPatients();
+renderDoctors();
+renderAppointments();
+renderDiagnoses();
+renderRecords();
+renderRooms();
+renderBilling();
+renderHistory();
+document.getElementById("statPatients").innerText=patients.length;
+document.getElementById("statDoctors").innerText=doctors.length;
+document.getElementById("statAppointments").innerText=appointments.length;
+document.getElementById("statRooms").innerText=rooms.filter(r=>r.patientId).length;
 }
 renderAll();
 </script>
