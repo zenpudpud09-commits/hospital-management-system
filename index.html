@@ -7,319 +7,326 @@
 <title>Hospital Management System</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
 }
 
-body {
-    background: #f4f7fb;
-    color: #263445;
+body{
+    background:#f4f7fb;
+    color:#263445;
 }
 
-.sidebar {
-    position: fixed;
-    width: 240px;
-    height: 100vh;
-    background: #123c50;
-    color: white;
-    padding: 25px 18px;
+.sidebar{
+    position:fixed;
+    width:240px;
+    height:100vh;
+    background:#123c50;
+    color:white;
+    padding:25px 18px;
+    overflow-y:auto;
 }
 
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 35px;
+.logo{
+    font-size:23px;
+    font-weight:bold;
+    margin-bottom:35px;
 }
 
-.logo span {
-    color: #4bd3b0;
+.logo span{
+    color:#4bd3b0;
 }
 
-.sidebar ul {
-    list-style: none;
+.sidebar ul{
+    list-style:none;
 }
 
-.sidebar li {
-    padding: 15px;
-    margin: 8px 0;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.2s;
+.sidebar li{
+    padding:14px;
+    margin:7px 0;
+    border-radius:10px;
+    cursor:pointer;
 }
 
 .sidebar li:hover,
-.sidebar li.active {
-    background: #286276;
+.sidebar li.active{
+    background:#286276;
 }
 
-.sidebar li span {
-    margin-right: 12px;
+.sidebar li span{
+    margin-right:8px;
 }
 
-.main {
-    margin-left: 240px;
-    padding: 30px;
+.main{
+    margin-left:240px;
+    padding:30px;
 }
 
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    gap: 15px;
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    gap:15px;
 }
 
-.topbar h1 {
-    font-size: 26px;
+.topbar h1{
+    font-size:27px;
 }
 
-.topbar p {
-    color: #718096;
-    margin-top: 5px;
+.topbar p{
+    color:#718096;
+    margin-top:5px;
 }
 
-.profile {
-    background: white;
-    padding: 12px 18px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+.profile{
+    background:white;
+    padding:12px 18px;
+    border-radius:12px;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 25px;
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
 }
 
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+.card{
+    background:white;
+    padding:22px;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.04);
 }
 
-.card .icon {
-    font-size: 25px;
-    margin-bottom: 15px;
+.card .icon{
+    font-size:25px;
+    margin-bottom:15px;
 }
 
-.card h3 {
-    color: #718096;
-    font-size: 14px;
-    margin-bottom: 10px;
+.card h3{
+    color:#718096;
+    font-size:14px;
+    margin-bottom:10px;
 }
 
-.card h2 {
-    font-size: 28px;
-    color: #123c50;
+.card h2{
+    font-size:28px;
+    color:#123c50;
 }
 
-.content {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-    margin-bottom: 25px;
+.content{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.04);
+    margin-bottom:25px;
 }
 
-.content-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 15px;
+.content-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+    gap:10px;
 }
 
-button {
-    border: none;
-    padding: 11px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #167d83;
-    color: white;
-    font-weight: bold;
+button{
+    border:none;
+    padding:11px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    background:#167d83;
+    color:white;
+    font-weight:bold;
 }
 
-button:hover {
-    background: #12646b;
+button:hover{
+    background:#12646b;
 }
 
-input, select {
-    padding: 11px;
-    border: 1px solid #dbe3eb;
-    border-radius: 8px;
-    outline: none;
+input,select{
+    padding:11px;
+    border:1px solid #dbe3eb;
+    border-radius:8px;
+    outline:none;
+    background:white;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+input:focus,select:focus{
+    border-color:#167d83;
 }
 
-th, td {
-    text-align: left;
-    padding: 15px 12px;
-    border-bottom: 1px solid #edf1f5;
-    font-size: 14px;
+.page{
+    display:none;
 }
 
-th {
-    color: #718096;
-    background: #f8fafc;
+.page.active{
+    display:block;
 }
 
-.status {
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:10;
 }
 
-.available {
-    background: #d9f7e7;
-    color: #218653;
+.modal.show{
+    display:flex;
 }
 
-.unavailable {
-    background: #ffe1e1;
-    color: #c44a4a;
+.modal-box{
+    background:white;
+    width:480px;
+    max-width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:25px;
+    border-radius:15px;
 }
 
-.pending {
-    background: #fff0d3;
-    color: #a36c16;
+.modal-box h2{
+    margin-bottom:20px;
 }
 
-.page {
-    display: none;
+.modal-box form{
+    display:grid;
+    gap:14px;
 }
 
-.page.active {
-    display: block;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    z-index: 10;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.modal-box {
-    background: white;
-    width: 450px;
-    max-width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 25px;
-    border-radius: 15px;
-}
-
-.modal-box h2 {
-    margin-bottom: 20px;
-}
-
-.modal-box form {
-    display: grid;
-    gap: 14px;
-}
-
-.modal-box label {
-    font-size: 14px;
-    font-weight: bold;
+.modal-box label{
+    font-size:14px;
+    font-weight:bold;
 }
 
 .modal-box input,
-.modal-box select {
-    width: 100%;
-    margin-top: 6px;
+.modal-box select{
+    width:100%;
+    margin-top:6px;
 }
 
-.modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
 }
 
-.cancel {
-    background: #e5eaf0;
-    color: #263445;
+.cancel{
+    background:#e5eaf0;
+    color:#263445;
 }
 
-.search {
-    margin-bottom: 15px;
-    width: 250px;
+.search{
+    margin-bottom:15px;
+    width:270px;
+    max-width:100%;
 }
 
-.empty {
-    text-align: center;
-    padding: 25px;
-    color: #718096;
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-@media(max-width: 1000px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
+th,td{
+    text-align:left;
+    padding:14px 12px;
+    border-bottom:1px solid #edf1f5;
+    font-size:14px;
+}
+
+th{
+    color:#718096;
+    background:#f8fafc;
+}
+
+.status{
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.available{
+    background:#d9f7e7;
+    color:#218653;
+}
+
+.unavailable{
+    background:#ffe1e1;
+    color:#c44a4a;
+}
+
+.pending{
+    background:#fff0d3;
+    color:#a36c16;
+}
+
+.empty{
+    text-align:center;
+    padding:25px;
+    color:#718096;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+@media(max-width:1000px){
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 }
 
-@media(max-width: 700px) {
-    .sidebar {
-        width: 70px;
-        padding: 15px 5px;
+@media(max-width:700px){
+    .sidebar{
+        width:70px;
+        padding:15px 5px;
     }
 
-    .logo {
-        font-size: 13px;
-        text-align: center;
+    .logo{
+        font-size:13px;
+        text-align:center;
     }
 
-    .sidebar li {
-        font-size: 12px;
-        padding: 12px 5px;
-        text-align: center;
+    .sidebar li{
+        font-size:12px;
+        padding:12px 5px;
+        text-align:center;
     }
 
-    .sidebar li span {
-        margin: 0;
+    .sidebar li span{
+        margin:0;
     }
 
-    .sidebar li .nav-text {
-        display: none;
+    .sidebar li .nav-text{
+        display:none;
     }
 
-    .main {
-        margin-left: 70px;
-        padding: 15px;
+    .main{
+        margin-left:70px;
+        padding:15px;
     }
 
-    .cards {
-        grid-template-columns: 1fr;
+    .cards{
+        grid-template-columns:1fr;
     }
 
-    table {
-        min-width: 650px;
+    .topbar{
+        flex-direction:column;
+        align-items:flex-start;
     }
 
-    .content {
-        overflow-x: auto;
-    }
-
-    .topbar {
-        flex-direction: column;
-        align-items: flex-start;
+    .content{
+        padding:15px;
     }
 }
 </style>
@@ -327,10 +334,13 @@ th {
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
+
     <div class="logo">🏥 <span>HMS</span></div>
 
     <ul>
+
         <li class="active" onclick="showPage('dashboard',this)">
             <span>📊</span><span class="nav-text"> Dashboard</span>
         </li>
@@ -347,6 +357,10 @@ th {
             <span>📅</span><span class="nav-text"> Appointments</span>
         </li>
 
+        <li onclick="showPage('diagnoses',this)">
+            <span>📝</span><span class="nav-text"> Diagnoses</span>
+        </li>
+
         <li onclick="showPage('records',this)">
             <span>📋</span><span class="nav-text"> Medical Records</span>
         </li>
@@ -358,12 +372,15 @@ th {
         <li onclick="showPage('billing',this)">
             <span>💳</span><span class="nav-text"> Billing</span>
         </li>
+
     </ul>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
     <div class="topbar">
+
         <div>
             <h1 id="pageTitle">Dashboard</h1>
             <p>Hospital Management System</p>
@@ -372,6 +389,7 @@ th {
         <div class="profile">
             👤 Administrator
         </div>
+
     </div>
 
     <!-- DASHBOARD -->
@@ -388,7 +406,7 @@ th {
             <div class="card">
                 <div class="icon">🩺</div>
                 <h3>Total Doctors</h3>
-                <h2 id="totalDoctors">4</h2>
+                <h2 id="totalDoctors">0</h2>
             </div>
 
             <div class="card">
@@ -400,31 +418,34 @@ th {
             <div class="card">
                 <div class="icon">🛏️</div>
                 <h3>Available Rooms</h3>
-                <h2 id="availableRooms">8</h2>
+                <h2 id="availableRooms">0</h2>
             </div>
 
         </div>
 
         <div class="content">
+
             <div class="content-header">
                 <h2>Recent Patients</h2>
                 <button onclick="openPatientModal()">+ Add Patient</button>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Patient ID</th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Date Registered</th>
-                    </tr>
-                </thead>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Date Registered</th>
+                        </tr>
+                    </thead>
 
-                <tbody id="dashboardPatients">
-                </tbody>
-            </table>
+                    <tbody id="dashboardPatients"></tbody>
+                </table>
+            </div>
+
         </div>
 
     </div>
@@ -433,28 +454,33 @@ th {
     <div id="patients" class="page">
 
         <div class="content">
+
             <div class="content-header">
                 <h2>Patient Management</h2>
                 <button onclick="openPatientModal()">+ Add Patient</button>
             </div>
 
-            <input class="search" placeholder="Search patient..."
+            <input class="search"
+            placeholder="Search patient..."
             oninput="searchPatients(this.value)">
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Patient ID</th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Contact</th>
-                    </tr>
-                </thead>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
 
-                <tbody id="patientTable">
-                </tbody>
-            </table>
+                    <tbody id="patientTable"></tbody>
+                </table>
+            </div>
+
         </div>
 
     </div>
@@ -463,23 +489,26 @@ th {
     <div id="doctors" class="page">
 
         <div class="content">
+
             <div class="content-header">
                 <h2>Doctor Management</h2>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Doctor</th>
-                        <th>Specialization</th>
-                        <th>Schedule</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Specialization</th>
+                            <th>Schedule</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
 
-                <tbody id="doctorTable">
-                </tbody>
-            </table>
+                    <tbody id="doctorTable"></tbody>
+                </table>
+            </div>
+
         </div>
 
     </div>
@@ -488,26 +517,64 @@ th {
     <div id="appointments" class="page">
 
         <div class="content">
+
             <div class="content-header">
                 <h2>Appointments</h2>
                 <button onclick="openAppointmentModal()">+ Book Appointment</button>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Appointment ID</th>
-                        <th>Patient</th>
-                        <th>Doctor</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
 
-                <tbody id="appointmentTable">
-                </tbody>
-            </table>
+                    <tbody id="appointmentTable"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DIAGNOSES -->
+    <div id="diagnoses" class="page">
+
+        <div class="content">
+
+            <div class="content-header">
+                <h2>Diagnosis & Doctor Assignment</h2>
+                <button onclick="openDiagnosisModal()">+ Add Diagnosis</button>
+            </div>
+
+            <input class="search"
+            placeholder="Search patient, diagnosis or doctor..."
+            oninput="searchDiagnoses(this.value)">
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Diagnosis ID</th>
+                            <th>Patient</th>
+                            <th>Diagnosis</th>
+                            <th>Assigned Doctor</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="diagnosisTable"></tbody>
+                </table>
+            </div>
+
         </div>
 
     </div>
@@ -520,9 +587,9 @@ th {
                 <h2>Medical Records</h2>
             </div>
 
-            <p>Medical records are displayed here when records are added.</p>
+            <p>Medical record module.</p>
             <p style="margin-top:15px;color:#718096;">
-                This demonstration interface does not yet store medical records.
+                Medical records are not yet connected to a database.
             </p>
         </div>
 
@@ -532,22 +599,25 @@ th {
     <div id="rooms" class="page">
 
         <div class="content">
+
             <div class="content-header">
                 <h2>Room Management</h2>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Room Number</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Room Number</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
 
-                <tbody id="roomTable">
-                </tbody>
-            </table>
+                    <tbody id="roomTable"></tbody>
+                </table>
+            </div>
+
         </div>
 
     </div>
@@ -560,9 +630,9 @@ th {
                 <h2>Billing Management</h2>
             </div>
 
-            <p>Billing module interface.</p>
+            <p>Billing module.</p>
             <p style="margin-top:15px;color:#718096;">
-                Payment processing and billing records are not yet connected.
+                Billing records are not yet connected to a database.
             </p>
         </div>
 
@@ -574,6 +644,7 @@ th {
 <div class="modal" id="patientModal">
 
     <div class="modal-box">
+
         <h2>Register Patient</h2>
 
         <form id="patientForm">
@@ -610,25 +681,26 @@ th {
             </div>
 
         </form>
+
     </div>
+
 </div>
 
 <!-- APPOINTMENT MODAL -->
 <div class="modal" id="appointmentModal">
 
     <div class="modal-box">
+
         <h2>Book Appointment</h2>
 
         <form id="appointmentForm">
 
             <label>Patient
-                <select id="appointmentPatient" required>
-                </select>
+                <select id="appointmentPatient" required></select>
             </label>
 
             <label>Doctor
-                <select id="appointmentDoctor" required>
-                </select>
+                <select id="appointmentDoctor" required></select>
             </label>
 
             <label>Date
@@ -646,23 +718,108 @@ th {
             </div>
 
         </form>
+
     </div>
+
+</div>
+
+<!-- DIAGNOSIS MODAL -->
+<div class="modal" id="diagnosisModal">
+
+    <div class="modal-box">
+
+        <h2>Assign Diagnosis</h2>
+
+        <form id="diagnosisForm">
+
+            <label>Patient
+                <select id="diagnosisPatient" required></select>
+            </label>
+
+            <label>Diagnosis
+                <select id="diagnosisName" required>
+
+                    <option value="">Select Diagnosis</option>
+
+                    <option>Hypertension</option>
+                    <option>Type 2 Diabetes</option>
+                    <option>Asthma</option>
+                    <option>Pneumonia</option>
+                    <option>Influenza</option>
+                    <option>Acute Bronchitis</option>
+                    <option>Migraine</option>
+                    <option>Gastroenteritis</option>
+                    <option>Urinary Tract Infection</option>
+                    <option>Anemia</option>
+                    <option>Allergic Rhinitis</option>
+                    <option>Dermatitis</option>
+                    <option>Arthritis</option>
+                    <option>Heart Disease</option>
+                    <option>Other / Unspecified</option>
+
+                </select>
+            </label>
+
+            <label>Assigned Doctor
+                <select id="diagnosisDoctor" required></select>
+            </label>
+
+            <label>Date
+                <input type="date" id="diagnosisDate" required>
+            </label>
+
+            <label>Status
+                <select id="diagnosisStatus" required>
+                    <option>Under Treatment</option>
+                    <option>Monitoring</option>
+                    <option>Resolved</option>
+                </select>
+            </label>
+
+            <div class="modal-actions">
+                <button type="submit">Save Diagnosis</button>
+                <button type="button" class="cancel"
+                onclick="closeDiagnosisModal()">Cancel</button>
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
 <script>
 
-// DEMONSTRATION DATA
+// DATA
 
 let patients = [];
 
 let doctors = [
-    {name:"Dr. Maria Santos",specialization:"Cardiology",schedule:"8:00 AM - 4:00 PM"},
-    {name:"Dr. John Reyes",specialization:"Pediatrics",schedule:"9:00 AM - 5:00 PM"},
-    {name:"Dr. Angela Cruz",specialization:"General Medicine",schedule:"8:00 AM - 5:00 PM"},
-    {name:"Dr. Mark Garcia",specialization:"Orthopedics",schedule:"10:00 AM - 6:00 PM"}
+    {
+        name:"Dr. Maria Santos",
+        specialization:"Cardiology",
+        schedule:"8:00 AM - 4:00 PM"
+    },
+    {
+        name:"Dr. John Reyes",
+        specialization:"Pediatrics",
+        schedule:"9:00 AM - 5:00 PM"
+    },
+    {
+        name:"Dr. Angela Cruz",
+        specialization:"General Medicine",
+        schedule:"8:00 AM - 5:00 PM"
+    },
+    {
+        name:"Dr. Mark Garcia",
+        specialization:"Orthopedics",
+        schedule:"10:00 AM - 6:00 PM"
+    }
 ];
 
 let appointments = [];
+
+let diagnoses = [];
 
 let rooms = [
     {number:"101",type:"Private",status:"Available"},
@@ -679,47 +836,56 @@ let rooms = [
 
 // NAVIGATION
 
-function showPage(page, element) {
+function showPage(page,element){
 
-    document.querySelectorAll(".page").forEach(p => {
+    document.querySelectorAll(".page").forEach(p=>{
         p.classList.remove("active");
     });
 
     document.getElementById(page).classList.add("active");
 
-    document.querySelectorAll(".sidebar li").forEach(li => {
+    document.querySelectorAll(".sidebar li").forEach(li=>{
         li.classList.remove("active");
     });
 
     element.classList.add("active");
 
     document.getElementById("pageTitle").textContent =
-        page.charAt(0).toUpperCase() + page.slice(1);
+        page.charAt(0).toUpperCase()+page.slice(1);
 
 }
 
 // PATIENT MANAGEMENT
 
-function openPatientModal() {
+function openPatientModal(){
     document.getElementById("patientModal").classList.add("show");
 }
 
-function closePatientModal() {
+function closePatientModal(){
     document.getElementById("patientModal").classList.remove("show");
 }
 
-document.getElementById("patientForm").addEventListener("submit",function(e){
+document.getElementById("patientForm")
+.addEventListener("submit",function(e){
 
     e.preventDefault();
 
     let patient = {
-        id:"P-" + String(patients.length + 1).padStart(3,"0"),
+
+        id:"P-"+String(patients.length+1).padStart(3,"0"),
+
         name:document.getElementById("patientName").value,
+
         age:document.getElementById("patientAge").value,
+
         gender:document.getElementById("patientGender").value,
+
         contact:document.getElementById("patientContact").value,
+
         address:document.getElementById("patientAddress").value,
+
         registered:new Date().toLocaleDateString()
+
     };
 
     patients.push(patient);
@@ -727,172 +893,216 @@ document.getElementById("patientForm").addEventListener("submit",function(e){
     renderPatients();
 
     this.reset();
+
     closePatientModal();
 
     alert("Patient successfully registered!");
 
 });
 
-function renderPatients() {
+function renderPatients(){
 
-    let patientHTML = "";
-
-    patients.forEach(p => {
-
-        patientHTML += `
+    document.getElementById("patientTable").innerHTML =
+        patients.map(p=>`
         <tr>
             <td>${p.id}</td>
             <td>${p.name}</td>
             <td>${p.age}</td>
             <td>${p.gender}</td>
             <td>${p.contact}</td>
-        </tr>`;
-
-    });
-
-    document.getElementById("patientTable").innerHTML =
-        patientHTML || `<tr><td colspan="5" class="empty">No patients registered yet.</td></tr>`;
+            <td>${p.address}</td>
+        </tr>
+        `).join("") ||
+        `<tr><td colspan="6" class="empty">No patients registered yet.</td></tr>`;
 
     document.getElementById("dashboardPatients").innerHTML =
-        patients.slice(-5).reverse().map(p => `
+        patients.slice(-5).reverse().map(p=>`
         <tr>
             <td>${p.id}</td>
             <td>${p.name}</td>
             <td>${p.age}</td>
             <td>${p.gender}</td>
             <td>${p.registered}</td>
-        </tr>`).join("") ||
+        </tr>
+        `).join("") ||
         `<tr><td colspan="5" class="empty">No patients yet.</td></tr>`;
 
-    document.getElementById("totalPatients").textContent = patients.length;
+    document.getElementById("totalPatients").textContent =
+        patients.length;
 
     updatePatientOptions();
 
+    updateDiagnosisOptions();
+
 }
 
-// SEARCH PATIENT
+function searchPatients(value){
 
-function searchPatients(value) {
-
-    let filtered = patients.filter(p =>
+    let filtered = patients.filter(p=>
         p.name.toLowerCase().includes(value.toLowerCase()) ||
         p.id.toLowerCase().includes(value.toLowerCase())
     );
 
     document.getElementById("patientTable").innerHTML =
-        filtered.map(p => `
+        filtered.map(p=>`
         <tr>
             <td>${p.id}</td>
             <td>${p.name}</td>
             <td>${p.age}</td>
             <td>${p.gender}</td>
             <td>${p.contact}</td>
-        </tr>`).join("") ||
-        `<tr><td colspan="5" class="empty">No matching patients.</td></tr>`;
+            <td>${p.address}</td>
+        </tr>
+        `).join("") ||
+        `<tr><td colspan="6" class="empty">No matching patients.</td></tr>`;
 
 }
 
-// DOCTORS
+// DOCTOR MANAGEMENT
 
-function renderDoctors() {
+function renderDoctors(){
 
     document.getElementById("doctorTable").innerHTML =
-        doctors.map(d => `
+        doctors.map(d=>`
         <tr>
             <td>${d.name}</td>
             <td>${d.specialization}</td>
             <td>${d.schedule}</td>
             <td><span class="status available">Available</span></td>
-        </tr>`).join("");
+        </tr>
+        `).join("");
 
-    document.getElementById("totalDoctors").textContent = doctors.length;
+    document.getElementById("totalDoctors").textContent =
+        doctors.length;
 
     updateDoctorOptions();
 
 }
 
-function updatePatientOptions() {
+function updateDoctorOptions(){
 
-    let select = document.getElementById("appointmentPatient");
+    document.getElementById("appointmentDoctor").innerHTML =
+        doctors.map((d,i)=>`
+        <option value="${i}">
+            ${d.name} - ${d.specialization}
+        </option>
+        `).join("");
 
-    select.innerHTML = patients.map(p =>
-        `<option value="${p.id}">${p.name} (${p.id})</option>`
-    ).join("");
+    document.getElementById("diagnosisDoctor").innerHTML =
+        doctors.map(d=>`
+        <option value="${d.name}">
+            ${d.name} - ${d.specialization}
+        </option>
+        `).join("");
 
 }
 
-function updateDoctorOptions() {
+// PATIENT DROPDOWNS
 
-    let select = document.getElementById("appointmentDoctor");
+function updatePatientOptions(){
 
-    select.innerHTML = doctors.map((d,i) =>
-        `<option value="${i}">${d.name} - ${d.specialization}</option>`
-    ).join("");
+    let patientOptions = patients.map(p=>`
+        <option value="${p.id}">
+            ${p.name} (${p.id})
+        </option>
+    `).join("");
+
+    document.getElementById("appointmentPatient").innerHTML =
+        patientOptions;
+
+    document.getElementById("diagnosisPatient").innerHTML =
+        patientOptions;
 
 }
 
 // APPOINTMENTS
 
-function openAppointmentModal() {
+function openAppointmentModal(){
 
-    if(patients.length === 0) {
+    if(patients.length===0){
         alert("Please register a patient first.");
         return;
     }
+
+    updatePatientOptions();
+
+    updateDoctorOptions();
 
     document.getElementById("appointmentModal").classList.add("show");
 
 }
 
-function closeAppointmentModal() {
+function closeAppointmentModal(){
+
     document.getElementById("appointmentModal").classList.remove("show");
+
 }
 
-document.getElementById("appointmentForm").addEventListener("submit",function(e){
+document.getElementById("appointmentForm")
+.addEventListener("submit",function(e){
 
     e.preventDefault();
 
-    let patientId = document.getElementById("appointmentPatient").value;
-    let doctorIndex = document.getElementById("appointmentDoctor").value;
-    let date = document.getElementById("appointmentDate").value;
-    let time = document.getElementById("appointmentTime").value;
+    let patientId =
+        document.getElementById("appointmentPatient").value;
 
-    let conflict = appointments.some(a =>
-        a.doctor === doctors[doctorIndex].name &&
-        a.date === date &&
-        a.time === time
-    );
+    let doctorIndex =
+        document.getElementById("appointmentDoctor").value;
 
-    if(conflict) {
-        alert("This doctor already has an appointment at that time.");
-        return;
-    }
+    let date =
+        document.getElementById("appointmentDate").value;
 
-    let patient = patients.find(p => p.id === patientId);
+    let time =
+        document.getElementById("appointmentTime").value;
+
     let doctor = doctors[doctorIndex];
 
+    let conflict = appointments.some(a=>
+        a.doctor===doctor.name &&
+        a.date===date &&
+        a.time===time
+    );
+
+    if(conflict){
+
+        alert("This doctor already has an appointment at that time.");
+
+        return;
+
+    }
+
+    let patient = patients.find(p=>p.id===patientId);
+
     appointments.push({
-        id:"A-" + String(appointments.length + 1).padStart(3,"0"),
+
+        id:"A-"+String(appointments.length+1).padStart(3,"0"),
+
         patient:patient.name,
+
         doctor:doctor.name,
+
         date:date,
+
         time:time,
+
         status:"Scheduled"
+
     });
 
     renderAppointments();
 
     this.reset();
+
     closeAppointmentModal();
 
     alert("Appointment successfully booked!");
 
 });
 
-function renderAppointments() {
+function renderAppointments(){
 
     document.getElementById("appointmentTable").innerHTML =
-        appointments.map(a => `
+        appointments.map(a=>`
         <tr>
             <td>${a.id}</td>
             <td>${a.patient}</td>
@@ -900,7 +1110,8 @@ function renderAppointments() {
             <td>${a.date}</td>
             <td>${a.time}</td>
             <td><span class="status pending">${a.status}</span></td>
-        </tr>`).join("") ||
+        </tr>
+        `).join("") ||
         `<tr><td colspan="6" class="empty">No appointments yet.</td></tr>`;
 
     document.getElementById("totalAppointments").textContent =
@@ -908,32 +1119,152 @@ function renderAppointments() {
 
 }
 
+// DIAGNOSIS MANAGEMENT
+
+function openDiagnosisModal(){
+
+    if(patients.length===0){
+
+        alert("Please register a patient first.");
+
+        return;
+
+    }
+
+    updatePatientOptions();
+
+    updateDoctorOptions();
+
+    document.getElementById("diagnosisModal").classList.add("show");
+
+}
+
+function closeDiagnosisModal(){
+
+    document.getElementById("diagnosisModal").classList.remove("show");
+
+}
+
+document.getElementById("diagnosisForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    let patientId =
+        document.getElementById("diagnosisPatient").value;
+
+    let patient =
+        patients.find(p=>p.id===patientId);
+
+    if(!patient){
+
+        alert("Patient not found.");
+
+        return;
+
+    }
+
+    let diagnosis = {
+
+        id:"D-"+String(diagnoses.length+1).padStart(3,"0"),
+
+        patient:patient.name,
+
+        patientId:patient.id,
+
+        diagnosis:document.getElementById("diagnosisName").value,
+
+        doctor:document.getElementById("diagnosisDoctor").value,
+
+        date:document.getElementById("diagnosisDate").value,
+
+        status:document.getElementById("diagnosisStatus").value
+
+    };
+
+    diagnoses.push(diagnosis);
+
+    renderDiagnoses();
+
+    this.reset();
+
+    closeDiagnosisModal();
+
+    alert("Diagnosis and doctor assignment saved!");
+
+});
+
+function renderDiagnoses(list=diagnoses){
+
+    document.getElementById("diagnosisTable").innerHTML =
+        list.map(d=>`
+        <tr>
+            <td>${d.id}</td>
+            <td>${d.patient}</td>
+            <td>${d.diagnosis}</td>
+            <td>${d.doctor}</td>
+            <td>${d.date}</td>
+            <td>
+                <span class="status ${
+                    d.status==="Resolved"?"available":"pending"
+                }">
+                    ${d.status}
+                </span>
+            </td>
+        </tr>
+        `).join("") ||
+        `<tr><td colspan="6" class="empty">No diagnoses recorded yet.</td></tr>`;
+
+}
+
+function searchDiagnoses(value){
+
+    let filtered = diagnoses.filter(d=>
+
+        d.patient.toLowerCase().includes(value.toLowerCase()) ||
+
+        d.diagnosis.toLowerCase().includes(value.toLowerCase()) ||
+
+        d.doctor.toLowerCase().includes(value.toLowerCase()) ||
+
+        d.patientId.toLowerCase().includes(value.toLowerCase())
+
+    );
+
+    renderDiagnoses(filtered);
+
+}
+
 // ROOMS
 
-function renderRooms() {
+function renderRooms(){
 
     document.getElementById("roomTable").innerHTML =
-        rooms.map(r => `
+        rooms.map(r=>`
         <tr>
             <td>${r.number}</td>
             <td>${r.type}</td>
             <td>
-                <span class="status ${r.status === "Available" ? "available" : "unavailable"}">
-                ${r.status}
+                <span class="status ${
+                    r.status==="Available"?"available":"unavailable"
+                }">
+                    ${r.status}
                 </span>
             </td>
-        </tr>`).join("");
+        </tr>
+        `).join("");
 
     document.getElementById("availableRooms").textContent =
-        rooms.filter(r => r.status === "Available").length;
+        rooms.filter(r=>r.status==="Available").length;
 
 }
 
-// INITIALIZATION
+// INITIALIZE
 
 renderPatients();
 renderDoctors();
 renderAppointments();
+renderDiagnoses();
 renderRooms();
 
 </script>
