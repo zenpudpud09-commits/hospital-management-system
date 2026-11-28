@@ -8,325 +8,639 @@
 
 <style>
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    background:#f4f7fb;
-    color:#263445;
+    background:#f3f7fc;
+    color:#172b4d;
 }
 
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
 .sidebar{
-    position:fixed;
-    width:240px;
-    height:100vh;
-    background:#123c50;
-    color:white;
-    padding:25px 18px;
-    overflow-y:auto;
+    width:250px;
+    background:#ffffff;
+    border-right:1px solid #dbe5f3;
+    padding:22px 15px;
+    display:flex;
+    flex-direction:column;
+    flex-shrink:0;
 }
 
 .logo{
-    font-size:23px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #e4ebf5;
+    margin-bottom:22px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    background:#e1f0ff;
+    color:#0866cc;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
     font-weight:bold;
-    margin-bottom:35px;
 }
 
-.logo span{
-    color:#4bd3b0;
+.logo h2{
+    color:#075bb5;
+    font-size:23px;
 }
 
-.sidebar ul{
-    list-style:none;
+.logo small{
+    color:#6c829f;
+    font-size:11px;
 }
 
-.sidebar li{
-    padding:14px;
-    margin:7px 0;
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.menu button{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:13px 15px;
+    border:0;
+    background:white;
+    color:#47617e;
+    text-align:left;
+    font-size:15px;
     border-radius:10px;
     cursor:pointer;
+    transition:.2s;
 }
 
-.sidebar li:hover,
-.sidebar li.active{
-    background:#286276;
+.menu button:hover{
+    background:#eef6ff;
+    color:#0965cc;
 }
 
-.sidebar li span{
-    margin-right:8px;
+.menu button.active{
+    background:#e2f1ff;
+    color:#075bb5;
+    font-weight:bold;
+    border:1px solid #c5e1ff;
 }
 
+.menu .icon{
+    font-size:19px;
+    width:25px;
+    text-align:center;
+}
+
+.menu-divider{
+    border-top:1px solid #e4ebf5;
+    margin:12px 0;
+}
+
+.sidebar-bottom{
+    margin-top:auto;
+    padding:20px 10px 5px;
+    color:#7890ac;
+    font-size:12px;
+    text-align:center;
+}
+
+/* MAIN */
 .main{
-    margin-left:240px;
-    padding:30px;
+    flex:1;
+    min-width:0;
+    padding:26px;
 }
 
 .topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:30px;
     gap:15px;
+    margin-bottom:25px;
 }
 
 .topbar h1{
-    font-size:27px;
+    font-size:28px;
+    color:#17365d;
 }
 
 .topbar p{
-    color:#718096;
-    margin-top:5px;
+    color:#7185a1;
+    margin-top:6px;
+    font-size:14px;
 }
 
 .profile{
-    background:white;
-    padding:12px 18px;
-    border-radius:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    white-space:nowrap;
 }
 
+.avatar{
+    width:43px;
+    height:43px;
+    background:#e3efff;
+    color:#0965cc;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+.profile small{
+    color:#7890ac;
+}
+
+/* CARDS */
 .cards{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:15px;
     margin-bottom:25px;
 }
 
 .card{
     background:white;
-    padding:22px;
-    border-radius:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,.04);
+    border:1px solid #dce7f5;
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 3px 10px rgba(30,70,120,.04);
 }
 
-.card .icon{
-    font-size:25px;
-    margin-bottom:15px;
+.card-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
 }
+
+.card-icon{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.blue{background:#e3f1ff;color:#0870d8;}
+.green{background:#e1f8ef;color:#0c9c70;}
+.purple{background:#efe6ff;color:#8150ce;}
+.orange{background:#fff0df;color:#e28a27;}
 
 .card h3{
-    color:#718096;
     font-size:14px;
-    margin-bottom:10px;
+    color:#526a88;
+    font-weight:normal;
 }
 
 .card h2{
-    font-size:28px;
-    color:#123c50;
+    font-size:30px;
+    margin-top:12px;
+    color:#17365d;
 }
 
-.content{
+/* TABLE PANEL */
+.panel{
     background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,.04);
-    margin-bottom:25px;
+    border:1px solid #dce7f5;
+    border-radius:16px;
+    box-shadow:0 3px 10px rgba(30,70,120,.04);
+    overflow:hidden;
 }
 
-.content-header{
+.panel-header{
+    padding:20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
-    flex-wrap:wrap;
-    gap:10px;
+    gap:15px;
+    border-bottom:1px solid #e4ebf5;
 }
 
-button{
-    border:none;
-    padding:11px 16px;
-    border-radius:8px;
-    cursor:pointer;
-    background:#167d83;
-    color:white;
-    font-weight:bold;
-}
-
-button:hover{
-    background:#12646b;
-}
-
-input,select{
-    padding:11px;
-    border:1px solid #dbe3eb;
-    border-radius:8px;
-    outline:none;
-    background:white;
-}
-
-input:focus,select:focus{
-    border-color:#167d83;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.5);
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    z-index:10;
-}
-
-.modal.show{
+.panel-title{
     display:flex;
-}
-
-.modal-box{
-    background:white;
-    width:480px;
-    max-width:100%;
-    max-height:90vh;
-    overflow-y:auto;
-    padding:25px;
-    border-radius:15px;
-}
-
-.modal-box h2{
-    margin-bottom:20px;
-}
-
-.modal-box form{
-    display:grid;
     gap:14px;
+    align-items:center;
 }
 
-.modal-box label{
+.panel-title .big-icon{
+    font-size:30px;
+    color:#0866cc;
+}
+
+.panel-title h2{
+    font-size:22px;
+    color:#17365d;
+}
+
+.panel-title p{
+    color:#7185a1;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.primary-btn{
+    background:#0870d8;
+    color:white;
+    border:none;
+    border-radius:9px;
+    padding:13px 18px;
     font-size:14px;
     font-weight:bold;
+    cursor:pointer;
+    white-space:nowrap;
 }
 
-.modal-box input,
-.modal-box select{
-    width:100%;
-    margin-top:6px;
+.primary-btn:hover{
+    background:#0059b8;
 }
 
-.modal-actions{
+.filters{
+    padding:15px;
     display:flex;
-    gap:10px;
-    margin-top:10px;
-}
-
-.cancel{
-    background:#e5eaf0;
-    color:#263445;
+    gap:12px;
+    align-items:center;
 }
 
 .search{
-    margin-bottom:15px;
-    width:270px;
-    max-width:100%;
+    flex:1;
+    min-width:150px;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    padding:12px 14px 12px 40px;
+    border:1px solid #cbd9ec;
+    border-radius:9px;
+    outline:none;
+    font-size:14px;
+}
+
+.search input:focus,
+.filters select:focus{
+    border-color:#0870d8;
+}
+
+.search span{
+    position:absolute;
+    left:14px;
+    top:11px;
+    font-size:17px;
+}
+
+.filters select{
+    padding:12px;
+    border:1px solid #cbd9ec;
+    border-radius:9px;
+    background:white;
+    color:#425b79;
+    outline:none;
+}
+
+/* TABLE */
+.table-wrap{
+    overflow-x:auto;
+    padding:0 15px;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
+    min-width:900px;
 }
 
-th,td{
-    text-align:left;
-    padding:14px 12px;
-    border-bottom:1px solid #edf1f5;
-    font-size:14px;
+thead{
+    background:#edf4fc;
 }
 
 th{
-    color:#718096;
-    background:#f8fafc;
-}
-
-.status{
-    padding:6px 10px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
+    padding:15px;
+    text-align:left;
+    color:#294668;
+    font-size:13px;
     white-space:nowrap;
 }
 
-.available{
-    background:#d9f7e7;
-    color:#218653;
+td{
+    padding:15px;
+    border-bottom:1px solid #e5edf7;
+    color:#334c6c;
+    font-size:14px;
+    white-space:nowrap;
 }
 
-.unavailable{
-    background:#ffe1e1;
-    color:#c44a4a;
+tbody tr:hover{
+    background:#f7fbff;
 }
 
-.pending{
-    background:#fff0d3;
-    color:#a36c16;
+.status{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.status.treatment{
+    background:#fff1c7;
+    color:#856100;
+}
+
+.status.monitoring{
+    background:#dceeff;
+    color:#075bb5;
+}
+
+.status.resolved{
+    background:#d9f7e9;
+    color:#087a50;
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.action-btn{
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.view{color:#0870d8;}
+.edit{color:#0870d8;}
+.delete{color:#e03131;}
+
+.action-btn:hover{
+    opacity:.6;
 }
 
 .empty{
+    padding:35px;
     text-align:center;
+    color:#7a91ac;
+}
+
+.table-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 20px;
+    color:#7185a1;
+    font-size:13px;
+    gap:15px;
+}
+
+.pagination{
+    display:flex;
+    gap:7px;
+}
+
+.pagination button{
+    padding:9px 12px;
+    border:1px solid #d5e2f2;
+    background:white;
+    border-radius:7px;
+    cursor:pointer;
+    color:#47617e;
+}
+
+.pagination button.active{
+    background:#0870d8;
+    color:white;
+    border-color:#0870d8;
+}
+
+/* MODAL */
+.modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(20,45,80,.28);
+    z-index:100;
+    justify-content:center;
+    align-items:center;
+    padding:15px;
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.modal{
+    background:white;
+    width:440px;
+    max-width:100%;
+    border-radius:16px;
     padding:25px;
-    color:#718096;
+    box-shadow:0 15px 45px rgba(20,50,90,.18);
+    max-height:95vh;
+    overflow:auto;
 }
 
-.table-wrap{
-    overflow-x:auto;
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
 }
 
-@media(max-width:1000px){
+.modal-header h2{
+    font-size:22px;
+    color:#17365d;
+}
+
+.close-btn{
+    background:none;
+    border:none;
+    font-size:26px;
+    cursor:pointer;
+    color:#64809f;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:8px;
+    color:#344c6a;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:12px;
+    border:1px solid #cbd9ec;
+    border-radius:9px;
+    outline:none;
+    background:white;
+    font-size:14px;
+    color:#263e5c;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#0870d8;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:25px;
+}
+
+.cancel-btn{
+    flex:1;
+    padding:13px;
+    background:#edf3fa;
+    color:#425b79;
+    border:1px solid #dce7f5;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.save-btn{
+    flex:1;
+    padding:13px;
+    background:#0870d8;
+    color:white;
+    border:none;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.cancel-btn:hover{background:#dce8f5;}
+.save-btn:hover{background:#0059b8;}
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#0870d8;
+    color:white;
+    padding:14px 20px;
+    border-radius:10px;
+    display:none;
+    z-index:200;
+    box-shadow:0 5px 20px rgba(0,80,170,.2);
+}
+
+.toast.show{
+    display:block;
+}
+
+/* OTHER PAGES */
+.other-page{
+    display:none;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    border:1px solid #dce7f5;
+}
+
+.other-page h2{
+    color:#17365d;
+    margin-bottom:15px;
+}
+
+.other-page p{
+    color:#7185a1;
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
     .cards{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(2,minmax(0,1fr));
     }
 }
 
-@media(max-width:700px){
+@media(max-width:750px){
     .sidebar{
-        width:70px;
-        padding:15px 5px;
+        width:72px;
+        padding:15px 8px;
     }
 
     .logo{
-        font-size:13px;
-        text-align:center;
+        justify-content:center;
+        padding:8px 0 20px;
     }
 
-    .sidebar li{
-        font-size:12px;
-        padding:12px 5px;
-        text-align:center;
-    }
-
-    .sidebar li span{
-        margin:0;
-    }
-
-    .sidebar li .nav-text{
+    .logo-text,
+    .menu button .menu-text,
+    .sidebar-bottom{
         display:none;
     }
 
+    .menu button{
+        justify-content:center;
+        padding:13px 5px;
+    }
+
+    .menu button .icon{
+        font-size:22px;
+    }
+
     .main{
-        margin-left:70px;
         padding:15px;
     }
 
+    .topbar h1{
+        font-size:21px;
+    }
+
+    .panel-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .filters{
+        flex-wrap:wrap;
+    }
+
+    .search{
+        flex-basis:100%;
+    }
+}
+
+@media(max-width:480px){
     .cards{
         grid-template-columns:1fr;
     }
 
     .topbar{
-        flex-direction:column;
         align-items:flex-start;
     }
 
-    .content{
-        padding:15px;
+    .profile{
+        font-size:12px;
     }
 }
 </style>
@@ -334,231 +648,184 @@ th{
 
 <body>
 
+<div class="layout">
+
 <!-- SIDEBAR -->
-<div class="sidebar">
+<aside class="sidebar">
 
-    <div class="logo">🏥 <span>HMS</span></div>
+    <div class="logo">
+        <div class="logo-icon">✚</div>
+        <div class="logo-text">
+            <h2>HMS</h2>
+            <small>Hospital Management<br>System</small>
+        </div>
+    </div>
 
-    <ul>
+    <nav class="menu">
 
-        <li class="active" onclick="showPage('dashboard',this)">
-            <span>📊</span><span class="nav-text"> Dashboard</span>
-        </li>
+        <button class="active" onclick="navigate('Dashboard',this)">
+            <span class="icon">⌂</span>
+            <span class="menu-text">Dashboard</span>
+        </button>
 
-        <li onclick="showPage('patients',this)">
-            <span>👥</span><span class="nav-text"> Patients</span>
-        </li>
+        <button onclick="navigate('Patients',this)">
+            <span class="icon">♟</span>
+            <span class="menu-text">Patients</span>
+        </button>
 
-        <li onclick="showPage('doctors',this)">
-            <span>🩺</span><span class="nav-text"> Doctors</span>
-        </li>
+        <button onclick="navigate('Doctors',this)">
+            <span class="icon">⚕</span>
+            <span class="menu-text">Doctors</span>
+        </button>
 
-        <li onclick="showPage('appointments',this)">
-            <span>📅</span><span class="nav-text"> Appointments</span>
-        </li>
+        <button onclick="navigate('Appointments',this)">
+            <span class="icon">▦</span>
+            <span class="menu-text">Appointments</span>
+        </button>
 
-        <li onclick="showPage('diagnoses',this)">
-            <span>📝</span><span class="nav-text"> Diagnoses</span>
-        </li>
+        <button onclick="navigate('Diagnoses',this)">
+            <span class="icon">✚</span>
+            <span class="menu-text">Diagnoses</span>
+        </button>
 
-        <li onclick="showPage('records',this)">
-            <span>📋</span><span class="nav-text"> Medical Records</span>
-        </li>
+        <button onclick="navigate('Medical Records',this)">
+            <span class="icon">▣</span>
+            <span class="menu-text">Medical Records</span>
+        </button>
 
-        <li onclick="showPage('rooms',this)">
-            <span>🛏️</span><span class="nav-text"> Rooms</span>
-        </li>
+        <button onclick="navigate('Rooms',this)">
+            <span class="icon">🛏</span>
+            <span class="menu-text">Rooms</span>
+        </button>
 
-        <li onclick="showPage('billing',this)">
-            <span>💳</span><span class="nav-text"> Billing</span>
-        </li>
+        <button onclick="navigate('Billing',this)">
+            <span class="icon">▤</span>
+            <span class="menu-text">Billing</span>
+        </button>
 
-    </ul>
-</div>
+        <div class="menu-divider"></div>
 
-<!-- MAIN -->
-<div class="main">
+        <button onclick="navigate('Settings',this)">
+            <span class="icon">⚙</span>
+            <span class="menu-text">Settings</span>
+        </button>
+
+        <button onclick="logout()">
+            <span class="icon">⇥</span>
+            <span class="menu-text">Logout</span>
+        </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        Better Care.<br>A Healthier Tomorrow.
+    </div>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
 
     <div class="topbar">
-
         <div>
-            <h1 id="pageTitle">Dashboard</h1>
-            <p>Hospital Management System</p>
+            <h1 id="pageTitle">Hospital Management System</h1>
+            <p>Manage patients, doctors and hospital services efficiently.</p>
         </div>
 
         <div class="profile">
-            👤 Administrator
+            <div class="avatar">👤</div>
+            <div>
+                <strong>Administrator</strong><br>
+                <small>Admin</small>
+            </div>
         </div>
-
     </div>
 
     <!-- DASHBOARD -->
-    <div id="dashboard" class="page active">
+    <div id="dashboardContent">
 
+        <!-- CARDS -->
         <div class="cards">
 
             <div class="card">
-                <div class="icon">👥</div>
-                <h3>Total Patients</h3>
-                <h2 id="totalPatients">0</h2>
+                <div class="card-top">
+                    <div class="card-icon blue">♟</div>
+                    <h3>Total Patients</h3>
+                </div>
+                <h2 id="patientCount">128</h2>
             </div>
 
             <div class="card">
-                <div class="icon">🩺</div>
-                <h3>Total Doctors</h3>
-                <h2 id="totalDoctors">0</h2>
+                <div class="card-top">
+                    <div class="card-icon green">⚕</div>
+                    <h3>Total Doctors</h3>
+                </div>
+                <h2 id="doctorCount">24</h2>
             </div>
 
             <div class="card">
-                <div class="icon">📅</div>
-                <h3>Appointments</h3>
-                <h2 id="totalAppointments">0</h2>
+                <div class="card-top">
+                    <div class="card-icon purple">▦</div>
+                    <h3>Appointments</h3>
+                </div>
+                <h2 id="appointmentCount">86</h2>
             </div>
 
             <div class="card">
-                <div class="icon">🛏️</div>
-                <h3>Available Rooms</h3>
-                <h2 id="availableRooms">0</h2>
+                <div class="card-top">
+                    <div class="card-icon orange">🛏</div>
+                    <h3>Available Rooms</h3>
+                </div>
+                <h2 id="roomCount">18</h2>
             </div>
 
         </div>
 
-        <div class="content">
+        <!-- DIAGNOSIS TABLE -->
+        <section class="panel">
 
-            <div class="content-header">
-                <h2>Recent Patients</h2>
-                <button onclick="openPatientModal()">+ Add Patient</button>
+            <div class="panel-header">
+                <div class="panel-title">
+                    <div class="big-icon">✚</div>
+                    <div>
+                        <h2>Diagnosis & Doctor Assignment</h2>
+                        <p>View and manage patient diagnoses with assigned doctors</p>
+                    </div>
+                </div>
+
+                <button class="primary-btn" onclick="openModal()">
+                    ＋ Add Diagnosis
+                </button>
             </div>
 
+            <!-- SEARCH AND FILTER -->
+            <div class="filters">
+
+                <div class="search">
+                    <span>⌕</span>
+                    <input type="text"
+                           id="searchInput"
+                           placeholder="Search patient, diagnosis or doctor..."
+                           oninput="renderTable()">
+                </div>
+
+                <select id="dateFilter" onchange="renderTable()">
+                    <option value="all">All Dates</option>
+                    <option value="today">Today</option>
+                </select>
+
+                <select id="statusFilter" onchange="renderTable()">
+                    <option value="all">All Status</option>
+                    <option value="Under Treatment">Under Treatment</option>
+                    <option value="Monitoring">Monitoring</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+
+            </div>
+
+            <!-- TABLE -->
             <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Patient ID</th>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Gender</th>
-                            <th>Date Registered</th>
-                        </tr>
-                    </thead>
 
-                    <tbody id="dashboardPatients"></tbody>
-                </table>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- PATIENTS -->
-    <div id="patients" class="page">
-
-        <div class="content">
-
-            <div class="content-header">
-                <h2>Patient Management</h2>
-                <button onclick="openPatientModal()">+ Add Patient</button>
-            </div>
-
-            <input class="search"
-            placeholder="Search patient..."
-            oninput="searchPatients(this.value)">
-
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Gender</th>
-                            <th>Contact</th>
-                            <th>Address</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="patientTable"></tbody>
-                </table>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- DOCTORS -->
-    <div id="doctors" class="page">
-
-        <div class="content">
-
-            <div class="content-header">
-                <h2>Doctor Management</h2>
-            </div>
-
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Doctor</th>
-                            <th>Specialization</th>
-                            <th>Schedule</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="doctorTable"></tbody>
-                </table>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- APPOINTMENTS -->
-    <div id="appointments" class="page">
-
-        <div class="content">
-
-            <div class="content-header">
-                <h2>Appointments</h2>
-                <button onclick="openAppointmentModal()">+ Book Appointment</button>
-            </div>
-
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Patient</th>
-                            <th>Doctor</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="appointmentTable"></tbody>
-                </table>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- DIAGNOSES -->
-    <div id="diagnoses" class="page">
-
-        <div class="content">
-
-            <div class="content-header">
-                <h2>Diagnosis & Doctor Assignment</h2>
-                <button onclick="openDiagnosisModal()">+ Add Diagnosis</button>
-            </div>
-
-            <input class="search"
-            placeholder="Search patient, diagnosis or doctor..."
-            oninput="searchDiagnoses(this.value)">
-
-            <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
@@ -568,706 +835,547 @@ th{
                             <th>Assigned Doctor</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
 
                     <tbody id="diagnosisTable"></tbody>
                 </table>
+
             </div>
 
-        </div>
+            <div class="table-footer">
+                <span id="recordCount">Showing records</span>
+
+                <div class="pagination">
+                    <button onclick="toast('Previous page')">‹</button>
+                    <button class="active">1</button>
+                    <button onclick="toast('Next page')">›</button>
+                </div>
+            </div>
+
+        </section>
 
     </div>
 
-    <!-- MEDICAL RECORDS -->
-    <div id="records" class="page">
-
-        <div class="content">
-            <div class="content-header">
-                <h2>Medical Records</h2>
-            </div>
-
-            <p>Medical record module.</p>
-            <p style="margin-top:15px;color:#718096;">
-                Medical records are not yet connected to a database.
-            </p>
-        </div>
-
+    <!-- OTHER NAVIGATION PAGES -->
+    <div class="other-page" id="otherPage">
+        <h2 id="otherTitle"></h2>
+        <p id="otherDescription"></p>
     </div>
 
-    <!-- ROOMS -->
-    <div id="rooms" class="page">
-
-        <div class="content">
-
-            <div class="content-header">
-                <h2>Room Management</h2>
-            </div>
-
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Room Number</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="roomTable"></tbody>
-                </table>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- BILLING -->
-    <div id="billing" class="page">
-
-        <div class="content">
-            <div class="content-header">
-                <h2>Billing Management</h2>
-            </div>
-
-            <p>Billing module.</p>
-            <p style="margin-top:15px;color:#718096;">
-                Billing records are not yet connected to a database.
-            </p>
-        </div>
-
-    </div>
-
+</main>
 </div>
 
-<!-- PATIENT MODAL -->
-<div class="modal" id="patientModal">
+<!-- ADD / EDIT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
 
-    <div class="modal-box">
+    <div class="modal">
 
-        <h2>Register Patient</h2>
+        <div class="modal-header">
+            <h2 id="modalTitle">✚ Add Diagnosis</h2>
+            <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
 
-        <form id="patientForm">
+        <form id="diagnosisForm" onsubmit="saveDiagnosis(event)">
 
-            <label>Full Name
-                <input type="text" id="patientName" required>
-            </label>
-
-            <label>Age
-                <input type="number" id="patientAge" min="0" required>
-            </label>
-
-            <label>Gender
-                <select id="patientGender" required>
-                    <option value="">Select Gender</option>
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Other</option>
+            <div class="form-group">
+                <label>Patient</label>
+                <select id="patient" required>
+                    <option value="">Select Patient</option>
                 </select>
-            </label>
+            </div>
 
-            <label>Contact Number
-                <input type="tel" id="patientContact" required>
-            </label>
+            <div class="form-group">
+                <label>Diagnosis</label>
+                <input id="diagnosis" list="diagnosisOptions"
+                       placeholder="Enter diagnosis" required>
 
-            <label>Address
-                <input type="text" id="patientAddress" required>
-            </label>
+                <datalist id="diagnosisOptions">
+                    <option value="Hypertension">
+                    <option value="Type 2 Diabetes">
+                    <option value="Asthma">
+                    <option value="Pneumonia">
+                    <option value="Migraine">
+                    <option value="Gastroenteritis">
+                    <option value="Urinary Tract Infection">
+                    <option value="Anemia">
+                    <option value="Allergic Rhinitis">
+                    <option value="Dermatitis">
+                </datalist>
+            </div>
 
-            <div class="modal-actions">
-                <button type="submit">Save Patient</button>
-                <button type="button" class="cancel"
-                onclick="closePatientModal()">Cancel</button>
+            <div class="form-group">
+                <label>Assigned Doctor</label>
+                <select id="doctor" required>
+                    <option value="">Select Doctor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="date" required>
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select id="status" required>
+                    <option value="Under Treatment">Under Treatment</option>
+                    <option value="Monitoring">Monitoring</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" class="cancel-btn"
+                        onclick="closeModal()">Cancel</button>
+
+                <button type="submit" class="save-btn"
+                        id="saveBtn">Save Diagnosis</button>
             </div>
 
         </form>
-
     </div>
-
 </div>
 
-<!-- APPOINTMENT MODAL -->
-<div class="modal" id="appointmentModal">
-
-    <div class="modal-box">
-
-        <h2>Book Appointment</h2>
-
-        <form id="appointmentForm">
-
-            <label>Patient
-                <select id="appointmentPatient" required></select>
-            </label>
-
-            <label>Doctor
-                <select id="appointmentDoctor" required></select>
-            </label>
-
-            <label>Date
-                <input type="date" id="appointmentDate" required>
-            </label>
-
-            <label>Time
-                <input type="time" id="appointmentTime" required>
-            </label>
-
-            <div class="modal-actions">
-                <button type="submit">Save Appointment</button>
-                <button type="button" class="cancel"
-                onclick="closeAppointmentModal()">Cancel</button>
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-<!-- DIAGNOSIS MODAL -->
-<div class="modal" id="diagnosisModal">
-
-    <div class="modal-box">
-
-        <h2>Assign Diagnosis</h2>
-
-        <form id="diagnosisForm">
-
-            <label>Patient
-                <select id="diagnosisPatient" required></select>
-            </label>
-
-            <label>Diagnosis
-                <select id="diagnosisName" required>
-
-                    <option value="">Select Diagnosis</option>
-
-                    <option>Hypertension</option>
-                    <option>Type 2 Diabetes</option>
-                    <option>Asthma</option>
-                    <option>Pneumonia</option>
-                    <option>Influenza</option>
-                    <option>Acute Bronchitis</option>
-                    <option>Migraine</option>
-                    <option>Gastroenteritis</option>
-                    <option>Urinary Tract Infection</option>
-                    <option>Anemia</option>
-                    <option>Allergic Rhinitis</option>
-                    <option>Dermatitis</option>
-                    <option>Arthritis</option>
-                    <option>Heart Disease</option>
-                    <option>Other / Unspecified</option>
-
-                </select>
-            </label>
-
-            <label>Assigned Doctor
-                <select id="diagnosisDoctor" required></select>
-            </label>
-
-            <label>Date
-                <input type="date" id="diagnosisDate" required>
-            </label>
-
-            <label>Status
-                <select id="diagnosisStatus" required>
-                    <option>Under Treatment</option>
-                    <option>Monitoring</option>
-                    <option>Resolved</option>
-                </select>
-            </label>
-
-            <div class="modal-actions">
-                <button type="submit">Save Diagnosis</button>
-                <button type="button" class="cancel"
-                onclick="closeDiagnosisModal()">Cancel</button>
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
+<!-- TOAST -->
+<div class="toast" id="toastMessage"></div>
 
 <script>
 
-// DATA
+/* SAMPLE PATIENTS */
+const patients = [
+    "Maria Santos (P-001)",
+    "Juan Dela Cruz (P-002)",
+    "Ana Reyes (P-003)",
+    "Carlos Santos (P-004)",
+    "Bea Garcia (P-005)",
+    "Raffy Lopez (P-006)",
+    "Ella Cruz (P-007)",
+    "Mark Navarro (P-008)",
+    "Liza Santos (P-009)",
+    "Ken Reyes (P-010)"
+];
 
-let patients = [];
+/* SAMPLE DOCTORS */
+const doctors = [
+    "Dr. Maria Santos – Cardiology",
+    "Dr. John Reyes – Pediatrics",
+    "Dr. Angela Cruz – General Medicine",
+    "Dr. Mark Garcia – Orthopedics",
+    "Dr. David Lim – Neurology",
+    "Dr. Sarah Flores – Dermatology"
+];
 
-let doctors = [
+/* SAMPLE DIAGNOSES */
+let records = [
     {
-        name:"Dr. Maria Santos",
-        specialization:"Cardiology",
-        schedule:"8:00 AM - 4:00 PM"
+        id:"DGN-001",
+        patient:"Maria Santos (P-001)",
+        diagnosis:"Hypertension",
+        doctor:"Dr. Maria Santos – Cardiology",
+        date:"2025-04-25",
+        status:"Under Treatment"
     },
     {
-        name:"Dr. John Reyes",
-        specialization:"Pediatrics",
-        schedule:"9:00 AM - 5:00 PM"
+        id:"DGN-002",
+        patient:"Juan Dela Cruz (P-002)",
+        diagnosis:"Type 2 Diabetes",
+        doctor:"Dr. Angela Cruz – General Medicine",
+        date:"2025-04-25",
+        status:"Monitoring"
     },
     {
-        name:"Dr. Angela Cruz",
-        specialization:"General Medicine",
-        schedule:"8:00 AM - 5:00 PM"
+        id:"DGN-003",
+        patient:"Ana Reyes (P-003)",
+        diagnosis:"Asthma",
+        doctor:"Dr. John Reyes – Pediatrics",
+        date:"2025-04-24",
+        status:"Resolved"
     },
     {
-        name:"Dr. Mark Garcia",
-        specialization:"Orthopedics",
-        schedule:"10:00 AM - 6:00 PM"
+        id:"DGN-004",
+        patient:"Carlos Santos (P-004)",
+        diagnosis:"Pneumonia",
+        doctor:"Dr. John Reyes – Pediatrics",
+        date:"2025-04-24",
+        status:"Under Treatment"
+    },
+    {
+        id:"DGN-005",
+        patient:"Bea Garcia (P-005)",
+        diagnosis:"Migraine",
+        doctor:"Dr. David Lim – Neurology",
+        date:"2025-04-23",
+        status:"Monitoring"
+    },
+    {
+        id:"DGN-006",
+        patient:"Raffy Lopez (P-006)",
+        diagnosis:"Gastroenteritis",
+        doctor:"Dr. Angela Cruz – General Medicine",
+        date:"2025-04-23",
+        status:"Resolved"
+    },
+    {
+        id:"DGN-007",
+        patient:"Ella Cruz (P-007)",
+        diagnosis:"UTI",
+        doctor:"Dr. Angela Cruz – General Medicine",
+        date:"2025-04-22",
+        status:"Under Treatment"
+    },
+    {
+        id:"DGN-008",
+        patient:"Mark Navarro (P-008)",
+        diagnosis:"Anemia",
+        doctor:"Dr. Maria Santos – Cardiology",
+        date:"2025-04-22",
+        status:"Monitoring"
+    },
+    {
+        id:"DGN-009",
+        patient:"Liza Santos (P-009)",
+        diagnosis:"Allergic Rhinitis",
+        doctor:"Dr. Sarah Flores – Dermatology",
+        date:"2025-04-21",
+        status:"Resolved"
+    },
+    {
+        id:"DGN-010",
+        patient:"Ken Reyes (P-010)",
+        diagnosis:"Dermatitis",
+        doctor:"Dr. Sarah Flores – Dermatology",
+        date:"2025-04-21",
+        status:"Under Treatment"
     }
 ];
 
-let appointments = [];
+let editId = null;
 
-let diagnoses = [];
+/* POPULATE DROPDOWNS */
+function populateSelects(){
 
-let rooms = [
-    {number:"101",type:"Private",status:"Available"},
-    {number:"102",type:"Private",status:"Available"},
-    {number:"103",type:"Ward",status:"Occupied"},
-    {number:"104",type:"Ward",status:"Available"},
-    {number:"105",type:"Private",status:"Occupied"},
-    {number:"106",type:"Ward",status:"Available"},
-    {number:"107",type:"Private",status:"Available"},
-    {number:"108",type:"Ward",status:"Available"},
-    {number:"109",type:"Private",status:"Available"},
-    {number:"110",type:"Ward",status:"Occupied"}
-];
+    const patientSelect = document.getElementById("patient");
+    const doctorSelect = document.getElementById("doctor");
 
-// NAVIGATION
+    patientSelect.innerHTML =
+        '<option value="">Select Patient</option>';
 
-function showPage(page,element){
+    doctorSelect.innerHTML =
+        '<option value="">Select Doctor</option>';
 
-    document.querySelectorAll(".page").forEach(p=>{
-        p.classList.remove("active");
+    patients.forEach(p=>{
+        patientSelect.add(new Option(p,p));
     });
 
-    document.getElementById(page).classList.add("active");
+    doctors.forEach(d=>{
+        doctorSelect.add(new Option(d,d));
+    });
+}
 
-    document.querySelectorAll(".sidebar li").forEach(li=>{
-        li.classList.remove("active");
+/* TABLE */
+function renderTable(){
+
+    const tbody = document.getElementById("diagnosisTable");
+
+    const search = document.getElementById("searchInput")
+        .value.toLowerCase();
+
+    const statusFilter = document.getElementById("statusFilter")
+        .value;
+
+    const dateFilter = document.getElementById("dateFilter")
+        .value;
+
+    let filtered = records.filter(r=>{
+
+        const matchSearch =
+            r.patient.toLowerCase().includes(search) ||
+            r.diagnosis.toLowerCase().includes(search) ||
+            r.doctor.toLowerCase().includes(search) ||
+            r.id.toLowerCase().includes(search);
+
+        const matchStatus =
+            statusFilter === "all" || r.status === statusFilter;
+
+        const matchDate =
+            dateFilter === "all" ||
+            r.date === new Date().toISOString().slice(0,10);
+
+        return matchSearch && matchStatus && matchDate;
     });
 
-    element.classList.add("active");
+    tbody.innerHTML = "";
+
+    if(filtered.length === 0){
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    No diagnosis records found.
+                </td>
+            </tr>
+        `;
+    }
+
+    filtered.forEach(r=>{
+
+        const statusClass =
+            r.status === "Under Treatment" ? "treatment" :
+            r.status === "Monitoring" ? "monitoring" :
+            "resolved";
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${escapeHTML(r.id)}</td>
+            <td>${escapeHTML(r.patient.split(" (")[0])}</td>
+            <td>${escapeHTML(r.diagnosis)}</td>
+            <td>${escapeHTML(r.doctor)}</td>
+            <td>${escapeHTML(r.date)}</td>
+            <td>
+                <span class="status ${statusClass}">
+                    ${escapeHTML(r.status)}
+                </span>
+            </td>
+            <td>
+                <div class="actions">
+                    <button class="action-btn view"
+                        title="View"
+                        onclick="viewRecord('${r.id}')">◉</button>
+
+                    <button class="action-btn edit"
+                        title="Edit"
+                        onclick="editRecord('${r.id}')">✎</button>
+
+                    <button class="action-btn delete"
+                        title="Delete"
+                        onclick="deleteRecord('${r.id}')">▤</button>
+                </div>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("recordCount").textContent =
+        `Showing 1–${filtered.length} of ${filtered.length} diagnoses`;
+
+}
+
+/* ADD MODAL */
+function openModal(){
+
+    editId = null;
+
+    populateSelects();
+
+    document.getElementById("diagnosisForm").reset();
+
+    document.getElementById("modalTitle").textContent =
+        "✚ Add Diagnosis";
+
+    document.getElementById("saveBtn").textContent =
+        "Save Diagnosis";
+
+    document.getElementById("date").value =
+        new Date().toISOString().slice(0,10);
+
+    document.getElementById("modalOverlay").classList.add("show");
+}
+
+/* CLOSE MODAL */
+function closeModal(){
+    document.getElementById("modalOverlay").classList.remove("show");
+}
+
+/* SAVE */
+function saveDiagnosis(event){
+
+    event.preventDefault();
+
+    const patient = document.getElementById("patient").value;
+    const diagnosis = document.getElementById("diagnosis").value.trim();
+    const doctor = document.getElementById("doctor").value;
+    const date = document.getElementById("date").value;
+    const status = document.getElementById("status").value;
+
+    if(!patient || !diagnosis || !doctor || !date || !status){
+        toast("Please complete all fields.");
+        return;
+    }
+
+    if(editId){
+
+        const record = records.find(r=>r.id===editId);
+
+        if(record){
+            record.patient = patient;
+            record.diagnosis = diagnosis;
+            record.doctor = doctor;
+            record.date = date;
+            record.status = status;
+        }
+
+        toast("Diagnosis updated successfully!");
+
+    }else{
+
+        const nextNumber = records.length + 1;
+
+        const newId = "DGN-" +
+            String(nextNumber).padStart(3,"0");
+
+        records.unshift({
+            id:newId,
+            patient,
+            diagnosis,
+            doctor,
+            date,
+            status
+        });
+
+        toast("Diagnosis saved successfully!");
+    }
+
+    renderTable();
+    closeModal();
+}
+
+/* EDIT */
+function editRecord(id){
+
+    const r = records.find(x=>x.id===id);
+
+    if(!r)return;
+
+    editId = id;
+
+    populateSelects();
+
+    document.getElementById("patient").value = r.patient;
+    document.getElementById("diagnosis").value = r.diagnosis;
+    document.getElementById("doctor").value = r.doctor;
+    document.getElementById("date").value = r.date;
+    document.getElementById("status").value = r.status;
+
+    document.getElementById("modalTitle").textContent =
+        "✎ Edit Diagnosis";
+
+    document.getElementById("saveBtn").textContent =
+        "Update Diagnosis";
+
+    document.getElementById("modalOverlay").classList.add("show");
+}
+
+/* VIEW */
+function viewRecord(id){
+
+    const r = records.find(x=>x.id===id);
+
+    if(!r)return;
+
+    alert(
+        "Diagnosis Details\n\n"+
+        "Diagnosis ID: "+r.id+"\n"+
+        "Patient: "+r.patient+"\n"+
+        "Diagnosis: "+r.diagnosis+"\n"+
+        "Assigned Doctor: "+r.doctor+"\n"+
+        "Date: "+r.date+"\n"+
+        "Status: "+r.status
+    );
+}
+
+/* DELETE */
+function deleteRecord(id){
+
+    const r = records.find(x=>x.id===id);
+
+    if(!r)return;
+
+    if(confirm("Delete diagnosis "+r.id+"?")){
+
+        records = records.filter(x=>x.id!==id);
+
+        renderTable();
+
+        toast("Diagnosis deleted.");
+    }
+}
+
+/* NAVIGATION */
+function navigate(page,button){
+
+    document.querySelectorAll(".menu button")
+        .forEach(b=>b.classList.remove("active"));
+
+    if(button)button.classList.add("active");
 
     document.getElementById("pageTitle").textContent =
-        page.charAt(0).toUpperCase()+page.slice(1);
+        page === "Dashboard" ?
+        "Hospital Management System" : page;
 
-}
+    const dashboard =
+        document.getElementById("dashboardContent");
 
-// PATIENT MANAGEMENT
+    const otherPage =
+        document.getElementById("otherPage");
 
-function openPatientModal(){
-    document.getElementById("patientModal").classList.add("show");
-}
+    if(page === "Dashboard" || page === "Diagnoses"){
 
-function closePatientModal(){
-    document.getElementById("patientModal").classList.remove("show");
-}
+        dashboard.style.display = "block";
+        otherPage.style.display = "none";
 
-document.getElementById("patientForm")
-.addEventListener("submit",function(e){
+    }else{
 
-    e.preventDefault();
+        dashboard.style.display = "none";
+        otherPage.style.display = "block";
 
-    let patient = {
+        document.getElementById("otherTitle").textContent =
+            page;
 
-        id:"P-"+String(patients.length+1).padStart(3,"0"),
-
-        name:document.getElementById("patientName").value,
-
-        age:document.getElementById("patientAge").value,
-
-        gender:document.getElementById("patientGender").value,
-
-        contact:document.getElementById("patientContact").value,
-
-        address:document.getElementById("patientAddress").value,
-
-        registered:new Date().toLocaleDateString()
-
-    };
-
-    patients.push(patient);
-
-    renderPatients();
-
-    this.reset();
-
-    closePatientModal();
-
-    alert("Patient successfully registered!");
-
-});
-
-function renderPatients(){
-
-    document.getElementById("patientTable").innerHTML =
-        patients.map(p=>`
-        <tr>
-            <td>${p.id}</td>
-            <td>${p.name}</td>
-            <td>${p.age}</td>
-            <td>${p.gender}</td>
-            <td>${p.contact}</td>
-            <td>${p.address}</td>
-        </tr>
-        `).join("") ||
-        `<tr><td colspan="6" class="empty">No patients registered yet.</td></tr>`;
-
-    document.getElementById("dashboardPatients").innerHTML =
-        patients.slice(-5).reverse().map(p=>`
-        <tr>
-            <td>${p.id}</td>
-            <td>${p.name}</td>
-            <td>${p.age}</td>
-            <td>${p.gender}</td>
-            <td>${p.registered}</td>
-        </tr>
-        `).join("") ||
-        `<tr><td colspan="5" class="empty">No patients yet.</td></tr>`;
-
-    document.getElementById("totalPatients").textContent =
-        patients.length;
-
-    updatePatientOptions();
-
-    updateDiagnosisOptions();
-
-}
-
-function searchPatients(value){
-
-    let filtered = patients.filter(p=>
-        p.name.toLowerCase().includes(value.toLowerCase()) ||
-        p.id.toLowerCase().includes(value.toLowerCase())
-    );
-
-    document.getElementById("patientTable").innerHTML =
-        filtered.map(p=>`
-        <tr>
-            <td>${p.id}</td>
-            <td>${p.name}</td>
-            <td>${p.age}</td>
-            <td>${p.gender}</td>
-            <td>${p.contact}</td>
-            <td>${p.address}</td>
-        </tr>
-        `).join("") ||
-        `<tr><td colspan="6" class="empty">No matching patients.</td></tr>`;
-
-}
-
-// DOCTOR MANAGEMENT
-
-function renderDoctors(){
-
-    document.getElementById("doctorTable").innerHTML =
-        doctors.map(d=>`
-        <tr>
-            <td>${d.name}</td>
-            <td>${d.specialization}</td>
-            <td>${d.schedule}</td>
-            <td><span class="status available">Available</span></td>
-        </tr>
-        `).join("");
-
-    document.getElementById("totalDoctors").textContent =
-        doctors.length;
-
-    updateDoctorOptions();
-
-}
-
-function updateDoctorOptions(){
-
-    document.getElementById("appointmentDoctor").innerHTML =
-        doctors.map((d,i)=>`
-        <option value="${i}">
-            ${d.name} - ${d.specialization}
-        </option>
-        `).join("");
-
-    document.getElementById("diagnosisDoctor").innerHTML =
-        doctors.map(d=>`
-        <option value="${d.name}">
-            ${d.name} - ${d.specialization}
-        </option>
-        `).join("");
-
-}
-
-// PATIENT DROPDOWNS
-
-function updatePatientOptions(){
-
-    let patientOptions = patients.map(p=>`
-        <option value="${p.id}">
-            ${p.name} (${p.id})
-        </option>
-    `).join("");
-
-    document.getElementById("appointmentPatient").innerHTML =
-        patientOptions;
-
-    document.getElementById("diagnosisPatient").innerHTML =
-        patientOptions;
-
-}
-
-// APPOINTMENTS
-
-function openAppointmentModal(){
-
-    if(patients.length===0){
-        alert("Please register a patient first.");
-        return;
+        document.getElementById("otherDescription").textContent =
+            page+" module. This section is ready for further development.";
     }
-
-    updatePatientOptions();
-
-    updateDoctorOptions();
-
-    document.getElementById("appointmentModal").classList.add("show");
-
 }
 
-function closeAppointmentModal(){
+/* LOGOUT */
+function logout(){
 
-    document.getElementById("appointmentModal").classList.remove("show");
-
-}
-
-document.getElementById("appointmentForm")
-.addEventListener("submit",function(e){
-
-    e.preventDefault();
-
-    let patientId =
-        document.getElementById("appointmentPatient").value;
-
-    let doctorIndex =
-        document.getElementById("appointmentDoctor").value;
-
-    let date =
-        document.getElementById("appointmentDate").value;
-
-    let time =
-        document.getElementById("appointmentTime").value;
-
-    let doctor = doctors[doctorIndex];
-
-    let conflict = appointments.some(a=>
-        a.doctor===doctor.name &&
-        a.date===date &&
-        a.time===time
-    );
-
-    if(conflict){
-
-        alert("This doctor already has an appointment at that time.");
-
-        return;
-
+    if(confirm("Are you sure you want to logout?")){
+        toast("Demo logout. No account session is active.");
     }
-
-    let patient = patients.find(p=>p.id===patientId);
-
-    appointments.push({
-
-        id:"A-"+String(appointments.length+1).padStart(3,"0"),
-
-        patient:patient.name,
-
-        doctor:doctor.name,
-
-        date:date,
-
-        time:time,
-
-        status:"Scheduled"
-
-    });
-
-    renderAppointments();
-
-    this.reset();
-
-    closeAppointmentModal();
-
-    alert("Appointment successfully booked!");
-
-});
-
-function renderAppointments(){
-
-    document.getElementById("appointmentTable").innerHTML =
-        appointments.map(a=>`
-        <tr>
-            <td>${a.id}</td>
-            <td>${a.patient}</td>
-            <td>${a.doctor}</td>
-            <td>${a.date}</td>
-            <td>${a.time}</td>
-            <td><span class="status pending">${a.status}</span></td>
-        </tr>
-        `).join("") ||
-        `<tr><td colspan="6" class="empty">No appointments yet.</td></tr>`;
-
-    document.getElementById("totalAppointments").textContent =
-        appointments.length;
-
 }
 
-// DIAGNOSIS MANAGEMENT
+/* TOAST */
+function toast(message){
 
-function openDiagnosisModal(){
+    const el = document.getElementById("toastMessage");
 
-    if(patients.length===0){
+    el.textContent = message;
+    el.classList.add("show");
 
-        alert("Please register a patient first.");
-
-        return;
-
-    }
-
-    updatePatientOptions();
-
-    updateDoctorOptions();
-
-    document.getElementById("diagnosisModal").classList.add("show");
-
+    setTimeout(()=>{
+        el.classList.remove("show");
+    },2500);
 }
 
-function closeDiagnosisModal(){
+/* BASIC HTML ESCAPING */
+function escapeHTML(value){
 
-    document.getElementById("diagnosisModal").classList.remove("show");
-
+    return String(value).replace(/[&<>"']/g, c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    }[c]));
 }
 
-document.getElementById("diagnosisForm")
-.addEventListener("submit",function(e){
-
-    e.preventDefault();
-
-    let patientId =
-        document.getElementById("diagnosisPatient").value;
-
-    let patient =
-        patients.find(p=>p.id===patientId);
-
-    if(!patient){
-
-        alert("Patient not found.");
-
-        return;
-
-    }
-
-    let diagnosis = {
-
-        id:"D-"+String(diagnoses.length+1).padStart(3,"0"),
-
-        patient:patient.name,
-
-        patientId:patient.id,
-
-        diagnosis:document.getElementById("diagnosisName").value,
-
-        doctor:document.getElementById("diagnosisDoctor").value,
-
-        date:document.getElementById("diagnosisDate").value,
-
-        status:document.getElementById("diagnosisStatus").value
-
-    };
-
-    diagnoses.push(diagnosis);
-
-    renderDiagnoses();
-
-    this.reset();
-
-    closeDiagnosisModal();
-
-    alert("Diagnosis and doctor assignment saved!");
-
-});
-
-function renderDiagnoses(list=diagnoses){
-
-    document.getElementById("diagnosisTable").innerHTML =
-        list.map(d=>`
-        <tr>
-            <td>${d.id}</td>
-            <td>${d.patient}</td>
-            <td>${d.diagnosis}</td>
-            <td>${d.doctor}</td>
-            <td>${d.date}</td>
-            <td>
-                <span class="status ${
-                    d.status==="Resolved"?"available":"pending"
-                }">
-                    ${d.status}
-                </span>
-            </td>
-        </tr>
-        `).join("") ||
-        `<tr><td colspan="6" class="empty">No diagnoses recorded yet.</td></tr>`;
-
-}
-
-function searchDiagnoses(value){
-
-    let filtered = diagnoses.filter(d=>
-
-        d.patient.toLowerCase().includes(value.toLowerCase()) ||
-
-        d.diagnosis.toLowerCase().includes(value.toLowerCase()) ||
-
-        d.doctor.toLowerCase().includes(value.toLowerCase()) ||
-
-        d.patientId.toLowerCase().includes(value.toLowerCase())
-
-    );
-
-    renderDiagnoses(filtered);
-
-}
-
-// ROOMS
-
-function renderRooms(){
-
-    document.getElementById("roomTable").innerHTML =
-        rooms.map(r=>`
-        <tr>
-            <td>${r.number}</td>
-            <td>${r.type}</td>
-            <td>
-                <span class="status ${
-                    r.status==="Available"?"available":"unavailable"
-                }">
-                    ${r.status}
-                </span>
-            </td>
-        </tr>
-        `).join("");
-
-    document.getElementById("availableRooms").textContent =
-        rooms.filter(r=>r.status==="Available").length;
-
-}
-
-// INITIALIZE
-
-renderPatients();
-renderDoctors();
-renderAppointments();
-renderDiagnoses();
-renderRooms();
+/* INITIALIZE */
+populateSelects();
+renderTable();
 
 </script>
-
 </body>
 </html>
