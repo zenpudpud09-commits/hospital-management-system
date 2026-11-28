@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -427,12 +426,6 @@ function patientsPage(){
  <p class="small">Specialty suggestions are not medical diagnoses.</p>
  </div>
 
- <div class="card">
- <h3>Patient List</h3>
- <input id="patientSearch" placeholder="Search patient name or ID..." oninput="renderPatientList()">
- <div id="patientList"></div>
- </div>
-
  </div>
 
  <div class="card">
@@ -456,16 +449,6 @@ function patientsPage(){
  </div>
 
  </div>`;
-}
-
-function renderPatientList(){
-
- const q=(document.getElementById("patientSearch")?.value||"").toLowerCase();
-
- const list=data.patients.filter(p=>(p.name+" "+p.id).toLowerCase().includes(q));
-
- const el=document.getElementById("patientList");
- if(el)el.innerHTML=patientTable(list);
 }
 
 function renderDoctorList(){
@@ -1101,7 +1084,6 @@ function render(){
  case "patients":
  el.innerHTML=patientsPage();
  bindPatientDoctorForms();
- renderPatientList();
  renderDoctorList();
  break;
 
